@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum HiddenBlockPlayer {P1, P2}
+public enum WinCondition {HitFloor, LeaveBoundary, Both}
 
 public class HiddenCoreBlock : MonoBehaviour
 {
     [SerializeField] private HiddenBlockPlayer player;
+    [SerializeField] private WinCondition winCondition;
     private Rigidbody rb;
     private Outline outline;
 
@@ -44,7 +46,10 @@ public class HiddenCoreBlock : MonoBehaviour
         if (col.gameObject.layer == LayerManager.GroundLayer)
         {
             Debug.Log("hit ground");
-            GameManager.Instance.SetCurrentGameState(GameState.GAME_OVER);
+            if (winCondition == WinCondition.HitFloor)
+            {
+                GameManager.Instance.SetCurrentGameState(GameState.GAME_OVER);
+            }
         }
     }
 
@@ -64,6 +69,8 @@ public class HiddenCoreBlock : MonoBehaviour
     public HiddenBlockPlayer GetPlayer() {  return player; }
     public void SetPlayer(HiddenBlockPlayer newPlayer)
     {   this.player = newPlayer;    }
+
+    public WinCondition GetWinCondition() { return winCondition;    }
 
     public void EnableOutline()     {   outline.enabled = true;  }
     public void DisableOutline()    {   outline.enabled = false; }
