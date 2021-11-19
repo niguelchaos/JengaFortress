@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,13 +17,72 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     [SerializeField] private GameState currentGameState;
+    public static event Action<GameState> OnGameStateChanged;
+
+    private float timer;
+    [SerializeField] private float changeStateTime = 1;
+
 
     private void Awake()
     {
         Instance = this;
     }
+
+    private void Start()
+    {
+        // set to main menu
+        SetCurrentGameState(GameState.MAIN_MENU);
+        timer = changeStateTime;
+    }
+
+    private void Update()
+    {
+        if (timer > 0)
+        {
+            timer -= Time.deltaTime;
+        } 
+        else if (timer <= 0)
+        {
+            switch(currentGameState)
+            {
+                case GameState.MAIN_MENU:
+                    SetCurrentGameState(GameState.PLAYER_1);
+                    break;
+                case GameState.PLAYER_1:
+                    SetCurrentGameState(GameState.PLAYER_2);
+                    break;
+                case GameState.PLAYER_2:
+                    SetCurrentGameState(GameState.PLAYER_1);
+                    break;
+            }
+            timer = changeStateTime;
+        }
+    }
+    private void UpdateGameState()
+    {
+        switch(currentGameState)
+        {
+            case GameState.MAIN_MENU:
+                break;
+            case GameState.PLAYER_1:
+                break;
+            case GameState.PLAYER_2:
+                break;
+            case GameState.GAME_OVER:
+                break;
+        }
+    }
+
     public void SetCurrentGameState(GameState newState)
     {
         currentGameState = newState;
+        UpdateGameState();
+
+        // has anybody subscribed to this event? if so broadcast event
+        OnGameStateChanged?.Invoke(newState);
+    }
+    public GameState GetCurrentGameState()
+    {
+        return currentGameState;
     }
 }
