@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class HiddenBlockBoundary : MonoBehaviour
 {
-    [SerializeField] private HiddenBlockPlayer attachedPlayer;
+    [SerializeField] private Player player;
     private SphereCollider boundaryCollider;
 
     private string p1GameObjName = "HiddenBlock_P1";
     private string p2GameObjName = "HiddenBlock_P2";
 
-    private GameObject playerHbGO;
+   [SerializeField]  private GameObject playerHbGO;
     private MeshRenderer meshRenderer;
 
     private void Start()
     {
         boundaryCollider = GetComponent<SphereCollider>();
         meshRenderer = GetComponent<MeshRenderer>();
+        player = gameObject.transform.parent.gameObject.GetComponent<Player>();
+
         GetPlayerHbGO();
         StartCoroutine(WaitToAttach(2));
         GameManager.OnGameStateChanged += UpdateOnGameStateChanged;
@@ -30,10 +32,10 @@ public class HiddenBlockBoundary : MonoBehaviour
     public void CheckMeshRenderer()
     {
         DisableRenderer();
-        switch (GameManager.Instance.GetCurrentGameState(), attachedPlayer)
+        switch (GameManager.Instance.GetCurrentGameState(), player.GetPlayerNum())
         {
-            case (GameState.PLAYER_1, HiddenBlockPlayer.P1):
-            case (GameState.PLAYER_2, HiddenBlockPlayer.P2):
+            case (GameState.PLAYER_1, PlayerNum.P1):
+            case (GameState.PLAYER_2, PlayerNum.P2):
                 EnableRenderer();
                 break;
         }
@@ -42,12 +44,12 @@ public class HiddenBlockBoundary : MonoBehaviour
 
     private void GetPlayerHbGO()
     {
-        switch(attachedPlayer)
+        switch(player.GetPlayerNum())
         {
-            case HiddenBlockPlayer.P1:
+            case PlayerNum.P1:
                 playerHbGO = GameObject.Find(p1GameObjName);
                 break;
-            case HiddenBlockPlayer.P2:
+            case PlayerNum.P2:
                 playerHbGO = GameObject.Find(p2GameObjName);
                 break;
         }
@@ -59,7 +61,7 @@ public class HiddenBlockBoundary : MonoBehaviour
     
     IEnumerator WaitToAttach(int time)
     {
-        print("Waiting");
+        // print("Waiting");
         yield return new WaitForSeconds(time);
         AttachToStartingPoint();
     }
@@ -70,7 +72,7 @@ public class HiddenBlockBoundary : MonoBehaviour
         if (col.gameObject.tag == "CoreBlock")
         {
             Debug.Log("Left Boundary");
-            if (hiddenCoreBlock.GetWinCondition() != WinCondition.HitFloor)
+            if (GameManager.Instance.GetWinCondition() != WinCondition.HitFloor)
             {
                 GameManager.Instance.SetCurrentGameState(GameState.GAME_OVER);
             }

@@ -2,32 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum HiddenBlockPlayer {P1, P2}
-public enum WinCondition {HitFloor, LeaveBoundary, Both}
+
 
 public class HiddenCoreBlock : MonoBehaviour
 {
-    [SerializeField] private HiddenBlockPlayer player;
-    [SerializeField] private WinCondition winCondition;
+    [SerializeField] private Player player;
     private Rigidbody rb;
     private Outline outline;
 
 
     private void Awake()
     {
+    }
+
+    private void Start()
+    {
         // run update on game state change
         outline = this.GetComponent<Outline>();
         rb = GetComponent<Rigidbody>();
-
+        player = gameObject.transform.parent.gameObject.GetComponent<Player>();
+        
         // subscribe to state changes
         GameManager.OnGameStateChanged += UpdateOnGameStateChanged;
-    }
-
-
-    private void Update()
-    {
-        // temporarily here for debug
-        // CheckOutline();
     }
 
     private void UpdateOnGameStateChanged(GameState currentGameState)
@@ -46,7 +42,7 @@ public class HiddenCoreBlock : MonoBehaviour
         if (col.gameObject.layer == LayerManager.GroundLayer)
         {
             Debug.Log("hit ground");
-            if (winCondition == WinCondition.HitFloor)
+            if (GameManager.Instance.GetWinCondition() == WinCondition.HitFloor)
             {
                 GameManager.Instance.SetCurrentGameState(GameState.GAME_OVER);
             }
@@ -57,20 +53,14 @@ public class HiddenCoreBlock : MonoBehaviour
     public void CheckOutline()
     {
         DisableOutline();
-        switch (GameManager.Instance.GetCurrentGameState(), player)
+        switch (GameManager.Instance.GetCurrentGameState(), player.GetPlayerNum())
         {
-            case (GameState.PLAYER_1, HiddenBlockPlayer.P1):
-            case (GameState.PLAYER_2, HiddenBlockPlayer.P2):
+            case (GameState.PLAYER_1, PlayerNum.P1):
+            case (GameState.PLAYER_2, PlayerNum.P2):
                 EnableOutline();
                 break;
         }
     }
-
-    public HiddenBlockPlayer GetPlayer() {  return player; }
-    public void SetPlayer(HiddenBlockPlayer newPlayer)
-    {   this.player = newPlayer;    }
-
-    public WinCondition GetWinCondition() { return winCondition;    }
 
     public void EnableOutline()     {   outline.enabled = true;  }
     public void DisableOutline()    {   outline.enabled = false; }

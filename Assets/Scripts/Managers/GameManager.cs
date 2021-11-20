@@ -11,16 +11,22 @@ public enum GameState
     GAME_OVER
 }
 
+public enum WinCondition {HitFloor, LeaveBoundary, Both}
+
+
 public class GameManager : MonoBehaviour
 {
     // basically a singleton - only 1, accessible anywhere, instance can be retrieved anywhere
     public static GameManager Instance;
 
     [SerializeField] private GameState currentGameState;
+    [SerializeField] private WinCondition winCondition;
+
     public static event Action<GameState> OnGameStateChanged;
 
     private float timer;
     [SerializeField] private float changeStateTime = 1;
+    
 
 
     private void Awake()
@@ -82,7 +88,9 @@ public class GameManager : MonoBehaviour
         OnGameStateChanged?.Invoke(newState);
     }
     public GameState GetCurrentGameState()
-    {
-        return currentGameState;
-    }
+    { return currentGameState; }
+    
+    public WinCondition GetWinCondition() { return winCondition; }
+    public void SetWinCondition(WinCondition newWinCondition) 
+    { this.winCondition = newWinCondition;  }
 }
