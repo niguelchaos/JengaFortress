@@ -14,10 +14,11 @@ GameObject:
   - component: {fileID: 5538402618506769674}
   - component: {fileID: 5538402618506769677}
   - component: {fileID: 5538402618506769676}
+  - component: {fileID: 2949877740013859782}
   - component: {fileID: 5247643363968535624}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HiddenBlock
-  m_TagString: Untagged
+  m_TagString: CoreBlock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,7 +127,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019c47c9553f581449b7f681b09ac1b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: 0
+  player: {fileID: 0}
+--- !u!114 &2949877740013859782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5538402618506769679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f8892652a770fc409b66a4a5208c065, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  magnitude: 0
+  changeCDMLim: 250
 --- !u!114 &5247643363968535624
 MonoBehaviour:
   m_ObjectHideFlags: 0

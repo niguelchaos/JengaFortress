@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class Block : MonoBehaviour
 {
-    private Rigidbody rb;
+    public Rigidbody rb {get; private set;}
     [SerializeField] private float magnitude;
     [SerializeField] private float changeCDMLim = 250;
 
@@ -15,7 +13,7 @@ public class Block : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         CheckCDMode();
     }
