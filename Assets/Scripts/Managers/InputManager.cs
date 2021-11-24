@@ -24,7 +24,6 @@ public class InputManager : MonoBehaviour
     void Start()
     {
         testFireAction = playerInput.actions["testFire"];
-        //testFireAction.performed += x => onTestFireInput(x);
 
     }
 
@@ -36,7 +35,7 @@ public class InputManager : MonoBehaviour
 
     public void onTestFireInput(InputAction.CallbackContext context)
     {
-        print("onTestFireInput:" + context.phase);
+        // print("onTestFireInput:" + context.phase);
 
         if (context.started)
         {
@@ -48,7 +47,7 @@ public class InputManager : MonoBehaviour
         }
         else if (context.canceled)
         {
-            //this.testFireInput = false;
+            this.testFireInput = false;
         }
         
     }

@@ -8,6 +8,10 @@ public class FireProjectile : MonoBehaviour
     [SerializeField] private GameObject projectile;    // this is a reference to your projectile prefab
 
     private InputAction testFireAction;
+
+    [SerializeField] private bool hasFired = false;
+    [SerializeField] private float fireForce = 10000;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +21,7 @@ public class FireProjectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        ProcessInput();
     }
 
     void FixedUpdate()
@@ -27,15 +31,26 @@ public class FireProjectile : MonoBehaviour
 
     void Fire()
     {
-        if (InputManager.Instance.testFireInput)
+        if (InputManager.Instance.testFireInput && !hasFired)
         {
             Transform spawnTransform = gameObject.transform;
             
             projectile = Instantiate(projectile, spawnTransform.position, spawnTransform.rotation);
-            projectile.GetComponent<Rigidbody>().AddForce(spawnTransform.forward * 100000);
+            projectile.GetComponent<Rigidbody>().AddForce(spawnTransform.forward * fireForce, ForceMode.Impulse);
 
-            InputManager.Instance.testFireInput = false; // TEMP
-            print("fire");
+            // button held down, fired already
+            hasFired = true;
+            // InputManager.Instance.testFireInput = false; // TEMP
+            // print("fire");
+        }
+    }
+
+    private void ProcessInput()
+    {
+        if (InputManager.Instance.testFireInput == false)
+        {
+            // button lifted
+            hasFired = false;
         }
     }
 
