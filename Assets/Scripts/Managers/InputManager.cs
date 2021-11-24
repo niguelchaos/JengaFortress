@@ -35,7 +35,7 @@ public class InputManager : MonoBehaviour
 
     public void onTestFireInput(InputAction.CallbackContext context)
     {
-        print("onTestFireInput:" + context.phase);
+        // print("onTestFireInput:" + context.phase);
 
         if (context.started)
         {
