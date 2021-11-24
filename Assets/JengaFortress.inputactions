@@ -30,7 +30,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Test",
+                    "name": "TestFire",
                     "type": "Button",
                     "id": "861899ba-f8b0-48cf-b88e-e2d5ff4c8b66",
                     "expectedControlType": "Button",
@@ -263,10 +263,10 @@
                     "name": "",
                     "id": "eee37efc-c5eb-48d5-b8e0-70e3da740de4",
                     "path": "<Keyboard>/space",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Test",
+                    "action": "TestFire",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
