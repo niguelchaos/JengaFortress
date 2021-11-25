@@ -46,7 +46,7 @@ public class ExplosiveBlock : Block
                     }
                 }
             }
-            Debug.Log("done loops");
+            // Debug.Log("done loops");
             hasExploded = true;
         }
     }
@@ -77,7 +77,7 @@ public class ExplosiveBlock : Block
             GameObject explosionVFXObj = Instantiate(explosionVFX, transform.position, Quaternion.identity);
             Destroy(explosionVFXObj, explosionVFXObj.GetComponent<ParticleSystem>().main.duration);
             isExploding = true;
-            Debug.Log("exploding");
+            // Debug.Log("exploding");
         }
 
     }
