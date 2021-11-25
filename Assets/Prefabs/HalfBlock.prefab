@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 354718460553649335}
   - component: {fileID: 2527812368269428937}
   - component: {fileID: 3523822258005679429}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HalfBlock
-  m_TagString: Block
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

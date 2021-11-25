@@ -35,8 +35,8 @@ public class FireProjectile : MonoBehaviour
         {
             Transform spawnTransform = gameObject.transform;
             
-            projectile = Instantiate(projectile, spawnTransform.position, spawnTransform.rotation);
-            projectile.GetComponent<Rigidbody>().AddForce(spawnTransform.forward * fireForce, ForceMode.Impulse);
+            GameObject spawnedProjectile = Instantiate(projectile, spawnTransform.position, spawnTransform.rotation);
+            spawnedProjectile.GetComponent<Rigidbody>().AddForce(spawnTransform.forward * fireForce, ForceMode.Impulse);
 
             // button held down, fired already
             hasFired = true;

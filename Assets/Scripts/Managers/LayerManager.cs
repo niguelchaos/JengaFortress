@@ -10,7 +10,9 @@ using UnityEngine;
 public static class LayerManager
 {
     public static int GroundLayer = 6;
+    public static int BlockLayer = 7;
 
     public static int GroundLayerMask = 1 << GroundLayer;
+    public static int BlockLayerMask = 1 << BlockLayer;
 
 }
