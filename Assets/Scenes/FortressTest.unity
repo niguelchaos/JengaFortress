@@ -653,6 +653,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FortressP2
       objectReference: {fileID: 0}
+    - target: {fileID: 6536245537681424367, guid: 7598b33e8057bc04a9dee6eea70f85c4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6536245538594984078, guid: 7598b33e8057bc04a9dee6eea70f85c4,
         type: 3}
       propertyPath: m_IsActive
@@ -1221,6 +1226,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3876181437066567460, guid: 55828140a51d2a940adf578501b6a52d,
+        type: 3}
+      propertyPath: explosionEffect
+      value: 
+      objectReference: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664,
+        type: 3}
     - target: {fileID: 5909332988306558000, guid: 55828140a51d2a940adf578501b6a52d,
         type: 3}
       propertyPath: m_RootOrder

@@ -5,6 +5,7 @@ using UnityEngine;
 public class ExplosiveBlock : Block
 {
     [Space]
+    public GameObject explosionVFX;
     [SerializeField] private float expForce = 300f;
     [SerializeField] private float radius = 5f;
     [SerializeField] private float upModifier = 3f;
@@ -23,6 +24,7 @@ public class ExplosiveBlock : Block
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
+        // needs to be in fixedupdate because for some reason the force is applied across frames
         Explode();
     }
 
@@ -46,7 +48,6 @@ public class ExplosiveBlock : Block
             }
             Debug.Log("done loops");
             hasExploded = true;
-            // Destroy(gameObject);
         }
     }
 
@@ -73,6 +74,8 @@ public class ExplosiveBlock : Block
         // timer = delay;
         if (!hasExploded)
         {
+            GameObject explosionVFXObj = Instantiate(explosionVFX, transform.position, Quaternion.identity);
+            Destroy(explosionVFXObj, explosionVFXObj.GetComponent<ParticleSystem>().main.duration);
             isExploding = true;
             Debug.Log("exploding");
         }
