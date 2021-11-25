@@ -45,3 +45,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 7478470662186750750, guid: 302fdb4fb8ce1414c85216a3916543ce,
     type: 3}
+  hasFired: 0
+  fireForce: 10000

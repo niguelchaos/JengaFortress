@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Inherits from Block
 public class ExplosiveBlock : Block
 {
     [Space]
@@ -12,6 +13,8 @@ public class ExplosiveBlock : Block
 
     [SerializeField] private bool hasExploded = false;
     [SerializeField] private bool isExploding = false;
+
+    // timer not working
     // [SerializeField] private float timer = 0;
     // private float delay = 2f;
 
@@ -32,8 +35,10 @@ public class ExplosiveBlock : Block
     {
         if (isExploding && !hasExploded)
         {
+            // put all affected colliders in a list
             Vector3 explosionPos = transform.position;
             Collider[] affectedColliders = Physics.OverlapSphere(explosionPos, radius);
+            // go through list, apply explosion force to each affected block
             foreach (Collider nearbyObject in affectedColliders)
             {
                 if (nearbyObject.gameObject.layer == LayerManager.BlockLayer)
@@ -46,7 +51,6 @@ public class ExplosiveBlock : Block
                     }
                 }
             }
-            // Debug.Log("done loops");
             hasExploded = true;
         }
     }
@@ -77,7 +81,6 @@ public class ExplosiveBlock : Block
             GameObject explosionVFXObj = Instantiate(explosionVFX, transform.position, Quaternion.identity);
             Destroy(explosionVFXObj, explosionVFXObj.GetComponent<ParticleSystem>().main.duration);
             isExploding = true;
-            // Debug.Log("exploding");
         }
 
     }
