@@ -42,7 +42,10 @@ public class GameManager : MonoBehaviour
     {
         // set to main menu
         gameStateCube = GameObject.Find("GameStateCube");
-        cubeRenderer = gameStateCube.GetComponent<Renderer>();
+        if (gameStateCube != null)
+        {
+            cubeRenderer = gameStateCube.GetComponent<Renderer>();
+        }
         SetCurrentGameState(GameState.MAIN_MENU);
         timer = changeStateTime;
     }
@@ -72,21 +75,24 @@ public class GameManager : MonoBehaviour
     }
     private void UpdateGameState()
     {
-        switch(currentGameState)
+        if (cubeRenderer != null)
         {
-            case GameState.MAIN_MENU:
-                cubeRenderer.material.color = Color.white;
-                break;
-            case GameState.PLAYER_1:
-                //Call SetColor using the shader property name "_Color" and setting the color to red
-                cubeRenderer.material.color = Color.yellow;
-                break;
-            case GameState.PLAYER_2:
-                cubeRenderer.material.color = Color.blue;
-                break;
-            case GameState.GAME_OVER:
-                cubeRenderer.material.color = Color.red;
-                break;
+            switch(currentGameState)
+            {
+                case GameState.MAIN_MENU:
+                    cubeRenderer.material.color = Color.white;
+                    break;
+                case GameState.PLAYER_1:
+                    //Call SetColor using the shader property name "_Color" and setting the color to red
+                    cubeRenderer.material.color = Color.yellow;
+                    break;
+                case GameState.PLAYER_2:
+                    cubeRenderer.material.color = Color.blue;
+                    break;
+                case GameState.GAME_OVER:
+                    cubeRenderer.material.color = Color.red;
+                    break;
+            }
         }
     }
 

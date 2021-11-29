@@ -6,7 +6,7 @@ PhysicMaterial:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BlockWood
+  m_Name: BlockWoodMaterial
   dynamicFriction: 0.475
   staticFriction: 0.55
   bounciness: 0
