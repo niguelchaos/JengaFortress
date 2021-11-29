@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 5958326437178749236}
   - component: {fileID: 7985913325510274689}
   - component: {fileID: 2955460411186377452}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: rubberBlock
-  m_TagString: Block
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

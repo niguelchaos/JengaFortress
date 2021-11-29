@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 3997936571068787082}
   - component: {fileID: 799412753358632511}
   - component: {fileID: 5532773192113646162}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: iceblock
-  m_TagString: Block
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
