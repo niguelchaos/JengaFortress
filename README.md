@@ -1,6 +1,7 @@
 # Jenga Fortress
 
 ## Controls: ##
+* Demo Scene: **A3FortressDemo** 
 * SPACE to fire
 * To change winning condition to "hit floor":
     1. Find GameManager gameobject: Managers > GameManager
