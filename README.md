@@ -30,4 +30,16 @@ There is a cube behind the enemy fortress which changes colors based on the game
 * Blue: Player two's turn
 * Red: Game over
 
-##
+---
+
+## Required packages:
+- AR Foundation
+- ARCore XR Plugin
+- XR Plugin Management
+- Input System
+- Universal RP
+
+maybe:
+
+- Windows XR plugin
+- ARKit XR Plugin
