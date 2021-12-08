@@ -138,6 +138,46 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: f5f30e1f-30b7-4edb-afe6-755f4537aec0
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 52c2476c-041d-4bdb-a6bb-abbc28d46651
+    m_ActionName: Player/Touch[/Touchscreen/primaryTouch]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7208717779920465658}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: StartTouch
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7208717779920465658}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: EndTouch
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c75b0293-d5b6-4124-b387-1ea3411e576b
+    m_ActionName: Player/TouchPress[/Touchscreen/touch0/press]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ed1f21f5-bf2e-42f4-8366-b9e22fbb5acd
+    m_ActionName: Player/TouchPosition[/Touchscreen/primaryTouch/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0573890a-b924-4214-8586-2148357caad0
+    m_ActionName: Player/TouchCount[/Touchscreen/primaryTouch/tapCount]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player

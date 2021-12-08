@@ -794,6 +794,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &398766179 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7208717779920465663, guid: 8bb633412ba504b47b9a580bca870721,
+    type: 3}
+  m_PrefabInstance: {fileID: 501416156}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &398766180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398766179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f73847898e2dbd24f9850b1ec31a5a44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 94884983}
+  projectile: {fileID: 5909332988306558012, guid: 55828140a51d2a940adf578501b6a52d,
+    type: 3}
 --- !u!4 &453849886 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8585088412268532194, guid: 0fd08e081c215d943a104f644159721e,
@@ -860,6 +881,41 @@ PrefabInstance:
     - target: {fileID: 7208717779920465660, guid: 8bb633412ba504b47b9a580bca870721,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7208717779920465661, guid: 8bb633412ba504b47b9a580bca870721,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 7208717779920465661, guid: 8bb633412ba504b47b9a580bca870721,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_ActionId
+      value: dff00c58-5792-4518-8739-b49f1cc0d660
+      objectReference: {fileID: 0}
+    - target: {fileID: 7208717779920465661, guid: 8bb633412ba504b47b9a580bca870721,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_ActionId
+      value: 19b5969e-43a8-4852-b9bb-ee9f5f357412
+      objectReference: {fileID: 0}
+    - target: {fileID: 7208717779920465661, guid: 8bb633412ba504b47b9a580bca870721,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[16].m_ActionId
+      value: d4b1fd39-5fab-4e3c-b366-0340345638b1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7208717779920465661, guid: 8bb633412ba504b47b9a580bca870721,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_ActionName
+      value: Player/TouchInput[/Touchscreen/primaryTouch]
+      objectReference: {fileID: 0}
+    - target: {fileID: 7208717779920465661, guid: 8bb633412ba504b47b9a580bca870721,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_ActionName
+      value: Player/TouchPress[/Touchscreen/primaryTouch/press]
+      objectReference: {fileID: 0}
+    - target: {fileID: 7208717779920465661, guid: 8bb633412ba504b47b9a580bca870721,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7208717779920465663, guid: 8bb633412ba504b47b9a580bca870721,
