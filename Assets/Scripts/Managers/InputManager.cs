@@ -104,7 +104,7 @@ public class InputManager : MonoBehaviour
     }
     public void EndTouch(InputAction.CallbackContext context)
     {
-        Debug.Log("Touch Ended");
+        // Debug.Log("Touch Ended");
         if (OnEndTouch != null)
         {
             OnEndTouch(jengaFortressControls.Player.TouchPosition.ReadValue<Vector2>(), (float)context.time);
