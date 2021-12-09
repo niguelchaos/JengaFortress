@@ -9,6 +9,7 @@ using UnityEngine;
 /// </summary>
 public static class LayerManager
 {
+    public static int UILayer = 5;
     public static int GroundLayer = 6;
     public static int BlockLayer = 7;
 

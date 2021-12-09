@@ -112,6 +112,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    // not used
     private void FingerDown(Finger currentFinger)
     {
         if (OnStartTouch != null)

@@ -36,7 +36,7 @@ public class PlaceFortress: MonoBehaviour {
     private ARPlaneManager planeManager;
 
     private Vector3 fortressSize = new Vector3(0.02f, 0.02f, 0.02f);
-    private Vector3 sizeIncrement = new Vector3(0.01f, 0.01f, 0.01f);
+    private Vector3 sizeIncrement = new Vector3(0.005f, 0.005f, 0.005f);
 
     private static ILogger logger = Debug.unityLogger;
 
@@ -91,8 +91,10 @@ public class PlaceFortress: MonoBehaviour {
         spawnedFortress = Instantiate(fortressPrefab, nearestHitPose.pose.position 
             + nearestHitPose.pose.up * 0.1f, nearestHitPose.pose.rotation);
 
+        SetObjectIsKinematic(spawnedFortress, true);
+
         spawnedFortress.transform.localScale = fortressSize;
-        spawnedFortress.tag = "SpawnedObject";
+        // spawnedFortress.tag = "SpawnedObject";
 
         logger.Log("spawned at " + spawnedFortress.transform.position.x + ", " 
         + spawnedFortress.transform.position.y + ", " + spawnedFortress.transform.position.z);
@@ -121,8 +123,11 @@ public class PlaceFortress: MonoBehaviour {
 
 
         if (EventSystem.current.IsPointerOverGameObject())  {
-            logger.Log ("clicked on button");
-            return;
+            if (EventSystem.current.currentSelectedGameObject.layer == LayerManager.UILayer)
+            {
+                logger.Log ("clicked on button");
+                return;
+            }
         }
         /////////////////////////////////////////////////////////////////////
 
@@ -149,7 +154,7 @@ public class PlaceFortress: MonoBehaviour {
                 foreach (RaycastHit hit in hits) {
                     logger.Log ("Detected " + hit.transform.gameObject.name);
                     
-                    if (hit.transform.gameObject.tag == "Block") {
+                    if (hit.transform.gameObject.layer == LayerManager.BlockLayer) {
                         foundObject = hit.transform.gameObject;
                         logger.Log ("found block: " + foundObject);
                     }
@@ -162,17 +167,40 @@ public class PlaceFortress: MonoBehaviour {
                     Debug.Log ("Nothing Selected");
                 }
                 else {
-                    foundObject.transform.position = nearestHitPose.pose.position;
+                    if (ARhit == true)
+                    {
+                        foundObject.transform.position = nearestHitPose.pose.position;
+                    }
                 }
                 break;
         }
+    }
 
+    private void SetObjectIsKinematic(GameObject spawnedObject, bool isKOrNotIdkMan)
+    {
+        Rigidbody[] rbs = GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody rb in rbs)
+        {
+            rb.isKinematic = isKOrNotIdkMan;
+        }
+    }
+
+    public void ActivatePhysics()
+    {
+        GameObject[] goArray = FindObjectsOfType<GameObject>();
+        for (int i = 0; i < goArray.Length; i++)
+        {
+            if (goArray[i].layer == LayerManager.BlockLayer)
+            {
+                SetObjectIsKinematic(goArray[i], false);
+            }
+        }
     }
 
     public void ChangeToSelect()
     {   
         placeMode = PlaceMode.SELECT;   
-        Debug.Log ("Changing to Select");
+        // Debug.Log ("Changing to Select");
         UpdateText();
     }
     public void ChangeToPlace()
