@@ -772,7 +772,7 @@ public class @JengaFortress : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""47c2a644-3ebc-4dae-a106-589b7ca75b59"",
-                    ""path"": ""<Touchscreen>/touch*/press"",
+                    ""path"": ""<Touchscreen>/primaryTouch/press"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Touch"",

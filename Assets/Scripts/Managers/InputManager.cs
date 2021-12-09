@@ -57,7 +57,7 @@ public class InputManager : MonoBehaviour
     private void OnDisable()
     {
         jengaFortressControls.Disable();
-        
+
         UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown -= FingerDown;
         TouchSimulation.Disable();
 
@@ -97,7 +97,7 @@ public class InputManager : MonoBehaviour
 
     public void StartTouch(InputAction.CallbackContext context)
     {
-        Debug.Log("Started Touch" + jengaFortressControls.Player.TouchPosition.ReadValue<Vector2>());
+        // Debug.Log("Started Touch" + jengaFortressControls.Player.TouchPosition.ReadValue<Vector2>());
         if (OnStartTouch != null)
         {
             OnStartTouch(jengaFortressControls.Player.TouchPosition.ReadValue<Vector2>(), (float)context.startTime);
