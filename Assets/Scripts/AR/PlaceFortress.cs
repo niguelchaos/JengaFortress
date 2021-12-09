@@ -110,7 +110,7 @@ public class PlaceFortress: MonoBehaviour {
                 spawnedFortress = Instantiate(fortressPrefab, nearestHitPose.pose.position 
                     + nearestHitPose.pose.up * 0.1f, nearestHitPose.pose.rotation);
 
-                spawnedFortress.transform.localScale = new Vector3(1, 1, 1);
+                // spawnedFortress.transform.localScale = new Vector3(3, 3, 3);
                 spawnedFortress.tag = "SpawnedObject";
 
                 logger.Log("spawned at " + spawnedFortress.transform.position.x + ", " 
@@ -122,7 +122,7 @@ public class PlaceFortress: MonoBehaviour {
                     point = anc.AttachAnchor(plane, nearestHitPose.pose);
                     logger.Log("Added an anchor to a plane " + nearestHitPose);
                 } else {
-                    point = anc.AddAnchor(nearestHitPose.pose);
+                    point = spawnedFortress.AddComponent<ARAnchor>();
                     logger.Log("Added another anchor " + nearestHitPose);
 
                 }

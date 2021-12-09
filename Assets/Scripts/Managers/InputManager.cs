@@ -57,9 +57,10 @@ public class InputManager : MonoBehaviour
     private void OnDisable()
     {
         jengaFortressControls.Disable();
+        
+        UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown -= FingerDown;
         TouchSimulation.Disable();
 
-        UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown -= FingerDown;
     }
 
     // Update is called once per frame
