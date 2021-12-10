@@ -86,14 +86,12 @@ public class PlaceFortress: MonoBehaviour {
         ARPlane plane;
         ARAnchor point;
 
-
         spawnedFortress = Instantiate(fortressPrefab, nearestHitPose.pose.position 
-            + nearestHitPose.pose.up * 0.1f, nearestHitPose.pose.rotation);
+            + nearestHitPose.pose.up * 0.05f, nearestHitPose.pose.rotation);
 
         // SetObjectIsKinematic(spawnedFortress, true);
 
         spawnedFortress.transform.localScale = fortressSize;
-        // spawnedFortress.tag = "SpawnedObject";
 
         logger.Log("spawned at " + spawnedFortress.transform.position.x + ", " 
         + spawnedFortress.transform.position.y + ", " + spawnedFortress.transform.position.z);
@@ -121,21 +119,27 @@ public class PlaceFortress: MonoBehaviour {
         Ray ray;
 
         Vector2 screenPosition = touch.position;
+        // Debug.Log ("position:  " + screenPosition);
+
 
 
         if (EventSystem.current.IsPointerOverGameObject())  {
-            if (EventSystem.current.currentSelectedGameObject.layer == LayerManager.UILayer)
+            if (EventSystem.current.currentSelectedGameObject != null)
             {
-                logger.Log ("clicked on button");
-                return;
+                if (EventSystem.current.currentSelectedGameObject.layer == LayerManager.UILayer)
+                {
+                    logger.Log ("clicked on button");
+                    return;
+                }
             }
+
         }
         /////////////////////////////////////////////////////////////////////
 
         ARhit = raycastManager.Raycast(screenPosition, myARHits,
             TrackableType.FeaturePoint | TrackableType.PlaneWithinPolygon);
 
-        logger.Log("Hit: " + ARhit);
+        // logger.Log("Hit: " + ARhit);
 
         if (ARhit == true) {
             nearestHitPose = myARHits[0];
