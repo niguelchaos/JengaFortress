@@ -40,22 +40,7 @@ public class PlaceFortress: MonoBehaviour {
 
     private static ILogger logger = Debug.unityLogger;
 
-
-    private void Awake()
-    {
-        inputManager = InputManager.Instance;   
-    }
-
-    private void OnEnable()
-    {
-        inputManager.OnFirstTouch += CheckTouchAction;
-    }
-    private void OnDisable()
-    {
-        inputManager.OnFirstTouch -= CheckTouchAction;
-    }
-
-    void Start() {
+    private void Start() {
         cooldown = 2;
         myCamera = 
         	this.gameObject.transform.Find
@@ -64,6 +49,9 @@ public class PlaceFortress: MonoBehaviour {
         raycastManager = this.gameObject.GetComponent<ARRaycastManager>();
         anc = this.gameObject.GetComponent<ARAnchorManager>();
         planeManager = this.gameObject.GetComponent<ARPlaneManager>();
+        
+        inputManager = InputManager.Instance;   
+        inputManager.OnFirstTouch += CheckTouchAction;
         UpdateText();
     }
 
@@ -121,64 +109,69 @@ public class PlaceFortress: MonoBehaviour {
         Vector2 screenPosition = touch.position;
         // Debug.Log ("position:  " + screenPosition);
 
-
-
-        if (EventSystem.current.IsPointerOverGameObject())  {
-            if (EventSystem.current.currentSelectedGameObject != null)
+        // if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))  {
+        //     if (EventSystem.current.currentSelectedGameObject != null)
+        //     {
+        //         if (EventSystem.current.currentSelectedGameObject.layer == LayerManager.UILayer)
+        //         {
+        //             logger.Log ("clicked on button");
+        //             return;
+        //         }
+        //     }
+        // }
+        // if (touch.phase == TouchPhase.Began)
+        // {
+            if (IsPointOverUIObject(screenPosition))
             {
-                if (EventSystem.current.currentSelectedGameObject.layer == LayerManager.UILayer)
-                {
-                    logger.Log ("clicked on button");
-                    return;
-                }
+                logger.Log ("clicked on button");
+                return;
             }
+            /////////////////////////////////////////////////////////////////////
 
-        }
-        /////////////////////////////////////////////////////////////////////
+            ARhit = raycastManager.Raycast(screenPosition, myARHits,
+                TrackableType.FeaturePoint | TrackableType.PlaneWithinPolygon);
 
-        ARhit = raycastManager.Raycast(screenPosition, myARHits,
-            TrackableType.FeaturePoint | TrackableType.PlaneWithinPolygon);
+            logger.Log("Hit: " + ARhit);
 
-        // logger.Log("Hit: " + ARhit);
-
-        if (ARhit == true) {
-            nearestHitPose = myARHits[0];
-        }
-        
-        switch (placeMode)
-        {
-            case PlaceMode.PLACE:
-                CheckSpawnFortress(screenPosition, ARhit, nearestHitPose);
-                foundObject = null;
-                break;
+            if (ARhit == true) {
+                nearestHitPose = myARHits[0];
+            }
             
-            case PlaceMode.SELECT:
-                ray = myCamera.ScreenPointToRay(screenPosition);
-                hits = Physics.RaycastAll(ray);
+            switch (placeMode)
+            {
+                case PlaceMode.PLACE:
+                    CheckSpawnFortress(screenPosition, ARhit, nearestHitPose);
+                    foundObject = null;
+                    break;
+                
+                case PlaceMode.SELECT:
+                    ray = myCamera.ScreenPointToRay(screenPosition);
+                    hits = Physics.RaycastAll(ray);
 
-                foreach (RaycastHit hit in hits) {
-                    logger.Log ("Detected " + hit.transform.gameObject.name);
-                    
-                    if (hit.transform.gameObject.layer == LayerManager.BlockLayer) {
-                        foundObject = hit.transform.gameObject;
-                        logger.Log ("found block: " + foundObject);
+                    foreach (RaycastHit hit in hits) {
+                        logger.Log ("Detected " + hit.transform.gameObject.name);
+                        
+                        if (hit.transform.gameObject.layer == LayerManager.BlockLayer) {
+                            foundObject = hit.transform.gameObject;
+                            logger.Log ("found block: " + foundObject);
+                        }
                     }
-                }
-                break;
-            
-            case PlaceMode.MOVE:
-                if (foundObject == null)
-                {
-                    Debug.Log ("Nothing Selected");
-                }
-                else {
-                    if (ARhit == true)
+                    break;
+                
+                case PlaceMode.MOVE:
+                    if (foundObject == null)
                     {
-                        foundObject.transform.position = nearestHitPose.pose.position;
+                        Debug.Log ("Nothing Selected");
                     }
-                }
-                break;
-        }
+                    else {
+                        if (ARhit == true)
+                        {
+                            foundObject.transform.position = nearestHitPose.pose.position;
+                        }
+                    }
+                    break;
+            }
+        // }
     }
 
     // private void SetObjectIsKinematic(GameObject spawnedObject, bool isKOrNotIdkMan)
@@ -234,6 +227,30 @@ public class PlaceFortress: MonoBehaviour {
     {
         currentModeText.text = placeMode.ToString();
         currentFortSize.text = fortressSize.ToString("F3");
+    }
+
+    public bool IsPointOverUIObject(Vector2 pos)
+    {
+        if (EventSystem.current.IsPointerOverGameObject()) 
+        {
+            if (EventSystem.current.currentSelectedGameObject != null)
+            {
+                if (EventSystem.current.currentSelectedGameObject.layer == LayerManager.UILayer)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+       PointerEventData eventPosition = new PointerEventData(EventSystem.current);
+       eventPosition.position = pos;
+
+       List<RaycastResult> results = new List<RaycastResult>();
+       EventSystem.current.RaycastAll(eventPosition, results);
+
+       return results.Count > 0;
+
     }
 
 }
