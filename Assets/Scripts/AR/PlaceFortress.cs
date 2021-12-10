@@ -43,17 +43,16 @@ public class PlaceFortress: MonoBehaviour {
 
     private void Awake()
     {
-        inputManager = InputManager.Instance;
-        
+        inputManager = InputManager.Instance;   
     }
 
     private void OnEnable()
     {
-        inputManager.OnStartTouch += CheckTapAction;
+        inputManager.OnFirstTouch += CheckTouchAction;
     }
     private void OnDisable()
     {
-        inputManager.OnStartTouch -= CheckTapAction;
+        inputManager.OnFirstTouch -= CheckTouchAction;
     }
 
     void Start() {
@@ -91,7 +90,7 @@ public class PlaceFortress: MonoBehaviour {
         spawnedFortress = Instantiate(fortressPrefab, nearestHitPose.pose.position 
             + nearestHitPose.pose.up * 0.1f, nearestHitPose.pose.rotation);
 
-        SetObjectIsKinematic(spawnedFortress, true);
+        // SetObjectIsKinematic(spawnedFortress, true);
 
         spawnedFortress.transform.localScale = fortressSize;
         // spawnedFortress.tag = "SpawnedObject";
@@ -113,13 +112,15 @@ public class PlaceFortress: MonoBehaviour {
         spawnedFortress.transform.parent = point.transform;
     }
 
-    private void CheckTapAction(Vector2 screenPosition, float time)
+    private void CheckTouchAction(Touch touch)
     {
         bool ARhit;
         ARRaycastHit nearestHitPose = new ARRaycastHit();
 
         RaycastHit[] hits;
         Ray ray;
+
+        Vector2 screenPosition = touch.position;
 
 
         if (EventSystem.current.IsPointerOverGameObject())  {
@@ -176,26 +177,26 @@ public class PlaceFortress: MonoBehaviour {
         }
     }
 
-    private void SetObjectIsKinematic(GameObject spawnedObject, bool isKOrNotIdkMan)
-    {
-        Rigidbody[] rbs = GetComponentsInChildren<Rigidbody>();
-        foreach (Rigidbody rb in rbs)
-        {
-            rb.isKinematic = isKOrNotIdkMan;
-        }
-    }
+    // private void SetObjectIsKinematic(GameObject spawnedObject, bool isKOrNotIdkMan)
+    // {
+    //     Rigidbody[] rbs = GetComponentsInChildren<Rigidbody>();
+    //     foreach (Rigidbody rb in rbs)
+    //     {
+    //         rb.isKinematic = isKOrNotIdkMan;
+    //     }
+    // }
 
-    public void ActivatePhysics()
-    {
-        GameObject[] goArray = FindObjectsOfType<GameObject>();
-        for (int i = 0; i < goArray.Length; i++)
-        {
-            if (goArray[i].layer == LayerManager.BlockLayer)
-            {
-                SetObjectIsKinematic(goArray[i], false);
-            }
-        }
-    }
+    // public void ActivatePhysics()
+    // {
+    //     GameObject[] goArray = FindObjectsOfType<GameObject>();
+    //     for (int i = 0; i < goArray.Length; i++)
+    //     {
+    //         if (goArray[i].layer == LayerManager.BlockLayer)
+    //         {
+    //             SetObjectIsKinematic(goArray[i], false);
+    //         }
+    //     }
+    // }
 
     public void ChangeToSelect()
     {   

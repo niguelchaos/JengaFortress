@@ -1,126 +1,70 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.EnhancedTouch;
 
-[DefaultExecutionOrder(-1)]
+public class KeyCodeConstants : MonoBehaviour
+{
+    public static readonly KeyCode FIRE = KeyCode.Space;
+}
+
 public class InputManager : MonoBehaviour
 {
     public static InputManager Instance;
 
-    // fire event to subscribers
-    // let other class define function
-    public delegate void StartTouchEvent(Vector2 pos, float time);
-    public event StartTouchEvent OnStartTouch;
-    public delegate void EndTouchEvent(Vector2 pos, float time);
-    public event EndTouchEvent OnEndTouch;
+    // advantages of events: i guess no need to put input code inside update of each class - 
+    // idk if 2+ classes polling for the same input in update is good or not 
+    // let other classes define the what happens if they subscribe to FireEvent
+    public delegate void FireEvent(bool fired);
+    public event FireEvent OnFire;
 
-    private PlayerInput playerInput;
-    private JengaFortress jengaFortressControls;
-    private InputAction testFireAction;
-
-    private InputAction touchPressAction;
-    private InputAction touchPositionAction;
-
-    [SerializeField] public bool testFireInput { get; set; } // TODO: make setter private (just public for testing)
-
+    public delegate void TouchCountEvent(int touchCount);
+    public event TouchCountEvent OnTouchCount;
+    public delegate void FirstTouchEvent(Touch touch);
+    public event FirstTouchEvent OnFirstTouch;
+    public delegate void AllTouchesEvent(Touch[] touches);
+    public event AllTouchesEvent OnAllTouches;
 
     private void Awake()
     {
         Instance = this;
-        playerInput = GetComponent<PlayerInput>();
-        jengaFortressControls = new JengaFortress();
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-        testFireAction = playerInput.actions["testFire"];
-        touchPressAction = playerInput.actions["TouchPress"];
-        touchPositionAction = playerInput.actions["TouchPosition"];
-
-        // i couldnt get it working with playerinput
-        jengaFortressControls.Player.TouchPress.started += ctx => StartTouch(ctx);
-        jengaFortressControls.Player.TouchPress.canceled += ctx => EndTouch(ctx);
-
+        GetFirePressed();
+        GetTouchCounts();
+        GetFirstTouch();
     }
 
-    private void OnEnable()
+    public void GetFirePressed()
     {
-        jengaFortressControls.Enable();
-        TouchSimulation.Enable();
-
-        UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown += FingerDown;
-
-    }
-    private void OnDisable()
-    {
-        jengaFortressControls.Disable();
-
-        UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown -= FingerDown;
-        TouchSimulation.Disable();
-
+        bool firePressed = Input.GetKeyDown(KeyCodeConstants.FIRE);
+        if (OnFire != null) 
+        {   OnFire(firePressed);  }   
     }
 
-    // Update is called once per frame
-    void Update()
+    public void GetTouchCounts()
     {
-        // // enhanced good for polling
-        // Debug.Log(UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches);
-
-        // // can check what phase touch is at to respond to them
-        // foreach(UnityEngine.InputSystem.EnhancedTouch.Touch touch in UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches)
-        // {
-        //     Debug.Log(touch.phase == UnityEngine.InputSystem.TouchPhase.Began);
-        // }
+        int touchCounts = Input.touchCount;
+        if (OnTouchCount != null)
+        {   OnTouchCount(touchCounts);  }
     }
 
-    public void onTestFireInput(InputAction.CallbackContext context)
+    public void GetFirstTouch()
     {
-        // print("onTestFireInput:" + context.phase);
-
-        if (context.started)
+        if (Input.touchCount > 0)
         {
-            
-        }
-        if (context.performed)
-        {
-            this.testFireInput = true;
-        }
-        else if (context.canceled)
-        {
-            this.testFireInput = false;
-        }
-        
-    }
-
-    public void StartTouch(InputAction.CallbackContext context)
-    {
-        // Debug.Log("Started Touch" + jengaFortressControls.Player.TouchPosition.ReadValue<Vector2>());
-        if (OnStartTouch != null)
-        {
-            OnStartTouch(jengaFortressControls.Player.TouchPosition.ReadValue<Vector2>(), (float)context.startTime);
-        }
-    }
-    public void EndTouch(InputAction.CallbackContext context)
-    {
-        // Debug.Log("Touch Ended");
-        if (OnEndTouch != null)
-        {
-            OnEndTouch(jengaFortressControls.Player.TouchPosition.ReadValue<Vector2>(), (float)context.time);
+            Touch currentTouch = Input.GetTouch(0);
+            if (OnFirstTouch != null)
+            {   OnFirstTouch(currentTouch);  }
         }
     }
 
-    // not used
-    private void FingerDown(Finger currentFinger)
+    public void GetAllTouches()
     {
-        if (OnStartTouch != null)
-        {
-            OnStartTouch(currentFinger.screenPosition, Time.time);
-        }
+        Touch[] allTouches = Input.touches;
+        if (OnAllTouches != null)
+        {   OnAllTouches(allTouches);  }
     }
-
-
 
 }
