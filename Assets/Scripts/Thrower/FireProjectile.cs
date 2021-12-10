@@ -1,57 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class FireProjectile : MonoBehaviour
 {
     [SerializeField] private GameObject projectile;    // this is a reference to your projectile prefab
 
-    private InputAction testFireAction;
-
-    [SerializeField] private bool hasFired = false;
+    // [SerializeField] private bool hasFired = false;
     [SerializeField] private float fireForce = 10000;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        ProcessInput();
+        // subscribe to onfire
+        InputManager.Instance.OnFire += Fire;
     }
-
     void FixedUpdate()
     {
-        Fire();
+        // Fire();
     }
 
-    void Fire()
+    private void Fire(bool fired)
     {
-        if (InputManager.Instance.testFireInput && !hasFired)
+        if (fired)
         {
             Transform spawnTransform = gameObject.transform;
             
             GameObject spawnedProjectile = Instantiate(projectile, spawnTransform.position, spawnTransform.rotation);
             spawnedProjectile.GetComponent<Rigidbody>().AddForce(spawnTransform.forward * fireForce, ForceMode.Impulse);
-
-            // button held down, fired already
-            hasFired = true;
-            // InputManager.Instance.testFireInput = false; // TEMP
-            // print("fire");
         }
     }
 
-    private void ProcessInput()
-    {
-        if (InputManager.Instance.testFireInput == false)
-        {
-            // button lifted
-            hasFired = false;
-        }
-    }
 
 }

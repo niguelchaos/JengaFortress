@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CoreBlock
   - Block
+  - SpawnedObject
   layers:
   - Default
   - TransparentFX
