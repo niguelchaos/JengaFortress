@@ -38,6 +38,8 @@ public class PlaceFortress: MonoBehaviour {
     private Vector3 fortressSize = new Vector3(0.02f, 0.02f, 0.02f);
     private Vector3 sizeIncrement = new Vector3(0.005f, 0.005f, 0.005f);
 
+    private GameObject spawnedFortress;
+
     private static ILogger logger = Debug.unityLogger;
 
     private void Start() {
@@ -69,7 +71,6 @@ public class PlaceFortress: MonoBehaviour {
     }
 
     public void doSpawnFortress(Vector2 screenPosition, bool ARhit, ARRaycastHit nearestHitPose) {
-        GameObject spawnedFortress;
 
         ARPlane plane;
         ARAnchor point;
@@ -77,7 +78,7 @@ public class PlaceFortress: MonoBehaviour {
         spawnedFortress = Instantiate(fortressPrefab, nearestHitPose.pose.position 
             + nearestHitPose.pose.up * 0.05f, nearestHitPose.pose.rotation);
 
-        // SetObjectIsKinematic(spawnedFortress, true);
+        SetObjectIsKinematic(spawnedFortress, true);
 
         spawnedFortress.transform.localScale = fortressSize;
 
@@ -109,91 +110,101 @@ public class PlaceFortress: MonoBehaviour {
         Vector2 screenPosition = touch.position;
         // Debug.Log ("position:  " + screenPosition);
 
-        // if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))  {
-        //     if (EventSystem.current.currentSelectedGameObject != null)
-        //     {
-        //         if (EventSystem.current.currentSelectedGameObject.layer == LayerManager.UILayer)
-        //         {
-        //             logger.Log ("clicked on button");
-        //             return;
-        //         }
-        //     }
-        // }
-        // if (touch.phase == TouchPhase.Began)
-        // {
-            if (IsPointOverUIObject(screenPosition))
-            {
-                logger.Log ("clicked on button");
-                return;
-            }
-            /////////////////////////////////////////////////////////////////////
+        if (IsPointOverUIObject(screenPosition))
+        {
+            logger.Log ("clicked on button");
+            return;
+        }
+        /////////////////////////////////////////////////////////////////////
 
-            ARhit = raycastManager.Raycast(screenPosition, myARHits,
-                TrackableType.FeaturePoint | TrackableType.PlaneWithinPolygon);
+        ARhit = raycastManager.Raycast(screenPosition, myARHits,
+            TrackableType.FeaturePoint | TrackableType.PlaneWithinPolygon);
 
-            logger.Log("Hit: " + ARhit);
+        logger.Log("Hit: " + ARhit);
 
-            if (ARhit == true) {
-                nearestHitPose = myARHits[0];
-            }
+        if (ARhit == true) {
+            nearestHitPose = myARHits[0];
+        }
+        
+        switch (placeMode)
+        {
+            case PlaceMode.PLACE:
+                CheckSpawnFortress(screenPosition, ARhit, nearestHitPose);
+                foundObject = null;
+                break;
             
-            switch (placeMode)
-            {
-                case PlaceMode.PLACE:
-                    CheckSpawnFortress(screenPosition, ARhit, nearestHitPose);
-                    foundObject = null;
-                    break;
-                
-                case PlaceMode.SELECT:
-                    ray = myCamera.ScreenPointToRay(screenPosition);
-                    hits = Physics.RaycastAll(ray);
+            case PlaceMode.SELECT:
+                ray = myCamera.ScreenPointToRay(screenPosition);
+                hits = Physics.RaycastAll(ray);
 
-                    foreach (RaycastHit hit in hits) {
-                        logger.Log ("Detected " + hit.transform.gameObject.name);
-                        
-                        if (hit.transform.gameObject.layer == LayerManager.BlockLayer) {
-                            foundObject = hit.transform.gameObject;
-                            logger.Log ("found block: " + foundObject);
-                        }
+                foreach (RaycastHit hit in hits) {
+                    logger.Log ("Detected " + hit.transform.gameObject.name);
+                    
+                    if (hit.transform.gameObject.layer == LayerManager.BlockLayer) {
+                        foundObject = hit.transform.gameObject;
+                        logger.Log ("found block: " + foundObject);
                     }
-                    break;
-                
-                case PlaceMode.MOVE:
-                    if (foundObject == null)
+                }
+                break;
+            
+            case PlaceMode.MOVE:
+                if (foundObject == null)
+                {
+                    Debug.Log ("Nothing Selected");
+                }
+                else {
+                    if (ARhit == true)
                     {
-                        Debug.Log ("Nothing Selected");
+                        foundObject.transform.position = nearestHitPose.pose.position;
                     }
-                    else {
-                        if (ARhit == true)
-                        {
-                            foundObject.transform.position = nearestHitPose.pose.position;
-                        }
-                    }
-                    break;
+                }
+                break;
             }
         // }
     }
 
-    // private void SetObjectIsKinematic(GameObject spawnedObject, bool isKOrNotIdkMan)
-    // {
-    //     Rigidbody[] rbs = GetComponentsInChildren<Rigidbody>();
-    //     foreach (Rigidbody rb in rbs)
-    //     {
-    //         rb.isKinematic = isKOrNotIdkMan;
-    //     }
-    // }
+    private void SetObjectIsKinematic(GameObject spawnedObject, bool isKOrNotIdkMan)
+    {
+        Rigidbody[] rbs = spawnedObject.GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody rb in rbs)
+        {
+            rb.isKinematic = isKOrNotIdkMan;
+        }
+    }
 
-    // public void ActivatePhysics()
-    // {
-    //     GameObject[] goArray = FindObjectsOfType<GameObject>();
-    //     for (int i = 0; i < goArray.Length; i++)
-    //     {
-    //         if (goArray[i].layer == LayerManager.BlockLayer)
-    //         {
-    //             SetObjectIsKinematic(goArray[i], false);
-    //         }
-    //     }
-    // }
+    public void SetObjectGravity(GameObject spawnedObject, bool onOrOff)
+    {
+        Rigidbody[] rbs = spawnedObject.GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody rb in rbs)
+        {
+            rb.useGravity = onOrOff;
+        }
+    }
+
+    public void ActivatePhysics()
+    {
+        if (spawnedFortress == null) { return; }
+        GameObject[] goArray = FindObjectsOfType<GameObject>();
+        for (int i = 0; i < goArray.Length; i++)
+        {
+            if (goArray[i].layer == LayerManager.BlockLayer)
+            {
+                SetObjectIsKinematic(goArray[i], false);
+                SetObjectGravity(goArray[i], false);
+            }
+        }
+    }
+
+    public void ActivateKinematic()
+    {
+        if (spawnedFortress == null) { return; }
+        SetObjectIsKinematic(spawnedFortress, false);
+    }
+    public void ActivateGravity()
+    {
+        if (spawnedFortress == null) { return; }
+        SetObjectGravity(spawnedFortress, true);
+    }
 
     public void ChangeToSelect()
     {   
