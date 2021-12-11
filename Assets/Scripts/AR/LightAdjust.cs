@@ -29,26 +29,31 @@ public class LightAdjust : MonoBehaviour
         if (args.lightEstimation.averageBrightness.HasValue)
         {   
             myLight.intensity = args.lightEstimation.averageBrightness.Value;   
+            Debug.Log ( $"Brightness: {args.lightEstimation.averageBrightness.Value}");
 
             if (args.lightEstimation.averageColorTemperature.HasValue)
-            {   myLight.colorTemperature = args.lightEstimation.averageColorTemperature.Value;   }
+            {   
+                Debug.Log($"Color Temperature: {args.lightEstimation.averageColorTemperature.Value}");
+                myLight.colorTemperature = args.lightEstimation.averageColorTemperature.Value;   
+            }
 
             if (args.lightEstimation.colorCorrection.HasValue)
-            {   myLight.color = args.lightEstimation.colorCorrection.Value; }
+            {   
+                myLight.color = args.lightEstimation.colorCorrection.Value; 
+                Debug.Log(  $"Color Correction: {args.lightEstimation.colorCorrection.Value}");
+            }
 
             if (args.lightEstimation.mainLightDirection.HasValue)
             {   myLight.transform.rotation = Quaternion.LookRotation(args.lightEstimation.mainLightDirection.Value);    }
 
             if (args.lightEstimation.mainLightIntensityLumens.HasValue)
             {   myLight.intensity =  args.lightEstimation.mainLightIntensityLumens.Value;   }
+            
+            RenderSettings.ambientProbe = args.lightEstimation.ambientSphericalHarmonics.Value;
 
-            Debug.Log(  $"Color Correction: {args.lightEstimation.colorCorrection.Value}");
-            Debug.Log($"Color Temperature: {args.lightEstimation.averageColorTemperature.Value}");
-            Debug.Log ( $"Brightness: {args.lightEstimation.averageBrightness.Value}");
         }
                         
-        RenderSettings.ambientProbe = 
-                args.lightEstimation.ambientSphericalHarmonics.Value;
+
 			
 	}
 }

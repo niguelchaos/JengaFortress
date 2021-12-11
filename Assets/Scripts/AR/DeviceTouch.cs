@@ -26,16 +26,22 @@ public class DeviceTouch : MonoBehaviour
             // print(spawnPos);
             GameObject spawnedProjectile = Instantiate(projectile, spawnPos, Quaternion.identity);
             spawnedObject = spawnedProjectile;
-            // SetObjectGravity(spawnedProjectile, false);
-            SetObjectIsKinematic(spawnedProjectile, true);
+            if (spawnedObject != null)
+            {
+                // SetObjectGravity(spawnedProjectile, false);
+                SetObjectIsKinematic(spawnedObject, true); 
+            }
         }
     }
     private void ActivateAllPhysics(bool fired)
     {
         if (fired)
         {
-            SetObjectIsKinematic(spawnedObject, false);
-            SetObjectGravity(spawnedObject, true);
+            if (spawnedObject != null)
+            {
+                SetObjectIsKinematic(spawnedObject, false);
+                SetObjectGravity(spawnedObject, true);
+            }
         }
     }
 

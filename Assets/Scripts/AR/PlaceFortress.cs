@@ -190,7 +190,7 @@ public class PlaceFortress: MonoBehaviour {
             if (goArray[i].layer == LayerManager.BlockLayer)
             {
                 SetObjectIsKinematic(goArray[i], false);
-                SetObjectGravity(goArray[i], false);
+                SetObjectGravity(goArray[i], true);
             }
         }
     }
@@ -199,6 +199,18 @@ public class PlaceFortress: MonoBehaviour {
     {
         if (spawnedFortress == null) { return; }
         SetObjectIsKinematic(spawnedFortress, false);
+    }
+    public void DisableGravity()
+    {
+        if (spawnedFortress == null) { return; }
+        GameObject[] goArray = FindObjectsOfType<GameObject>();
+        for (int i = 0; i < goArray.Length; i++)
+        {
+            if (goArray[i].layer == LayerManager.BlockLayer)
+            {
+                SetObjectGravity(goArray[i], false);
+            }
+        }
     }
     public void ActivateGravity()
     {
