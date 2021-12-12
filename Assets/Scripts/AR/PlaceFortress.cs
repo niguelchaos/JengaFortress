@@ -35,12 +35,22 @@ public class PlaceFortress: MonoBehaviour {
     private ARAnchorManager anc;
     private ARPlaneManager planeManager;
 
-    private Vector3 fortressSize = new Vector3(0.02f, 0.02f, 0.02f);
-    private Vector3 sizeIncrement = new Vector3(0.005f, 0.005f, 0.005f);
+    private ARSessionOrigin arSessionOrigin;
+    // private float arSessionOriginSize = 150;
+    private float upscaleIncrement = 0.9f;
+    private float downscaleIncrement = 1.1f;
+    // public Plane refPlane;
 
-    private GameObject spawnedFortress;
+    public GameObject refPlane;
+    public GameObject spawnedFortress;
+    public bool enableAppear = true;
 
     private static ILogger logger = Debug.unityLogger;
+
+    private void Awake()
+    {
+        arSessionOrigin = GetComponent<ARSessionOrigin>();
+    }
 
     private void Start() {
         cooldown = 2;
@@ -55,10 +65,16 @@ public class PlaceFortress: MonoBehaviour {
         inputManager = InputManager.Instance;   
         inputManager.OnFirstTouch += CheckTouchAction;
         UpdateText();
+        // ScaleArOrigin();
     }
 
     void Update() {
         cooldownCount += Time.deltaTime;
+        if (enableAppear && refPlane != null)
+        {
+            arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, refPlane.transform.position);
+        }
+            // Debug.Log("making content appear");
     }
 
     private void CheckSpawnFortress(Vector2 screenPosition, bool ARhit, ARRaycastHit nearestHitPose)
@@ -79,11 +95,12 @@ public class PlaceFortress: MonoBehaviour {
             + nearestHitPose.pose.up * 0.05f, nearestHitPose.pose.rotation);
 
         SetObjectIsKinematic(spawnedFortress, true);
+        arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, nearestHitPose.pose.position);
 
-        spawnedFortress.transform.localScale = fortressSize;
+        // spawnedFortress.transform.localScale = fortressSize;
 
-        logger.Log("spawned at " + spawnedFortress.transform.position.x + ", " 
-        + spawnedFortress.transform.position.y + ", " + spawnedFortress.transform.position.z);
+        // logger.Log("spawned at " + spawnedFortress.transform.position.x + ", " 
+        // + spawnedFortress.transform.position.y + ", " + spawnedFortress.transform.position.z);
 
         plane = planeManager.GetPlane(nearestHitPose.trackableId);
 
@@ -112,7 +129,7 @@ public class PlaceFortress: MonoBehaviour {
 
         if (IsPointOverUIObject(screenPosition))
         {
-            logger.Log ("clicked on button");
+            // logger.Log ("clicked on button");
             return;
         }
         /////////////////////////////////////////////////////////////////////
@@ -120,9 +137,9 @@ public class PlaceFortress: MonoBehaviour {
         ARhit = raycastManager.Raycast(screenPosition, myARHits,
             TrackableType.FeaturePoint | TrackableType.PlaneWithinPolygon);
 
-        logger.Log("Hit: " + ARhit);
 
         if (ARhit == true) {
+            // logger.Log("Hit: " + ARhit);
             nearestHitPose = myARHits[0];
         }
         
@@ -235,21 +252,35 @@ public class PlaceFortress: MonoBehaviour {
         UpdateText();   
     }
 
-    public void UpscaleFortress()
+    public void UpscaleSession()
     {   
-        fortressSize += sizeIncrement;
+        // arSessionOriginSize += sizeIncrement;
+        ScaleArOrigin(upscaleIncrement);
         UpdateText();  
     }
-    public void DownscaleFortress()
+    public void DownscaleSession()
     {   
-        fortressSize -= sizeIncrement; 
+        // arSessionOriginSize -= sizeIncrement; 
+        ScaleArOrigin(downscaleIncrement);
         UpdateText();
+    }
+
+    private void ScaleArOrigin(float multiplier)
+    {
+        Vector3 originalScale = arSessionOrigin.transform.localScale;
+        arSessionOrigin.transform.localScale = originalScale * multiplier;
+        arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, spawnedFortress.transform.position);
+
+        // if (spawnedFortress != null)
+        // {
+        //     arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, spawnedFortress.transform.position);
+        // }
     }
 
     private void UpdateText()
     {
         currentModeText.text = placeMode.ToString();
-        currentFortSize.text = fortressSize.ToString("F3");
+        currentFortSize.text = arSessionOrigin.transform.localScale.ToString("F3");
     }
 
     public bool IsPointOverUIObject(Vector2 pos)
@@ -275,5 +306,7 @@ public class PlaceFortress: MonoBehaviour {
        return results.Count > 0;
 
     }
+
+
 
 }
