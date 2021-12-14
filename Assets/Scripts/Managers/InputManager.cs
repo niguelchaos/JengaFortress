@@ -1,55 +1,70 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
+public class KeyCodeConstants : MonoBehaviour
+{
+    public static readonly KeyCode FIRE = KeyCode.Space;
+}
 
 public class InputManager : MonoBehaviour
 {
     public static InputManager Instance;
 
-    private PlayerInput playerInput;
-    private InputAction testFireAction;
+    // advantages of events: i guess no need to put input code inside update of each class - 
+    // idk if 2+ classes polling for the same input in update is good or not 
+    // let other classes define the what happens if they subscribe to FireEvent
+    public delegate void FireEvent(bool fired);
+    public event FireEvent OnFire;
 
-    [SerializeField] public bool testFireInput { get; set; } // TODO: make setter private (just public for testing)
-
+    public delegate void TouchCountEvent(int touchCount);
+    public event TouchCountEvent OnTouchCount;
+    public delegate void FirstTouchEvent(Touch touch);
+    public event FirstTouchEvent OnFirstTouch;
+    public delegate void AllTouchesEvent(Touch[] touches);
+    public event AllTouchesEvent OnAllTouches;
 
     private void Awake()
     {
         Instance = this;
-        playerInput = GetComponent<PlayerInput>();
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-        testFireAction = playerInput.actions["testFire"];
-
+        GetFirePressed();
+        GetTouchCounts();
+        GetFirstTouch();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void GetFirePressed()
     {
-        
+        bool firePressed = Input.GetKeyDown(KeyCodeConstants.FIRE);
+        if (OnFire != null) 
+        {   OnFire(firePressed);  }   
     }
 
-    public void onTestFireInput(InputAction.CallbackContext context)
+    public void GetTouchCounts()
     {
-        // print("onTestFireInput:" + context.phase);
+        int touchCounts = Input.touchCount;
+        if (OnTouchCount != null)
+        {   OnTouchCount(touchCounts);  }
+    }
 
-        if (context.started)
+    public void GetFirstTouch()
+    {
+        if (Input.touchCount > 0)
         {
-            
+            Touch currentTouch = Input.GetTouch(0);
+            if (OnFirstTouch != null)
+            {   OnFirstTouch(currentTouch);  }
         }
-        if (context.performed)
-        {
-            this.testFireInput = true;
-        }
-        else if (context.canceled)
-        {
-            this.testFireInput = false;
-        }
-        
+    }
+
+    public void GetAllTouches()
+    {
+        Touch[] allTouches = Input.touches;
+        if (OnAllTouches != null)
+        {   OnAllTouches(allTouches);  }
     }
 
 }
