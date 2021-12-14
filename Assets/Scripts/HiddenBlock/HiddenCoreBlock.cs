@@ -53,10 +53,10 @@ public class HiddenCoreBlock : MonoBehaviour
     public void CheckOutline()
     {
         DisableOutline();
-        switch (GameManager.Instance.GetCurrentGameState(), player.GetPlayerNum())
+        switch (GameManager.Instance.GetCurrentPlayer(), player.GetPlayerNum())
         {
-            case (GameState.PLAYER_1, PlayerNum.P1):
-            case (GameState.PLAYER_2, PlayerNum.P2):
+            case (CurrentPlayer.PLAYER_1, PlayerNum.P1):
+            case (CurrentPlayer.PLAYER_2, PlayerNum.P2):
                 EnableOutline();
                 break;
         }
