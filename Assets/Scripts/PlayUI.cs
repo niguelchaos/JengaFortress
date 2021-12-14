@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayUI : MonoBehaviour
 {
@@ -8,22 +11,19 @@ public class PlayUI : MonoBehaviour
     public TMP_Text currentPlayerText;
     //private Player player;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         UpdateText();
     }
 
-    // Update is called once per frame
-    void UpdateText()
+    private void UpdateText()
     {
-        currentPlayerText.text = GameManager.Instance.CurrentPlayer.name;
+        currentPlayerText.text = "Player " + (int)GameManager.Instance.GetCurrentPlayer();
     }
 
     public void ChangePlayer()
     {
-        GameManager.instance.ChangePlayer();
+        GameManager.Instance.ChangePlayer();
         UpdateText();
     }
 }

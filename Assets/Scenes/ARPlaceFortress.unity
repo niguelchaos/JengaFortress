@@ -652,6 +652,7 @@ GameObject:
   - component: {fileID: 248484220}
   - component: {fileID: 248484219}
   - component: {fileID: 248484218}
+  - component: {fileID: 248484222}
   m_Layer: 5
   m_Name: Play Canvas
   m_TagString: Untagged
@@ -734,13 +735,26 @@ RectTransform:
   - {fileID: 1371851280}
   - {fileID: 1651079402}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &248484222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 248484217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e01f68fc984b897428a66a487114002c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentPlayerText: {fileID: 1371851281}
 --- !u!1 &285092119
 GameObject:
   m_ObjectHideFlags: 0
@@ -1083,7 +1097,7 @@ PrefabInstance:
     - target: {fileID: 1194179291620866645, guid: 9101b1423f1659942ae299664c397e11,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1194179291620866645, guid: 9101b1423f1659942ae299664c397e11,
         type: 3}
@@ -3337,9 +3351,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: e01f68fc984b897428a66a487114002c, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.Object, UnityEngine
-        m_MethodName: 
+      - m_Target: {fileID: 248484222}
+        m_TargetAssemblyTypeName: PlayUI, Assembly-CSharp
+        m_MethodName: ChangePlayer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3797,7 +3811,7 @@ PrefabInstance:
     - target: {fileID: 4092464618872109058, guid: 8d695653438192447b8752f6025edc8c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4092464618872109058, guid: 8d695653438192447b8752f6025edc8c,
         type: 3}

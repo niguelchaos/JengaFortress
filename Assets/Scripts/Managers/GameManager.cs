@@ -24,8 +24,8 @@ public enum PlayerTurnState
 
 public enum CurrentPlayer
 {
-    PLAYER_1,
-    PLAYER_2
+    PLAYER_1 = 1,
+    PLAYER_2 = 2
 }
 
 public enum WinCondition {HitFloor, LeaveBoundary, Both}
