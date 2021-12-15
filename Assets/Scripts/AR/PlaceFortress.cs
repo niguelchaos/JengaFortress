@@ -39,9 +39,9 @@ public class PlaceFortress: MonoBehaviour {
     // private float arSessionOriginSize = 150;
     private float upscaleIncrement = 0.9f;
     private float downscaleIncrement = 1.1f;
-    // public Plane refPlane;
 
     public GameObject refPlane;
+    public ARPlane groundPlane;
     public GameObject spawnedFortress;
     public bool enableAppear = true;
 
@@ -69,10 +69,23 @@ public class PlaceFortress: MonoBehaviour {
     }
 
     void Update() {
-        cooldownCount += Time.deltaTime;
+        if (cooldownCount <= 2)
+        {
+            cooldownCount += Time.deltaTime;
+        }
+        
         if (enableAppear && refPlane != null)
         {
             arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, refPlane.transform.position);
+        }
+
+        if (groundPlane != null)
+        {
+            if (planeManager.requestedDetectionMode != PlaneDetectionMode.None)
+            {
+                Debug.Log("Ground plane found: " + groundPlane);
+                planeManager.requestedDetectionMode = PlaneDetectionMode.None;
+            }
         }
             // Debug.Log("making content appear");
     }
