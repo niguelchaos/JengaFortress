@@ -7,6 +7,7 @@ using UnityEngine.XR.ARFoundation;
 public class ImageTracker : MonoBehaviour
 {
     private ARTrackedImageManager imgtracker;
+    private ARPlaneManager planeManager;
     public GameObject fortress;
     public PlaceFortress placeFortress;
     public GameObject groundPlanePrefab;
@@ -16,6 +17,11 @@ public class ImageTracker : MonoBehaviour
     {
         imgtracker = GetComponent<ARTrackedImageManager>();
         myFortresses = new Dictionary<string, GameObject>();
+    }
+
+    private void Start()
+    {
+        planeManager = GetComponent<ARPlaneManager>();
     }
 
     void OnEnable()
@@ -47,30 +53,33 @@ public class ImageTracker : MonoBehaviour
 
   void handleTracking (ARTrackedImage img)
     {
-        GameObject currentFortress;
+        // GameObject currentFortress;
         string key;
-        ARPlane groundPlane = new ARPlane();
 
         if (img.trackingState == TrackingState.None) {
             // Debug.Log ("not tracking image");
             return;
         }
 
-        Debug.Log ("Found an image: " + img.referenceImage.name + " (" 
-           + img.trackingState + ")");
+        // Debug.Log ("Found an image: " + img.referenceImage.name + " (" 
+        //    + img.trackingState + ")");
 
         key = img.referenceImage.name;
 
         img.transform.Translate (0.1f, 0, 0);
 
         if (!myFortresses.ContainsKey(key)) {
-            currentFortress = Instantiate (fortress, img.transform.position, img.transform.rotation);
+            // currentFortress = Instantiate (fortress, img.transform.position, img.transform.rotation);
             // fortress.transform.localScale = new Vector3(1, 1, 1);
-            fortress.transform.parent = img.transform;
-            myFortresses[key] = fortress;
-            
-            placeFortress.groundPlane = groundPlane;
-
+            // fortress.transform.parent = img.transform;
+            // myFortresses[key] = fortress;
+            if (placeFortress.groundPlane == null)
+            {
+                placeFortress.groundPlane = Instantiate(groundPlanePrefab, img.transform.position, Quaternion.identity);
+                planeManager.requestedDetectionMode = PlaneDetectionMode.None;
+                planeManager.enabled = false;
+                Debug.Log ("planes disabled");
+            }
         }
     }
 }

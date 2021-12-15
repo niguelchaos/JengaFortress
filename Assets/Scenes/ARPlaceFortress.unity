@@ -2055,7 +2055,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 5
-  far clip plane: 180
+  far clip plane: 400
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -2329,7 +2329,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1407411057}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.94, z: 6.64}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.3064801, y: 0.3064801, z: 0.3064801}
   m_Children: []
   m_Father: {fileID: 2003901614}
@@ -3303,12 +3303,12 @@ PrefabInstance:
     - target: {fileID: 4092464618872109058, guid: 8d695653438192447b8752f6025edc8c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -19.28
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4092464618872109058, guid: 8d695653438192447b8752f6025edc8c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.56
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4092464618872109058, guid: 8d695653438192447b8752f6025edc8c,
         type: 3}
@@ -3653,7 +3653,8 @@ MonoBehaviour:
   fortress: {fileID: 1194179291620866646, guid: 9101b1423f1659942ae299664c397e11,
     type: 3}
   placeFortress: {fileID: 2003901615}
-  groundPlanePrefab: {fileID: 0}
+  groundPlanePrefab: {fileID: 1591133299910227120, guid: 757e8d9702de1f34b97051dae1a666a2,
+    type: 3}
 --- !u!1 &2039049627
 GameObject:
   m_ObjectHideFlags: 0
