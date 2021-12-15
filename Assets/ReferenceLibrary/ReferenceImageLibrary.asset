@@ -25,23 +25,3 @@ MonoBehaviour:
     m_SpecifySize: 0
     m_Name: oilcropped
     m_Texture: {fileID: 0}
-  - m_SerializedGuid:
-      m_GuidLow: 5178272868845655025
-      m_GuidHigh: 9595970754185337484
-    m_SerializedTextureGuid:
-      m_GuidLow: 7540176860734548974
-      m_GuidHigh: 10719801056818086553
-    m_Size: {x: 0, y: 0}
-    m_SpecifySize: 0
-    m_Name: ca
-    m_Texture: {fileID: 0}
-  - m_SerializedGuid:
-      m_GuidLow: 5096241535425150657
-      m_GuidHigh: 11518031932047503016
-    m_SerializedTextureGuid:
-      m_GuidLow: 3113113597861978440
-      m_GuidHigh: 14485381607318852088
-    m_Size: {x: 0, y: 0}
-    m_SpecifySize: 0
-    m_Name: kica
-    m_Texture: {fileID: 0}

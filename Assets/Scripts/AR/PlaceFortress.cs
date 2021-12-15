@@ -36,7 +36,7 @@ public class PlaceFortress: MonoBehaviour {
     private ARPlaneManager planeManager;
 
     private ARSessionOrigin arSessionOrigin;
-    private float arSessionOriginSize = 150;
+    private float arSessionOriginSize = 50;
     private float upscaleIncrement = 0.9f;
     private float downscaleIncrement = 1.1f;
 
@@ -108,13 +108,12 @@ public class PlaceFortress: MonoBehaviour {
 
     public void doSpawnFortressGroundPlane(Vector2 screenPosition, RaycastHit nearestRayHit)
     {
-        spawnedFortress = Instantiate(fortressPrefab, nearestRayHit.transform.position 
-            + nearestRayHit.transform.up * 0.05f, nearestRayHit.transform.rotation);
+        spawnedFortress = Instantiate(fortressPrefab, nearestRayHit.point, Quaternion.identity);
 
         SetObjectIsKinematic(spawnedFortress, true);
         Debug.Log("spawning on Ground Plane");
 
-        arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, nearestRayHit.transform.position);
+        arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, nearestRayHit.point);
     }
 
     public void doSpawnFortressAR(Vector2 screenPosition, ARRaycastHit nearestHitPose) {
@@ -170,21 +169,29 @@ public class PlaceFortress: MonoBehaviour {
             nearestHitPose = myARHits[0];
         }
 
+        RaycastHit nearestHit;
         ray = myCamera.ScreenPointToRay(screenPosition);
+        bool rayHit = Physics.Raycast(ray, out nearestHit);
+        if (rayHit)
+        {
+            Debug.DrawRay(ray.origin, ray.direction * 10, Color.yellow);
+        }  
+
         hits = Physics.RaycastAll(ray);
+
         
         switch (placeMode)
         {
             case PlaceMode.PLACE:
                 if (planeManager.enabled == false || planeManager.requestedDetectionMode == PlaneDetectionMode.None)
                 {
-                    logger.Log ("plane manager disabled");
-
-                    foreach (RaycastHit hit in hits) {
-                        if (hit.transform.gameObject.layer == LayerManager.GroundLayer) {
+                    // logger.Log ("plane manager disabled");
+                    if (rayHit)
+                    {
+                        if (nearestHit.transform.gameObject.layer == LayerManager.GroundLayer) {
                             // foundObject = hit.transform.gameObject;
                             logger.Log ("hit ground");
-                            CheckSpawnFortress(screenPosition, nearestHitPose, hit, false);
+                            CheckSpawnFortress(screenPosition, nearestHitPose, nearestHit, false);
                             break;
                         }
                     }
@@ -214,16 +221,27 @@ public class PlaceFortress: MonoBehaviour {
                 if (foundObject == null)
                 {
                     Debug.Log ("Nothing Selected");
+                    return;
                 }
                 else {
-                    if (ARhit == true)
+                    if (planeManager.enabled == false || planeManager.requestedDetectionMode == PlaneDetectionMode.None)
+                    {
+                        // logger.Log ("plane manager disabled");
+                        if (rayHit)
+                        {
+                            if (nearestHit.transform.gameObject.layer == LayerManager.GroundLayer) {
+                                foundObject.transform.position = nearestHit.point;
+                                break;
+                            }
+                        }
+                    }
+                    else if (ARhit == true)
                     {
                         foundObject.transform.position = nearestHitPose.pose.position;
                     }
                 }
                 break;
             }
-        // }
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -321,10 +339,10 @@ public class PlaceFortress: MonoBehaviour {
         if (groundPlane != null)
         {
             Vector3 targetPos = new Vector3(spawnedFortress.transform.position.x, groundPlane.transform.position.y, spawnedFortress.transform.position.z);
-            arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, groundPlane.transform.position);
+            arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, targetPos);
             return;
         }
-        arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, spawnedFortress.transform.position);
+        // arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, spawnedFortress.transform.position);
     }
 
     private void UpdateText()
