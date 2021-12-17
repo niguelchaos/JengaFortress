@@ -86,16 +86,6 @@ MonoBehaviour:
     m_Name: probablyimportant
     m_Texture: {fileID: 0}
   - m_SerializedGuid:
-      m_GuidLow: 4714752861845756815
-      m_GuidHigh: 16117539359649147810
-    m_SerializedTextureGuid:
-      m_GuidLow: 13782166744577339615
-      m_GuidHigh: 14193382258016295289
-    m_Size: {x: 0, y: 0}
-    m_SpecifySize: 0
-    m_Name: imeanwat
-    m_Texture: {fileID: 0}
-  - m_SerializedGuid:
       m_GuidLow: 5114941151072634821
       m_GuidHigh: 16691603779028931982
     m_SerializedTextureGuid:

@@ -71,6 +71,7 @@ public class PlaceFortress: MonoBehaviour {
         if (refPlane != null)
         {
             content.transform.position = refPlane.transform.position;
+            refPlane.transform.parent = arSessionOrigin.transform;
         }
 
     }
@@ -83,7 +84,7 @@ public class PlaceFortress: MonoBehaviour {
         
         if (enableAppear && refPlane != null)
         {
-            Vector3 targetPos = new Vector3(spawnedFortress.transform.position.x, refPlane.transform.position.y, spawnedFortress.transform.position.z);
+            // Vector3 targetPos = new Vector3(spawnedFortress.transform.position.x, refPlane.transform.position.y, spawnedFortress.transform.position.z);
             arSessionOrigin.MakeContentAppearAt(content.transform, refPlane.transform.position);
         }
 
@@ -344,6 +345,11 @@ public class PlaceFortress: MonoBehaviour {
         // arSessionOriginSize -= sizeIncrement; 
         ScaleArOrigin(downscaleIncrement);
         UpdateText();
+    }
+
+    public void ScaleGroundPlane()
+    {
+        
     }
 
     private void ScaleArOrigin(float increment)

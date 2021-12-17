@@ -7,16 +7,20 @@ using UnityEngine.XR.ARFoundation;
 public class ImageTracker : MonoBehaviour
 {
     private ARTrackedImageManager imgtracker;
+    private ARSessionOrigin arOrigin;
+    private ARAnchorManager arAnchor;
     private ARPlaneManager planeManager;
-    public GameObject fortress;
+    // public GameObject fortress;
     public PlaceFortress placeFortress;
     public GameObject groundPlanePrefab;
-    public Dictionary <string, GameObject> myFortresses;
+    public Dictionary <string, GameObject> myGroundPlanes;
 
     void Awake()
     {
         imgtracker = GetComponent<ARTrackedImageManager>();
-        myFortresses = new Dictionary<string, GameObject>();
+        myGroundPlanes = new Dictionary<string, GameObject>();
+        arOrigin = GetComponent<ARSessionOrigin>();
+        arAnchor = GetComponent<ARAnchorManager>();
     }
 
     private void Start()
@@ -69,7 +73,7 @@ public class ImageTracker : MonoBehaviour
         img.transform.Translate (0.1f, 0, 0);
 
 
-        if (!myFortresses.ContainsKey(key)) {
+        if (!myGroundPlanes.ContainsKey(key)) {
             // currentFortress = Instantiate (fortress, img.transform.position, img.transform.rotation);
             // fortress.transform.localScale = new Vector3(1, 1, 1);
             // fortress.transform.parent = img.transform;
@@ -78,6 +82,12 @@ public class ImageTracker : MonoBehaviour
             {
                 Debug.Log ("image pos:  " + img.transform.position);
                 placeFortress.groundPlane = Instantiate(groundPlanePrefab, img.transform.position, Quaternion.identity);
+                placeFortress.transform.parent = img.transform;
+                myGroundPlanes[key] = groundPlanePrefab;
+
+                placeFortress.groundPlane.AddComponent<ARAnchor>();
+                // placeFortress.groundPlane.transform.parent = arOrigin.transform;
+
                 placeFortress.content.transform.position = placeFortress.groundPlane.transform.position;
                 Debug.Log ("groundplane pos:  " + placeFortress.groundPlane.transform.position);
                 
