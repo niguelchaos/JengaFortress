@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -564,7 +564,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
-  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -735,7 +734,7 @@ RectTransform:
   - {fileID: 1371851280}
   - {fileID: 1651079402}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1092,12 +1091,12 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 620798912}
     m_Modifications:
     - target: {fileID: 1194179291620866645, guid: 9101b1423f1659942ae299664c397e11,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1194179291620866645, guid: 9101b1423f1659942ae299664c397e11,
         type: 3}
@@ -1107,7 +1106,7 @@ PrefabInstance:
     - target: {fileID: 1194179291620866645, guid: 9101b1423f1659942ae299664c397e11,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1194179291620866645, guid: 9101b1423f1659942ae299664c397e11,
         type: 3}
@@ -1122,17 +1121,17 @@ PrefabInstance:
     - target: {fileID: 1194179291620866645, guid: 9101b1423f1659942ae299664c397e11,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1194179291620866645, guid: 9101b1423f1659942ae299664c397e11,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1194179291620866645, guid: 9101b1423f1659942ae299664c397e11,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1194179291620866645, guid: 9101b1423f1659942ae299664c397e11,
         type: 3}
@@ -1157,7 +1156,7 @@ PrefabInstance:
     - target: {fileID: 1194179291620866646, guid: 9101b1423f1659942ae299664c397e11,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9101b1423f1659942ae299664c397e11, type: 3}
@@ -1648,9 +1647,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 620798911}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1356.4182, y: 1394.1477, z: -401.0044}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 858580964}
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1689,6 +1689,12 @@ Transform:
 --- !u!1 &858580963 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1194179291620866646, guid: 9101b1423f1659942ae299664c397e11,
+    type: 3}
+  m_PrefabInstance: {fileID: 337465767}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &858580964 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1194179291620866645, guid: 9101b1423f1659942ae299664c397e11,
     type: 3}
   m_PrefabInstance: {fileID: 337465767}
   m_PrefabAsset: {fileID: 0}
@@ -2439,7 +2445,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
-  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -2735,7 +2740,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1407411058
 Transform:
   m_ObjectHideFlags: 0
@@ -2744,11 +2749,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1407411057}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.94, z: 6.64}
-  m_LocalScale: {x: 0.3064801, y: 0.3064801, z: 0.3064801}
+  m_LocalPosition: {x: 0, y: -97, z: 332}
+  m_LocalScale: {x: 15.324005, y: 15.324005, z: 15.324005}
   m_Children: []
-  m_Father: {fileID: 2003901614}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1407411059
 MeshCollider:
@@ -3291,7 +3296,7 @@ RectTransform:
   - {fileID: 121372921}
   - {fileID: 327644011}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3650,7 +3655,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2003901615}
         m_TargetAssemblyTypeName: PlaceFortress, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: UpscaleSession
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3841,7 +3846,7 @@ PrefabInstance:
     - target: {fileID: 4092464618872109058, guid: 8d695653438192447b8752f6025edc8c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4092464618872109058, guid: 8d695653438192447b8752f6025edc8c,
         type: 3}
@@ -4053,6 +4058,7 @@ GameObject:
   - component: {fileID: 2003901610}
   - component: {fileID: 2003901609}
   - component: {fileID: 2003901615}
+  - component: {fileID: 2003901616}
   m_Layer: 0
   m_Name: AR Session Origin
   m_TagString: Untagged
@@ -4140,7 +4146,6 @@ Transform:
   m_LocalScale: {x: 50, y: 50, z: 50}
   m_Children:
   - {fileID: 1315861252}
-  - {fileID: 1407411058}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4165,11 +4170,27 @@ MonoBehaviour:
   cooldown: 2
   cooldownCount: 0
   refPlane: {fileID: 1407411057}
-  groundPlane: {fileID: 1591133299910227120, guid: 757e8d9702de1f34b97051dae1a666a2,
-    type: 3}
   spawnedFortress: {fileID: 858580963}
   content: {fileID: 620798911}
   enableAppear: 1
+--- !u!114 &2003901616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2003901608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30a82e924e8befe4b9b1ef0deb5d741c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 5909332988306558012, guid: 55828140a51d2a940adf578501b6a52d,
+    type: 3}
+  myCamera: {fileID: 1315861248}
+  cooldown: 0
+  cooldownCount: 0
+  fireForce: 10
 --- !u!1 &2039049627
 GameObject:
   m_ObjectHideFlags: 0

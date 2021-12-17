@@ -40,8 +40,8 @@ public class PlaceFortress: MonoBehaviour {
     private float upscaleIncrement = 5f;
     private float downscaleIncrement = -5f;
 
+    public GameObject groundPlane {get; set;}
     public GameObject refPlane;
-    public GameObject groundPlane;
     public GameObject spawnedFortress;
     public GameObject content;
     public bool enableAppear = true;
@@ -71,7 +71,7 @@ public class PlaceFortress: MonoBehaviour {
         if (refPlane != null)
         {
             content.transform.position = refPlane.transform.position;
-            refPlane.transform.parent = arSessionOrigin.transform;
+            // refPlane.transform.parent = arSessionOrigin.transform;
         }
 
     }
