@@ -68,6 +68,7 @@ public class ImageTracker : MonoBehaviour
 
         img.transform.Translate (0.1f, 0, 0);
 
+
         if (!myFortresses.ContainsKey(key)) {
             // currentFortress = Instantiate (fortress, img.transform.position, img.transform.rotation);
             // fortress.transform.localScale = new Vector3(1, 1, 1);
@@ -75,7 +76,12 @@ public class ImageTracker : MonoBehaviour
             // myFortresses[key] = fortress;
             if (placeFortress.groundPlane == null)
             {
+                Debug.Log ("image pos:  " + img.transform.position);
                 placeFortress.groundPlane = Instantiate(groundPlanePrefab, img.transform.position, Quaternion.identity);
+                placeFortress.content.transform.position = placeFortress.groundPlane.transform.position;
+                Debug.Log ("groundplane pos:  " + placeFortress.groundPlane.transform.position);
+                
+                
                 planeManager.requestedDetectionMode = PlaneDetectionMode.None;
                 planeManager.enabled = false;
                 Debug.Log ("planes disabled");

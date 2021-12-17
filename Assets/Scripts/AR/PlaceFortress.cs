@@ -36,13 +36,14 @@ public class PlaceFortress: MonoBehaviour {
     private ARPlaneManager planeManager;
 
     private ARSessionOrigin arSessionOrigin;
-    private float arSessionOriginSize = 50;
-    private float upscaleIncrement = 0.9f;
-    private float downscaleIncrement = 1.1f;
+    private float arSessionOriginSize = 55;
+    private float upscaleIncrement = 5f;
+    private float downscaleIncrement = -5f;
 
     public GameObject refPlane;
     public GameObject groundPlane;
     public GameObject spawnedFortress;
+    public GameObject content;
     public bool enableAppear = true;
 
     private static ILogger logger = Debug.unityLogger;
@@ -66,6 +67,12 @@ public class PlaceFortress: MonoBehaviour {
         inputManager.OnFirstTouch += CheckTouchAction;
         UpdateText();
         // ScaleArOrigin();
+
+        if (refPlane != null)
+        {
+            content.transform.position = refPlane.transform.position;
+        }
+
     }
 
     void Update() {
@@ -77,7 +84,7 @@ public class PlaceFortress: MonoBehaviour {
         if (enableAppear && refPlane != null)
         {
             Vector3 targetPos = new Vector3(spawnedFortress.transform.position.x, refPlane.transform.position.y, spawnedFortress.transform.position.z);
-            arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, targetPos);
+            arSessionOrigin.MakeContentAppearAt(content.transform, refPlane.transform.position);
         }
 
         // if (groundPlane != null)
@@ -113,6 +120,10 @@ public class PlaceFortress: MonoBehaviour {
         SetObjectIsKinematic(spawnedFortress, true);
         Debug.Log("spawning on Ground Plane");
 
+        spawnedFortress.transform.parent = content.transform;
+        logger.Log("spawnedfortress parent:  " + spawnedFortress.transform.parent.name);
+
+        // arSessionOrigin.MakeContentAppearAt(content.transform, groundPlane.transform.position);
         arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, nearestRayHit.point);
     }
 
@@ -124,6 +135,9 @@ public class PlaceFortress: MonoBehaviour {
         spawnedFortress = Instantiate(fortressPrefab, nearestHitPose.pose.position 
             + nearestHitPose.pose.up * 0.05f, nearestHitPose.pose.rotation);
 
+        spawnedFortress.transform.parent = content.transform;
+        logger.Log("spawnedfortress parent:  " + spawnedFortress.transform.parent.name);
+        
         SetObjectIsKinematic(spawnedFortress, true);
         arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, nearestHitPose.pose.position);
 
@@ -190,7 +204,7 @@ public class PlaceFortress: MonoBehaviour {
                     {
                         if (nearestHit.transform.gameObject.layer == LayerManager.GroundLayer) {
                             // foundObject = hit.transform.gameObject;
-                            logger.Log ("hit ground");
+                            // logger.Log ("hit ground");
                             CheckSpawnFortress(screenPosition, nearestHitPose, nearestHit, false);
                             break;
                         }
@@ -199,7 +213,7 @@ public class PlaceFortress: MonoBehaviour {
 
                 else if (ARhit == true)
                 {
-                    CheckSpawnFortress(screenPosition, nearestHitPose, hits[0], true);
+                    CheckSpawnFortress(screenPosition, nearestHitPose, nearestHit, true);
                 }
 
                 foundObject = null;
@@ -332,17 +346,20 @@ public class PlaceFortress: MonoBehaviour {
         UpdateText();
     }
 
-    private void ScaleArOrigin(float multiplier)
+    private void ScaleArOrigin(float increment)
     {
-        arSessionOriginSize = arSessionOriginSize * multiplier;
+        // arSessionOriginSize = arSessionOriginSize * multiplier;
+        arSessionOriginSize = arSessionOriginSize + increment;
         arSessionOrigin.transform.localScale = Vector3.one * arSessionOriginSize;
         if (groundPlane != null)
         {
-            Vector3 targetPos = new Vector3(spawnedFortress.transform.position.x, groundPlane.transform.position.y, spawnedFortress.transform.position.z);
-            arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, targetPos);
+            // Vector3 targetPos = new Vector3(content.transform.position.x, groundPlane.transform.position.y, content.transform.position.z);
+            arSessionOrigin.MakeContentAppearAt(content.transform, groundPlane.transform.position);
+            Debug.Log ("ground plane scaling");
             return;
         }
-        // arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, spawnedFortress.transform.position);
+        // Debug.Log ("putting fortress in view");
+        arSessionOrigin.MakeContentAppearAt(content.transform, content.transform.position);
     }
 
     private void UpdateText()
