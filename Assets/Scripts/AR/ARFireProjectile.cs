@@ -6,17 +6,20 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
 public class ARFireProjectile: MonoBehaviour {
+    private InputManager inputManager;
+
     private ARRaycastManager rays;
     private PlaceFortress placeFortress;
     private ScaleContent scaleContent;
+    private SessionOriginController sessionController;
 
     public GameObject projectilePrefab;
     public Camera myCamera;
     public float cooldown, cooldownCount;
     private ARAnchorManager anc;
     private ARPlaneManager plan;
-    private float appliedForce = 0.0f;
-    private bool isHolding = false;
+    public float appliedForce = 0.0f;
+    public bool isHolding = false;
     [SerializeField] private float fireForce = 10;
 
     [SerializeField] public float prevFireSpawnDist = 1;
@@ -37,63 +40,64 @@ public class ARFireProjectile: MonoBehaviour {
 
         placeFortress = GetComponent<PlaceFortress>();
         scaleContent = this.gameObject.GetComponent<ScaleContent>();
+        sessionController = this.gameObject.GetComponent<SessionOriginController>();
 
-
+        inputManager = InputManager.Instance;   
+        inputManager.OnFirstTouch += CheckFirstTouchAction;
+        inputManager.OnTouchCount += CheckTouchCountAction;
     }
-    void Update() {
 
+    private void CheckFirstTouchAction(Touch touch)
+    {
         if (placeFortress.GetPlaceMode() == PlaceMode.FIRE)
         {
-            // cooldownCount += Time.deltaTime;
+            Vector2 screenPosition = Input.GetTouch(0).position;
 
-            if(Input.touchCount == 2) {
+            if (sessionController.IsPointOverUIObject(screenPosition))
+            {   return; }   
+            if (Input.touches[0].phase == TouchPhase.Began && !isHolding)
+            {
+                // Debug.Log("Touch Pressed");
+                isHolding = true;
+            }
+
+            if (Input.touches[0].phase == TouchPhase.Ended && isHolding)
+            {
+                // Debug.Log("Touch Lifted/Released");
+                isHolding = false;
+                fireBlock();
+                appliedForce = 0.0f;
+                sessionController.UpdateAppliedForceText();
+            }
+
+            if(isHolding) {
+                adjustForce(appliedForce);
+                sessionController.UpdateAppliedForceText();
+                // Debug.Log("Charging!");
+            }
+        }
+    }
+    
+    private void CheckTouchCountAction(int touchCount)
+    {
+        if (placeFortress.GetPlaceMode() == PlaceMode.FIRE)
+        {
+            if(touchCount == 2) {
                 logger.Log("touched 2");
             }
 
-            // if(Input.touchCount == 1) {
-            //     logger.Log("touched 1");
-            //     push();
-            // }
-            
-            if(Input.touchCount == 3) {
+            if(touchCount == 3) {
                 logger.Log("touched 3");
                 fireBlock();
             }
 
-            if (cooldownCount > cooldown && Input.touchCount == 2) {
+            if (cooldownCount > cooldown && touchCount == 2) {
                 fireBlock();
                 cooldownCount = 0;
                 logger.Log("Fired a block");
             }
-
-            if (Input.touchCount == 1)
-            {
-                Vector2 screenPosition = Input.GetTouch(0).position;
-
-                if (placeFortress.IsPointOverUIObject(screenPosition))
-                {   return; }   
-                if (Input.touches[0].phase == TouchPhase.Began && !isHolding)
-                {
-                    // Debug.Log("Touch Pressed");
-                    isHolding = true;
-                }
-
-                if (Input.touches[0].phase == TouchPhase.Ended && isHolding)
-                {
-                    // Debug.Log("Touch Lifted/Released");
-                    isHolding = false;
-                    fireBlock();
-                    appliedForce = 0.0f;
-                }
-
-                if(isHolding) {
-                    adjustForce(appliedForce);
-                    // Debug.Log("Charging!");
-                }
-            }
         }
- 
-    }
+    } 
 
     public void adjustForce(float force) {
         this.appliedForce += 25.0f;

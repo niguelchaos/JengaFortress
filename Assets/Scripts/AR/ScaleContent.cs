@@ -13,6 +13,8 @@ public class ScaleContent: MonoBehaviour
     private PlaceFortress placeFortress;
     private ARFireProjectile fireProjectile;
     private ARSessionOrigin arSessionOrigin;
+    private SessionOriginController sessionController;
+
     public Camera myCamera;
 
     public float arSessionOriginSize = 55;
@@ -26,20 +28,21 @@ public class ScaleContent: MonoBehaviour
 
     public Slider firingPosSlider;
 
+    private void Awake()
+    {
+        arSessionOrigin = GetComponent<ARSessionOrigin>();
+    }
 
     void Start() 
     {
         placeFortress = GetComponent<PlaceFortress>();
         fireProjectile = GetComponent<ARFireProjectile>();
         arSessionOrigin = GetComponent<ARSessionOrigin>();
+        sessionController = this.gameObject.GetComponent<SessionOriginController>();
+
         myCamera = this.gameObject.transform.Find
                 ("AR Camera").gameObject.GetComponent<Camera>();
-
-
-        // GetInitFirePosition();
     }
-
-
 
     public void SetFiringPos()
     {
@@ -48,23 +51,11 @@ public class ScaleContent: MonoBehaviour
 
     public void GetInitFirePosition()
     {
-        // PlaceCameraOnContent();
-        // Jank way to get distance
-        // arSessionOrigin.transform.localScale = Vector3.one;
-        // // remember session pos
-        // myCamera.gameObject.transform.position + 
-  				// (myCamera.gameObject.transform.forward * fireSpawnDist)
         selectedFirePosition = firingPos.transform.position;
         Debug.Log("Remembering inital position:  " + selectedFirePosition);
 
-        // // return to original scale
-        // ScaleArOrigin(0);
-
+        // calculate distance between camera and firingpos, set it
         fireProjectile.fireSpawnDist = GetInitFireSpawnDist();
-        // firingPos.transform.position = selectedFirePosition + (transform.forward * fireProjectile.fireSpawnDist);
-        // Debug.Log("Firing Pos in Place: ");
-
-        // UpscaleSession();
     }
 
     public float GetInitFireSpawnDist()
@@ -79,15 +70,13 @@ public class ScaleContent: MonoBehaviour
 
     public void UpscaleSession()
     {   
-        // arSessionOriginSize += sizeIncrement;
         ScaleArOrigin(upscaleIncrement);
-        placeFortress.UpdateText();  
+        sessionController.UpdateText();  
     }
     public void DownscaleSession()
     {   
-        // arSessionOriginSize -= sizeIncrement; 
         ScaleArOrigin(downscaleIncrement);
-        placeFortress.UpdateText();
+        sessionController.UpdateText();
     }
 
     public void ScaleArOrigin(float increment)
@@ -99,7 +88,7 @@ public class ScaleContent: MonoBehaviour
         // doesnt work in the beginning if previous distance is 1
         if (prevSpawnDistActivated)
         {
-            // firingPos.transform.position = myCamera.gameObject.transform.position + (transform.forward * fireProjectile.prevFireSpawnDist);
+            firingPos.transform.position = myCamera.gameObject.transform.position + (transform.forward * fireProjectile.prevFireSpawnDist);
         }
         
         // remember this previous firepos
@@ -157,7 +146,6 @@ public class ScaleContent: MonoBehaviour
     private float GetFireSpawnDistDiff(Vector3 currentPos)
     {
         float distance = Vector3.Distance(prevFirePosition, currentPos);
-        // Debug.Log("dist diff: " + distance);
         return distance;
     }
 

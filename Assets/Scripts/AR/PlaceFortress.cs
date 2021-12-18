@@ -21,9 +21,8 @@ public class PlaceFortress: MonoBehaviour {
     private InputManager inputManager;
     [SerializeField] private PlaceMode placeMode;
     private ScaleContent scaleContent;
+    private SessionOriginController sessionController;
 
-    public TMP_Text currentModeText;
-    public TMP_Text currentFortSize;
 
     public GameObject fortressPrefab;
     private ARRaycastManager raycastManager;
@@ -63,12 +62,13 @@ public class PlaceFortress: MonoBehaviour {
         anc = this.gameObject.GetComponent<ARAnchorManager>();
         planeManager = this.gameObject.GetComponent<ARPlaneManager>();
         scaleContent = this.gameObject.GetComponent<ScaleContent>();
+        sessionController = this.gameObject.GetComponent<SessionOriginController>();
         
         inputManager = InputManager.Instance;   
         inputManager.OnFirstTouch += CheckTouchAction;
-        UpdateText();
+        // sessionController.UpdateText();
 
-        if (refPlane != null)
+        if (refPlane.activeSelf == true)
         {
             content.transform.position = refPlane.transform.position;
             // refPlane.transform.parent = arSessionOrigin.transform;
@@ -89,63 +89,7 @@ public class PlaceFortress: MonoBehaviour {
         }
     }
 
-    private void CheckSpawnFortress(Vector2 screenPosition, ARRaycastHit nearestHitPose, RaycastHit nearestRayHit, bool isArPlaneManagerEnabled)
-    {
-        if (cooldownCount > cooldown) {
-            Debug.Log("checking Spawn");
-            if (isArPlaneManagerEnabled)
-            {
-                doSpawnFortressAR(screenPosition, nearestHitPose);
-            }
-            else {
-                doSpawnFortressGroundPlane(screenPosition, nearestRayHit);
-            }
-            cooldownCount = 0;
-        }
-    }
-
-    public void doSpawnFortressGroundPlane(Vector2 screenPosition, RaycastHit nearestRayHit)
-    {
-        spawnedFortress = Instantiate(fortressPrefab, nearestRayHit.point, Quaternion.identity);
-
-        SetObjectIsKinematic(spawnedFortress, true);
-        // Debug.Log("spawning on Ground Plane");
-
-        spawnedFortress.transform.parent = content.transform;
-        logger.Log("spawnedfortress parent:  " + spawnedFortress.transform.parent.name);
-
-        // arSessionOrigin.MakeContentAppearAt(content.transform, groundPlane.transform.position);
-        arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, nearestRayHit.point);
-    }
-
-    public void doSpawnFortressAR(Vector2 screenPosition, ARRaycastHit nearestHitPose) {
-
-        ARPlane plane;
-        ARAnchor point;
-
-        spawnedFortress = Instantiate(fortressPrefab, nearestHitPose.pose.position 
-            + nearestHitPose.pose.up * 0.05f, nearestHitPose.pose.rotation);
-
-        spawnedFortress.transform.parent = content.transform;
-        logger.Log("spawnedfortress parent:  " + spawnedFortress.transform.parent.name);
-        
-        SetObjectIsKinematic(spawnedFortress, true);
-        arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, nearestHitPose.pose.position);
-
-        // spawnedFortress.transform.localScale = fortressSize;
-
-        plane = planeManager.GetPlane(nearestHitPose.trackableId);
-
-        if (plane != null) {
-            point = anc.AttachAnchor(plane, nearestHitPose.pose);
-            logger.Log("Added an anchor to a plane " + nearestHitPose);
-        } else {
-            point = spawnedFortress.AddComponent<ARAnchor>();
-            logger.Log("Added another anchor " + nearestHitPose);
-        }
-        
-        spawnedFortress.transform.parent = point.transform;
-    }
+   
 
     private void CheckTouchAction(Touch touch)
     {
@@ -158,7 +102,7 @@ public class PlaceFortress: MonoBehaviour {
         Vector2 screenPosition = touch.position;
         // Debug.Log ("position:  " + screenPosition);
 
-        if (IsPointOverUIObject(screenPosition))
+        if (sessionController.IsPointOverUIObject(screenPosition))
         {
             // logger.Log ("clicked on button");
             return;
@@ -209,7 +153,6 @@ public class PlaceFortress: MonoBehaviour {
             
             case PlaceMode.FIRE:
                 break;
-            
             }
             
     }
@@ -232,6 +175,62 @@ public class PlaceFortress: MonoBehaviour {
         {
             CheckSpawnFortress(screenPosition, nearestHitPose, nearestHit, true);
         }
+    }
+
+    private void CheckSpawnFortress(Vector2 screenPosition, ARRaycastHit nearestHitPose, RaycastHit nearestRayHit, bool isArPlaneManagerEnabled)
+    {
+        if (cooldownCount > cooldown) {
+            Debug.Log("checking Spawn");
+            if (isArPlaneManagerEnabled)
+            {
+                doSpawnFortressAR(screenPosition, nearestHitPose);
+            }
+            else {
+                doSpawnFortressGroundPlane(screenPosition, nearestRayHit);
+            }
+            cooldownCount = 0;
+        }
+    }
+
+    public void doSpawnFortressGroundPlane(Vector2 screenPosition, RaycastHit nearestRayHit)
+    {
+        spawnedFortress = Instantiate(fortressPrefab, nearestRayHit.point, Quaternion.identity);
+
+        SetObjectIsKinematic(spawnedFortress, true);
+        // Debug.Log("spawning on Ground Plane");
+
+        spawnedFortress.transform.parent = content.transform;
+        logger.Log("spawnedfortress parent:  " + spawnedFortress.transform.parent.name);
+
+        // arSessionOrigin.MakeContentAppearAt(content.transform, groundPlane.transform.position);
+        arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, nearestRayHit.point);
+    }
+
+    public void doSpawnFortressAR(Vector2 screenPosition, ARRaycastHit nearestHitPose) {
+
+        ARPlane plane;
+        ARAnchor point;
+
+        spawnedFortress = Instantiate(fortressPrefab, nearestHitPose.pose.position 
+            + nearestHitPose.pose.up * 0.05f, nearestHitPose.pose.rotation);
+
+        spawnedFortress.transform.parent = content.transform;
+        logger.Log("spawnedfortress parent:  " + spawnedFortress.transform.parent.name);
+        
+        SetObjectIsKinematic(spawnedFortress, true);
+        arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, nearestHitPose.pose.position);
+
+        plane = planeManager.GetPlane(nearestHitPose.trackableId);
+
+        if (plane != null) {
+            point = anc.AttachAnchor(plane, nearestHitPose.pose);
+            logger.Log("Added an anchor to a plane " + nearestHitPose);
+        } else {
+            point = spawnedFortress.AddComponent<ARAnchor>();
+            logger.Log("Added another anchor " + nearestHitPose);
+        }
+        
+        spawnedFortress.transform.parent = point.transform;
     }
 
     private void CheckSelect(bool rayHit, bool ARhit, RaycastHit nearestHit, ARRaycastHit nearestHitPose, Vector2 screenPosition)
@@ -328,59 +327,33 @@ public class PlaceFortress: MonoBehaviour {
     public void ChangeToSelect()
     {   
         placeMode = PlaceMode.SELECT;   
-        UpdateText();
+        sessionController.UpdateText();
     }
     public void ChangeToPlace()
     {   
         placeMode = PlaceMode.PLACE;
-        UpdateText();   
+        sessionController.UpdateText();   
     }
     public void ChangeToMove()
     {   
         placeMode = PlaceMode.MOVE;
-        UpdateText();   
+        sessionController.UpdateText();   
     }
     public void ChangeToFire()
     {   
         placeMode = PlaceMode.FIRE;
-        UpdateText();   
+        sessionController.UpdateText();   
     }
     public void EnableRefPlane()
     {   
         bool active = !refPlane.gameObject.activeSelf; 
         refPlane.gameObject.SetActive(active);
-        UpdateText();   
+        sessionController.UpdateText();   
     }
 
 
-    public void UpdateText()
-    {
-        currentModeText.text = placeMode.ToString();
-        currentFortSize.text = arSessionOrigin.transform.localScale.ToString("F3");
-    }
 
-    public bool IsPointOverUIObject(Vector2 pos)
-    {
-        if (EventSystem.current.IsPointerOverGameObject()) 
-        {
-            if (EventSystem.current.currentSelectedGameObject != null)
-            {
-                if (EventSystem.current.currentSelectedGameObject.layer == LayerManager.UILayer)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
 
-       PointerEventData eventPosition = new PointerEventData(EventSystem.current);
-       eventPosition.position = pos;
-
-       List<RaycastResult> results = new List<RaycastResult>();
-       EventSystem.current.RaycastAll(eventPosition, results);
-
-       return results.Count > 0;
-    }
 
 
 

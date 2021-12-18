@@ -78,10 +78,6 @@ public class ImageTracker : MonoBehaviour
 
 
         if (!myGroundPlanes.ContainsKey(key)) {
-            // currentFortress = Instantiate (fortress, img.transform.position, img.transform.rotation);
-            // fortress.transform.localScale = new Vector3(1, 1, 1);
-            // fortress.transform.parent = img.transform;
-            // myFortresses[key] = fortress;
             if (placeFortress.groundPlane == null)
             {
                 Debug.Log ("image pos:  " + img.transform.position);
