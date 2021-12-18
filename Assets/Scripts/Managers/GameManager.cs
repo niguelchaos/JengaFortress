@@ -7,6 +7,9 @@ using UnityEngine;
 public enum GameState
 {
     MAIN_MENU,
+    SETUP,
+    PLACE_FORTRESS,
+    BATTLE,
     PLAYING,
     PAUSED,
     GAME_OVER
@@ -48,13 +51,11 @@ public class GameManager : MonoBehaviour
     private Renderer cubeRenderer;
     
 
-    //private float timer;
-    //[SerializeField] private float changeStateTime = 1;
-    
-
     private void Awake()
     {
         Instance = this;
+        SetCurrentGameState(GameState.MAIN_MENU);
+        currentPlayer = CurrentPlayer.PLAYER_1;
     }
 
     private void Start()
@@ -65,35 +66,11 @@ public class GameManager : MonoBehaviour
         {
             cubeRenderer = gameStateCube.GetComponent<Renderer>();
         }
-
-        SetCurrentGameState(GameState.MAIN_MENU);
-        currentPlayer = CurrentPlayer.PLAYER_1;
-    
         //timer = changeStateTime;
     }
 
     private void Update()
     {
-        // if (timer > 0)
-        // {
-        //     timer -= Time.deltaTime;
-        // } 
-        // else if (timer <= 0)
-        // {
-        //     switch(currentGameState)
-        //     {
-        //         case GameState.MAIN_MENU:
-        //             SetCurrentGameState(GameState.PLAYER_1);
-        //             break;
-        //         case GameState.PLAYER_1:
-        //             SetCurrentGameState(GameState.PLAYER_2);
-        //             break;
-        //         case GameState.PLAYER_2:
-        //             SetCurrentGameState(GameState.PLAYER_1);
-        //             break;
-        //     }
-        //     timer = changeStateTime;
-        // }
         
     }
     private void UpdateGameState()

@@ -34,6 +34,7 @@ public class InputManager : MonoBehaviour
         GetFirePressed();
         GetTouchCounts();
         GetFirstTouch();
+        GetAllTouches();
     }
 
     public void GetFirePressed()
