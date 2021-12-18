@@ -7,18 +7,20 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using TMPro;
 
+// this entire class is jank
 public class ScaleContent: MonoBehaviour 
 {
     private PlaceFortress placeFortress;
     private ARFireProjectile fireProjectile;
     private ARSessionOrigin arSessionOrigin;
+    public Camera myCamera;
 
     public float arSessionOriginSize = 55;
     private float upscaleIncrement = 5f;
     private float downscaleIncrement = -5f;
 
     [SerializeField] public Vector3 initFirePosition;
-    [SerializeField] public Vector3 currentFirePosition;
+    [SerializeField] public Vector3 prevFirePosition;
     public GameObject firingPos;
 
 
@@ -27,30 +29,35 @@ public class ScaleContent: MonoBehaviour
         placeFortress = GetComponent<PlaceFortress>();
         fireProjectile = GetComponent<ARFireProjectile>();
         arSessionOrigin = GetComponent<ARSessionOrigin>();
+        myCamera = this.gameObject.transform.Find
+                ("AR Camera").gameObject.GetComponent<Camera>();
 
         GetInitFirePosition();
     }
 
-    private void GetInitFirePosition()
+    public void GetInitFirePosition()
     {
         // Jank way to get distance
         arSessionOrigin.transform.localScale = Vector3.one;
         // remember session pos
         initFirePosition = arSessionOrigin.transform.position;
-        Debug.Log("ehh:  " + initFirePosition);
+        Debug.Log("Remembering inital position:  " + initFirePosition);
 
         // return to original scale
         ScaleArOrigin(0);
 
         fireProjectile.fireSpawnDist = GetInitFireSpawnDist();
         firingPos.transform.position = initFirePosition + (transform.forward * fireProjectile.fireSpawnDist);
+        Debug.Log("Firing Pos in Place: ");
+
+        UpscaleSession();
     }
 
     public float GetInitFireSpawnDist()
     {
         // arsession gameobject has moved far away at this point
         float distance = Vector3.Distance(initFirePosition, this.transform.position);
-        Debug.Log("dist: " + distance);
+        Debug.Log("init spawn dist: " + distance);
         return distance;
     }
 
@@ -69,26 +76,24 @@ public class ScaleContent: MonoBehaviour
         placeFortress.UpdateText();
     }
 
-    public void ScaleGroundPlane()
-    {
-        
-    }
-
     public void ScaleArOrigin(float increment)
     {
-        // arSessionOriginSize = arSessionOriginSize * multiplier;
-        fireProjectile.prevFireSpawnDist = fireProjectile.fireSpawnDist;
-        Debug.Log ("prev: " + fireProjectile.prevFireSpawnDist );
-
         arSessionOriginSize = arSessionOriginSize + increment;
         arSessionOrigin.transform.localScale = Vector3.one * arSessionOriginSize;
 
-        // Debug.Log ("firedist: ");
-
+        // since camera has moved, need correct previous position for accurate previous distance
+        // doesnt work in the beginning if previous distance is 1
+        if (fireProjectile.prevFireSpawnDist != 1)
+        {
+            firingPos.transform.position = myCamera.gameObject.transform.position + (transform.forward * fireProjectile.prevFireSpawnDist);
+        }
         
+        // remember this previous firepos
+        prevFirePosition = firingPos.transform.position;
+        fireProjectile.prevFireSpawnDist = fireProjectile.fireSpawnDist;
+        // Debug.Log ("firedist: ");        
         if (placeFortress.refPlane != null)
         {
-            // Vector3 targetPos = new Vector3(spawnedFortress.transform.position.x, refPlane.transform.position.y, spawnedFortress.transform.position.z);
             arSessionOrigin.MakeContentAppearAt(placeFortress.content.transform, placeFortress.refPlane.transform.position);
         }
 
@@ -99,7 +104,6 @@ public class ScaleContent: MonoBehaviour
             Debug.Log ("ground plane scaling");
             // return;
         }
-        // Debug.Log ("putting fortress in view");
         // arSessionOrigin.MakeContentAppearAt(content.transform, content.transform.position);
         CalcFireDist(increment);
         Debug.Log ("current: " + fireProjectile.fireSpawnDist);
@@ -108,25 +112,32 @@ public class ScaleContent: MonoBehaviour
 
     private void CalcFireDist(float increment)
     {
-        float fireDistDiff = GetFireSpawnDistDiff();
+        float fireDistDiff;
 
+        // use unmodified position to get difference between previous and current
+        Vector3 currentPos = myCamera.gameObject.transform.position + (transform.forward * fireProjectile.fireSpawnDist);
+        
+        fireDistDiff = GetFireSpawnDistDiff(currentPos);
+        Debug.Log("Firing Pos in Place, diff:  " + fireDistDiff);
+
+        // add or sub this distance difference according to scale
+        // only modify spawndist if scale has changed
         if (increment < 0)
         {
-            // fireDistDiff = fireProjectile.prevFireSpawnDist - fireProjectile.fireSpawnDist;
             fireProjectile.fireSpawnDist -= fireDistDiff; 
         }
         else if (increment > 0)
         {
-            // fireDistDiff = fireProjectile.fireSpawnDist - fireProjectile.prevFireSpawnDist;
             fireProjectile.fireSpawnDist += fireDistDiff; 
         }
-        currentFirePosition = firingPos.transform.position;
-        // fireProjectile.fireSpawnDist += placeFortress.GetSessionDistance(); 
+
+        // apply distance difference
+        firingPos.transform.position = myCamera.gameObject.transform.position + (transform.forward * fireProjectile.fireSpawnDist);
     }
 
-    private float GetFireSpawnDistDiff()
+    private float GetFireSpawnDistDiff(Vector3 currentPos)
     {
-        float distance = Vector3.Distance(initFirePosition, currentFirePosition);
+        float distance = Vector3.Distance(prevFirePosition, currentPos);
         Debug.Log("dist diff: " + distance);
         return distance;
     }

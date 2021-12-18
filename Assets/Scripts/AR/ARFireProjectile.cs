@@ -42,31 +42,36 @@ public class ARFireProjectile: MonoBehaviour {
     }
     void Update() {
 
-        
-        cooldownCount += Time.deltaTime;
+        if (placeFortress.GetPlaceMode() == PlaceMode.FIRE)
+        {
+            // cooldownCount += Time.deltaTime;
 
-        if(Input.touchCount == 2) {
-            logger.Log("touched 2");
-        }
+            if(Input.touchCount == 2) {
+                logger.Log("touched 2");
+            }
 
-        // if(Input.touchCount == 1) {
-        //     logger.Log("touched 1");
-        //     push();
-        // }
-        
-        if(Input.touchCount == 3) {
-            logger.Log("touched 3");
-            fireBlock();
-        }
+            // if(Input.touchCount == 1) {
+            //     logger.Log("touched 1");
+            //     push();
+            // }
+            
+            if(Input.touchCount == 3) {
+                logger.Log("touched 3");
+                fireBlock();
+            }
 
-        if (cooldownCount > cooldown && Input.touchCount == 2) {
-            fireBlock();
-            cooldownCount = 0;
-            logger.Log("Fired a block");
-        }
+            if (cooldownCount > cooldown && Input.touchCount == 2) {
+                fireBlock();
+                cooldownCount = 0;
+                logger.Log("Fired a block");
+            }
 
-        if (Input.touchCount == 1)
+            if (Input.touchCount == 1)
             {
+                Vector2 screenPosition = Input.GetTouch(0).position;
+
+                if (placeFortress.IsPointOverUIObject(screenPosition))
+                {   return; }   
                 if (Input.touches[0].phase == TouchPhase.Began && !isHolding)
                 {
                     // Debug.Log("Touch Pressed");
@@ -86,6 +91,8 @@ public class ARFireProjectile: MonoBehaviour {
                     // Debug.Log("Charging!");
                 }
             }
+        }
+ 
     }
 
     public void adjustForce(float force) {
@@ -110,7 +117,7 @@ public class ARFireProjectile: MonoBehaviour {
         // logger.Log("spawned at " + spawnedProjectile.transform.position.x + ", " 
         //        + spawnedProjectile.transform.position.y + ", " + spawnedProjectile.transform.position.z);
 
-        logger.Log("Force applied: " + this.appliedForce);
+        // logger.Log("Force applied: " + this.appliedForce);
     }
 
     public void push () {
