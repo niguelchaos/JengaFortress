@@ -19,6 +19,7 @@ public class PlaceFortress: MonoBehaviour {
 
     private InputManager inputManager;
     [SerializeField] private PlaceMode placeMode;
+    private ScaleContent scaleContent;
 
     public TMP_Text currentModeText;
     public TMP_Text currentFortSize;
@@ -34,17 +35,14 @@ public class PlaceFortress: MonoBehaviour {
     public float cooldown, cooldownCount;
     private ARAnchorManager anc;
     private ARPlaneManager planeManager;
-
     private ARSessionOrigin arSessionOrigin;
-    private float arSessionOriginSize = 55;
-    private float upscaleIncrement = 5f;
-    private float downscaleIncrement = -5f;
 
     public GameObject groundPlane {get; set;}
     public GameObject refPlane;
     public GameObject spawnedFortress;
     public GameObject content;
-    public bool enableAppear = true;
+    // public bool enableAppear = true;
+
 
     private static ILogger logger = Debug.unityLogger;
 
@@ -62,6 +60,7 @@ public class PlaceFortress: MonoBehaviour {
         raycastManager = this.gameObject.GetComponent<ARRaycastManager>();
         anc = this.gameObject.GetComponent<ARAnchorManager>();
         planeManager = this.gameObject.GetComponent<ARPlaneManager>();
+        scaleContent = this.gameObject.GetComponent<ScaleContent>();
         
         inputManager = InputManager.Instance;   
         inputManager.OnFirstTouch += CheckTouchAction;
@@ -82,7 +81,7 @@ public class PlaceFortress: MonoBehaviour {
             cooldownCount += Time.deltaTime;
         }
         
-        if (enableAppear && refPlane != null)
+        if (refPlane != null)
         {
             // Vector3 targetPos = new Vector3(spawnedFortress.transform.position.x, refPlane.transform.position.y, spawnedFortress.transform.position.z);
             arSessionOrigin.MakeContentAppearAt(content.transform, refPlane.transform.position);
@@ -334,41 +333,11 @@ public class PlaceFortress: MonoBehaviour {
         UpdateText();   
     }
 
-    public void UpscaleSession()
-    {   
-        // arSessionOriginSize += sizeIncrement;
-        ScaleArOrigin(upscaleIncrement);
-        UpdateText();  
-    }
-    public void DownscaleSession()
-    {   
-        // arSessionOriginSize -= sizeIncrement; 
-        ScaleArOrigin(downscaleIncrement);
-        UpdateText();
-    }
 
-    public void ScaleGroundPlane()
-    {
-        
-    }
 
-    private void ScaleArOrigin(float increment)
-    {
-        // arSessionOriginSize = arSessionOriginSize * multiplier;
-        arSessionOriginSize = arSessionOriginSize + increment;
-        arSessionOrigin.transform.localScale = Vector3.one * arSessionOriginSize;
-        if (groundPlane != null)
-        {
-            // Vector3 targetPos = new Vector3(content.transform.position.x, groundPlane.transform.position.y, content.transform.position.z);
-            arSessionOrigin.MakeContentAppearAt(content.transform, groundPlane.transform.position);
-            Debug.Log ("ground plane scaling");
-            return;
-        }
-        // Debug.Log ("putting fortress in view");
-        arSessionOrigin.MakeContentAppearAt(content.transform, content.transform.position);
-    }
+    
 
-    private void UpdateText()
+    public void UpdateText()
     {
         currentModeText.text = placeMode.ToString();
         currentFortSize.text = arSessionOrigin.transform.localScale.ToString("F3");
@@ -397,6 +366,20 @@ public class PlaceFortress: MonoBehaviour {
        return results.Count > 0;
 
     }
+
+
+    // public float GetPrevSessionDistance()
+    // {
+    //     float distance = Vector3.Distance(sessionPosition, this.transform.position);
+    //     Debug.Log("dist: " + distance);
+    //     return distance;
+    // }
+
+
+
+
+
+
 
 
 

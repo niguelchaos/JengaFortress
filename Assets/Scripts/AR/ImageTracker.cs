@@ -11,7 +11,7 @@ public class ImageTracker : MonoBehaviour
     private ARAnchorManager arAnchor;
     private ARPlaneManager planeManager;
     // public GameObject fortress;
-    public PlaceFortress placeFortress;
+    private PlaceFortress placeFortress;
     public GameObject groundPlanePrefab;
     public Dictionary <string, GameObject> myGroundPlanes;
 
@@ -21,6 +21,7 @@ public class ImageTracker : MonoBehaviour
         myGroundPlanes = new Dictionary<string, GameObject>();
         arOrigin = GetComponent<ARSessionOrigin>();
         arAnchor = GetComponent<ARAnchorManager>();
+        placeFortress = GetComponent<PlaceFortress>();
     }
 
     private void Start()

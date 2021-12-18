@@ -734,7 +734,7 @@ RectTransform:
   - {fileID: 1371851280}
   - {fileID: 1651079402}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1101,7 +1101,7 @@ PrefabInstance:
     - target: {fileID: 1194179291620866645, guid: 9101b1423f1659942ae299664c397e11,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 79.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1194179291620866645, guid: 9101b1423f1659942ae299664c397e11,
         type: 3}
@@ -1111,7 +1111,7 @@ PrefabInstance:
     - target: {fileID: 1194179291620866645, guid: 9101b1423f1659942ae299664c397e11,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 56.4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1194179291620866645, guid: 9101b1423f1659942ae299664c397e11,
         type: 3}
@@ -1652,7 +1652,7 @@ Transform:
   m_Children:
   - {fileID: 858580964}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &831200608
 GameObject:
@@ -2049,8 +2049,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2003901615}
-        m_TargetAssemblyTypeName: PlaceFortress, Assembly-CSharp
+      - m_Target: {fileID: 2003901617}
+        m_TargetAssemblyTypeName: ScaleContent, Assembly-CSharp
         m_MethodName: DownscaleSession
         m_Mode: 1
         m_Arguments:
@@ -2290,6 +2290,101 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1207927152}
   m_CullTransparentMesh: 1
+--- !u!1 &1287332935
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1287332939}
+  - component: {fileID: 1287332938}
+  - component: {fileID: 1287332937}
+  - component: {fileID: 1287332936}
+  m_Layer: 0
+  m_Name: FiringPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!135 &1287332936
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287332935}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1287332937
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287332935}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1287332938
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287332935}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1287332939
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287332935}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1308140163 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 971656636827933258, guid: d3a45768c5ff19d4eac29df4c0c0231d,
@@ -2749,11 +2844,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1407411057}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -97, z: 332}
+  m_LocalPosition: {x: 2, y: -97, z: 288}
   m_LocalScale: {x: 15.324005, y: 15.324005, z: 15.324005}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1407411059
 MeshCollider:
@@ -3296,7 +3391,7 @@ RectTransform:
   - {fileID: 121372921}
   - {fileID: 327644011}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3653,8 +3748,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2003901615}
-        m_TargetAssemblyTypeName: PlaceFortress, Assembly-CSharp
+      - m_Target: {fileID: 2003901617}
+        m_TargetAssemblyTypeName: ScaleContent, Assembly-CSharp
         m_MethodName: UpscaleSession
         m_Mode: 1
         m_Arguments:
@@ -3846,7 +3941,7 @@ PrefabInstance:
     - target: {fileID: 4092464618872109058, guid: 8d695653438192447b8752f6025edc8c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4092464618872109058, guid: 8d695653438192447b8752f6025edc8c,
         type: 3}
@@ -4057,8 +4152,11 @@ GameObject:
   - component: {fileID: 2003901611}
   - component: {fileID: 2003901610}
   - component: {fileID: 2003901609}
+  - component: {fileID: 2003901618}
   - component: {fileID: 2003901615}
   - component: {fileID: 2003901616}
+  - component: {fileID: 2003901617}
+  - component: {fileID: 2003901619}
   m_Layer: 0
   m_Name: AR Session Origin
   m_TagString: Untagged
@@ -4166,13 +4264,12 @@ MonoBehaviour:
   currentFortSize: {fileID: 525456601}
   fortressPrefab: {fileID: 1194179291620866646, guid: 9101b1423f1659942ae299664c397e11,
     type: 3}
-  myCamera: {fileID: 210069897}
+  myCamera: {fileID: 1315861248}
   cooldown: 2
   cooldownCount: 0
   refPlane: {fileID: 1407411057}
   spawnedFortress: {fileID: 858580963}
   content: {fileID: 620798911}
-  enableAppear: 1
 --- !u!114 &2003901616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4191,6 +4288,54 @@ MonoBehaviour:
   cooldown: 0
   cooldownCount: 0
   fireForce: 10
+  prevFireSpawnDist: 1
+  fireSpawnDist: 1
+--- !u!114 &2003901617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2003901608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5648e52f2fc73384da516e1a85fceaaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arSessionOriginSize: 55
+  initFirePosition: {x: 0, y: 0, z: 0}
+  currentFirePosition: {x: 0, y: 0, z: 0}
+  firingPos: {fileID: 1287332935}
+--- !u!114 &2003901618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2003901608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15d7813f833db0d4999bb6581f9d1d01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundPlanePrefab: {fileID: 1591133299910227120, guid: 757e8d9702de1f34b97051dae1a666a2,
+    type: 3}
+--- !u!114 &2003901619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2003901608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dea56a9eaadd1c439095de4f9a371cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedLibrary: {fileID: 11400000, guid: 69a6faf7f782a0a4586fbb8332ff855d,
+    type: 2}
+  m_MaxNumberOfMovingImages: 0
+  m_TrackedImagePrefab: {fileID: 0}
 --- !u!1 &2039049627
 GameObject:
   m_ObjectHideFlags: 0

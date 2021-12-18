@@ -7,6 +7,9 @@ using UnityEngine.XR.ARSubsystems;
 
 public class ARFireProjectile: MonoBehaviour {
     private ARRaycastManager rays;
+    private PlaceFortress placeFortress;
+    private ScaleContent scaleContent;
+
     public GameObject projectilePrefab;
     public Camera myCamera;
     public float cooldown, cooldownCount;
@@ -15,6 +18,10 @@ public class ARFireProjectile: MonoBehaviour {
     private float appliedForce = 0.0f;
     private bool isHolding = false;
     [SerializeField] private float fireForce = 10;
+
+    [SerializeField] public float prevFireSpawnDist = 1;
+    [SerializeField] public float fireSpawnDist = 1;
+
 
     private static ILogger logger = Debug.unityLogger;
 
@@ -28,8 +35,11 @@ public class ARFireProjectile: MonoBehaviour {
         anc = this.gameObject.GetComponent<ARAnchorManager>();
         plan = this.gameObject.GetComponent<ARPlaneManager>();
 
-    }
+        placeFortress = GetComponent<PlaceFortress>();
+        scaleContent = this.gameObject.GetComponent<ScaleContent>();
 
+
+    }
     void Update() {
 
         
@@ -39,10 +49,10 @@ public class ARFireProjectile: MonoBehaviour {
             logger.Log("touched 2");
         }
 
-        if(Input.touchCount == 1) {
-            logger.Log("touched 1");
-            push();
-        }
+        // if(Input.touchCount == 1) {
+        //     logger.Log("touched 1");
+        //     push();
+        // }
         
         if(Input.touchCount == 3) {
             logger.Log("touched 3");
@@ -59,13 +69,13 @@ public class ARFireProjectile: MonoBehaviour {
             {
                 if (Input.touches[0].phase == TouchPhase.Began && !isHolding)
                 {
-                    Debug.Log("Touch Pressed");
+                    // Debug.Log("Touch Pressed");
                     isHolding = true;
                 }
 
                 if (Input.touches[0].phase == TouchPhase.Ended && isHolding)
                 {
-                    Debug.Log("Touch Lifted/Released");
+                    // Debug.Log("Touch Lifted/Released");
                     isHolding = false;
                     fireBlock();
                     appliedForce = 0.0f;
@@ -73,7 +83,7 @@ public class ARFireProjectile: MonoBehaviour {
 
                 if(isHolding) {
                     adjustForce(appliedForce);
-                    Debug.Log("Charging!");
+                    // Debug.Log("Charging!");
                 }
             }
     }
@@ -88,9 +98,10 @@ public class ARFireProjectile: MonoBehaviour {
         Vector3 screenCenter;
 
         screenCenter = myCamera.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
+
         GameObject spawnedProjectile = Instantiate(projectilePrefab, 
   			myCamera.gameObject.transform.position + 
-  				(myCamera.gameObject.transform.forward * 1.0f), 
+  				(myCamera.gameObject.transform.forward * fireSpawnDist), 
   			myCamera.gameObject.transform.rotation);	
 
         spawnedProjectile.GetComponent<Rigidbody>().AddForce(myCamera.gameObject.transform.forward * this.appliedForce, ForceMode.Impulse);
@@ -120,4 +131,6 @@ public class ARFireProjectile: MonoBehaviour {
             }
         }
     }
+
+
 }
