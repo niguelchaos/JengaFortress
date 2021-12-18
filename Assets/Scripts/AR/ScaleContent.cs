@@ -19,7 +19,7 @@ public class ScaleContent: MonoBehaviour
     private float upscaleIncrement = 5f;
     private float downscaleIncrement = -5f;
 
-    [SerializeField] public Vector3 initFirePosition;
+    [SerializeField] public Vector3 selectedFirePosition;
     [SerializeField] public Vector3 prevFirePosition;
     public GameObject firingPos;
     public bool prevSpawnDistActivated = false;
@@ -43,7 +43,7 @@ public class ScaleContent: MonoBehaviour
 
     public void SetFiringPos()
     {
-        firingPos.transform.position = (transform.forward * firingPosSlider.value);
+        firingPos.transform.position = (myCamera.transform.forward * firingPosSlider.value);
     }
 
     public void GetInitFirePosition()
@@ -52,23 +52,25 @@ public class ScaleContent: MonoBehaviour
         // Jank way to get distance
         // arSessionOrigin.transform.localScale = Vector3.one;
         // // remember session pos
-        initFirePosition = firingPos.transform.position;
-        Debug.Log("Remembering inital position:  " + initFirePosition);
+        // myCamera.gameObject.transform.position + 
+  				// (myCamera.gameObject.transform.forward * fireSpawnDist)
+        selectedFirePosition = firingPos.transform.position;
+        Debug.Log("Remembering inital position:  " + selectedFirePosition);
 
         // // return to original scale
         // ScaleArOrigin(0);
 
-        // fireProjectile.fireSpawnDist = GetInitFireSpawnDist();
-        firingPos.transform.position = initFirePosition + (transform.forward * fireProjectile.fireSpawnDist);
+        fireProjectile.fireSpawnDist = GetInitFireSpawnDist();
+        // firingPos.transform.position = selectedFirePosition + (transform.forward * fireProjectile.fireSpawnDist);
         // Debug.Log("Firing Pos in Place: ");
 
-        UpscaleSession();
+        // UpscaleSession();
     }
 
     public float GetInitFireSpawnDist()
     {
         // arsession gameobject has moved far away at this point
-        float distance = Vector3.Distance(initFirePosition, this.transform.position);
+        float distance = Vector3.Distance(selectedFirePosition, myCamera.gameObject.transform.position);
         Debug.Log("init spawn dist: " + distance);
         return distance;
     }
@@ -97,12 +99,12 @@ public class ScaleContent: MonoBehaviour
         // doesnt work in the beginning if previous distance is 1
         if (prevSpawnDistActivated)
         {
-            firingPos.transform.position = myCamera.gameObject.transform.position + (transform.forward * fireProjectile.prevFireSpawnDist);
+            // firingPos.transform.position = myCamera.gameObject.transform.position + (transform.forward * fireProjectile.prevFireSpawnDist);
         }
         
         // remember this previous firepos
-        prevFirePosition = firingPos.transform.position;
-        fireProjectile.prevFireSpawnDist = fireProjectile.fireSpawnDist;
+        // prevFirePosition = firingPos.transform.position;
+        // fireProjectile.prevFireSpawnDist = fireProjectile.fireSpawnDist;
         // Debug.Log ("firedist: ");        
         PlaceCameraOnContent();
         // arSessionOrigin.MakeContentAppearAt(content.transform, content.transform.position);

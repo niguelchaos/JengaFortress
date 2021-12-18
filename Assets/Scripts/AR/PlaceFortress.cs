@@ -82,7 +82,7 @@ public class PlaceFortress: MonoBehaviour {
             cooldownCount += Time.deltaTime;
         }
         
-        if (refPlane != null)
+        if (refPlane.activeSelf == true)
         {
             // Vector3 targetPos = new Vector3(spawnedFortress.transform.position.x, refPlane.transform.position.y, spawnedFortress.transform.position.z);
             arSessionOrigin.MakeContentAppearAt(content.transform, refPlane.transform.position);
@@ -109,7 +109,7 @@ public class PlaceFortress: MonoBehaviour {
         spawnedFortress = Instantiate(fortressPrefab, nearestRayHit.point, Quaternion.identity);
 
         SetObjectIsKinematic(spawnedFortress, true);
-        Debug.Log("spawning on Ground Plane");
+        // Debug.Log("spawning on Ground Plane");
 
         spawnedFortress.transform.parent = content.transform;
         logger.Log("spawnedfortress parent:  " + spawnedFortress.transform.parent.name);

@@ -15,6 +15,7 @@ public class ImageTracker : MonoBehaviour
     private ScaleContent scaleContent;
     public GameObject groundPlanePrefab;
     public Dictionary <string, GameObject> myGroundPlanes;
+    public GameObject testLocation;
 
     void Awake()
     {
@@ -85,7 +86,7 @@ public class ImageTracker : MonoBehaviour
             {
                 Debug.Log ("image pos:  " + img.transform.position);
                 placeFortress.groundPlane = Instantiate(groundPlanePrefab, img.transform.position, Quaternion.identity);
-                placeFortress.transform.parent = img.transform;
+                // placeFortress.transform.parent = img.transform;
                 myGroundPlanes[key] = groundPlanePrefab;
 
                 placeFortress.groundPlane.AddComponent<ARAnchor>();
@@ -99,6 +100,28 @@ public class ImageTracker : MonoBehaviour
                 planeManager.enabled = false;
                 Debug.Log ("planes disabled");
             }
+        }
+    }
+
+    public void PlaceGroundPlane()
+    {
+        if (testLocation.activeSelf == true)
+        {
+            Debug.Log ("image pos:  " + testLocation.transform.position);
+            placeFortress.groundPlane = Instantiate(groundPlanePrefab, testLocation.transform.position, Quaternion.identity);
+            // placeFortress.transform.parent = testLocation.transform;
+            // myGroundPlanes[key] = groundPlanePrefab;
+
+            placeFortress.groundPlane.AddComponent<ARAnchor>();
+            // placeFortress.groundPlane.transform.parent = arOrigin.transform;
+
+            placeFortress.content.transform.position = placeFortress.groundPlane.transform.position;
+            Debug.Log ("groundplane pos:  " + placeFortress.groundPlane.transform.position);
+            
+            
+            planeManager.requestedDetectionMode = PlaneDetectionMode.None;
+            planeManager.enabled = false;
+            Debug.Log ("planes disabled");
         }
     }
 }
