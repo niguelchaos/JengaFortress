@@ -239,10 +239,13 @@ public class PlaceFortress: MonoBehaviour {
         if (rayHit) {
             logger.Log ("Detected " + nearestHit.transform.gameObject.name);
             
-            if (nearestHit.transform.gameObject.layer == LayerManager.BlockLayer) {
+            if (nearestHit.transform.gameObject.layer == LayerManager.BlockLayer || 
+                nearestHit.transform.gameObject.layer == LayerManager.GroundLayer) {
                 foundObject = nearestHit.transform.gameObject;
-                logger.Log ("found block: " + foundObject);
+                foundObject.GetComponent<MeshRenderer>().material.color = Color.green;
             }
+
+
         }
     }
     private void CheckMove(bool rayHit, bool ARhit, RaycastHit nearestHit, ARRaycastHit nearestHitPose, Vector2 screenPosition)
@@ -340,6 +343,12 @@ public class PlaceFortress: MonoBehaviour {
     public void ChangeToFire()
     {   
         placeMode = PlaceMode.FIRE;
+        UpdateText();   
+    }
+    public void EnableRefPlane()
+    {   
+        bool active = !refPlane.gameObject.activeSelf; 
+        refPlane.gameObject.SetActive(active);
         UpdateText();   
     }
 
