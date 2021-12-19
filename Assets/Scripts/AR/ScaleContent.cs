@@ -44,11 +44,13 @@ public class ScaleContent: MonoBehaviour
                 ("AR Camera").gameObject.GetComponent<Camera>();
     }
 
+    // used by slider
     public void SetFiringPos()
     {
-        firingPos.transform.position = (myCamera.transform.forward * firingPosSlider.value);
+        firingPos.transform.position = myCamera.gameObject.transform.position + (myCamera.transform.forward * firingPosSlider.value);
     }
 
+    // used by setfirepos button
     public void GetInitFirePosition()
     {
         selectedFirePosition = firingPos.transform.position;
@@ -60,14 +62,13 @@ public class ScaleContent: MonoBehaviour
 
     public float GetInitFireSpawnDist()
     {
-        // arsession gameobject has moved far away at this point
         float distance = Vector3.Distance(selectedFirePosition, myCamera.gameObject.transform.position);
         Debug.Log("init spawn dist: " + distance);
         return distance;
     }
 
 
-
+    ////////////////////////////////////////////////////////////////
     public void UpscaleSession()
     {   
         ScaleArOrigin(upscaleIncrement);
@@ -97,19 +98,19 @@ public class ScaleContent: MonoBehaviour
         // Debug.Log ("firedist: ");        
         PlaceCameraOnContent();
         // arSessionOrigin.MakeContentAppearAt(content.transform, content.transform.position);
-        CalcFireDist(increment);
-        Debug.Log ("current: " + fireProjectile.fireSpawnDist);
+        // CalcFireDist(increment);
+        // Debug.Log ("current: " + fireProjectile.fireSpawnDist);
         prevSpawnDistActivated = true;
     }
 
     private void PlaceCameraOnContent()
     {
-        if (placeFortress.refPlane != null)
+        if (placeFortress.refPlane.activeSelf == true && placeFortress.planeManager.enabled)
         {
             arSessionOrigin.MakeContentAppearAt(placeFortress.content.transform, placeFortress.refPlane.transform.position);
         }
 
-        if (placeFortress.groundPlane != null)
+        else if (placeFortress.groundPlane != null)
         {
             // Vector3 targetPos = new Vector3(content.transform.position.x, groundPlane.transform.position.y, content.transform.position.z);
             arSessionOrigin.MakeContentAppearAt(placeFortress.content.transform, placeFortress.groundPlane.transform.position);

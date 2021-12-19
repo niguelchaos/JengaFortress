@@ -99,7 +99,7 @@ public class ImageTracker : MonoBehaviour
         }
     }
 
-    public void PlaceGroundPlane()
+    public void PlaceTestGroundPlane()
     {
         if (testLocation.activeSelf == true)
         {
@@ -119,5 +119,22 @@ public class ImageTracker : MonoBehaviour
             planeManager.enabled = false;
             Debug.Log ("planes disabled");
         }
+    }
+
+    public void PlaceGroundPlane(Vector3 selectedPos)
+    {
+        Debug.Log ("ground pos:  " + selectedPos);
+        placeFortress.groundPlane = Instantiate(groundPlanePrefab, selectedPos, Quaternion.identity);
+
+        placeFortress.groundPlane.AddComponent<ARAnchor>();
+        // placeFortress.groundPlane.transform.parent = arOrigin.transform;
+
+        placeFortress.content.transform.position = placeFortress.groundPlane.transform.position;
+        Debug.Log ("groundplane pos:  " + placeFortress.groundPlane.transform.position);
+        
+        planeManager.requestedDetectionMode = PlaneDetectionMode.None;
+        planeManager.enabled = false;
+        Debug.Log ("planes disabled");
+        
     }
 }

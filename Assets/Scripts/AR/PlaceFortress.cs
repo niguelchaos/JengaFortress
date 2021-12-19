@@ -22,6 +22,7 @@ public class PlaceFortress: MonoBehaviour {
     [SerializeField] private PlaceMode placeMode;
     private ScaleContent scaleContent;
     private SessionOriginController sessionController;
+    private ImageTracker imageTracker;
 
 
     public GameObject fortressPrefab;
@@ -30,11 +31,12 @@ public class PlaceFortress: MonoBehaviour {
 
     static List<ARRaycastHit> myARHits = new List <ARRaycastHit>();
     private GameObject foundObject = null;
+    public GameObject spawnGroundReticle;
 
     public Camera myCamera;
     public float cooldown, cooldownCount;
     private ARAnchorManager anc;
-    private ARPlaneManager planeManager;
+    public ARPlaneManager planeManager;
     private ARSessionOrigin arSessionOrigin;
 
     public GameObject groundPlane {get; set;}
@@ -63,12 +65,13 @@ public class PlaceFortress: MonoBehaviour {
         planeManager = this.gameObject.GetComponent<ARPlaneManager>();
         scaleContent = this.gameObject.GetComponent<ScaleContent>();
         sessionController = this.gameObject.GetComponent<SessionOriginController>();
+        imageTracker = this.gameObject.GetComponent<ImageTracker>();
         
         inputManager = InputManager.Instance;   
         inputManager.OnFirstTouch += CheckTouchAction;
         // sessionController.UpdateText();
 
-        if (refPlane.activeSelf == true)
+        if (refPlane.activeSelf == true && planeManager.enabled)
         {
             content.transform.position = refPlane.transform.position;
             // refPlane.transform.parent = arSessionOrigin.transform;
@@ -82,7 +85,7 @@ public class PlaceFortress: MonoBehaviour {
             cooldownCount += Time.deltaTime;
         }
         
-        if (refPlane.activeSelf == true)
+        if (refPlane.activeSelf == true && planeManager.enabled)
         {
             // Vector3 targetPos = new Vector3(spawnedFortress.transform.position.x, refPlane.transform.position.y, spawnedFortress.transform.position.z);
             arSessionOrigin.MakeContentAppearAt(content.transform, refPlane.transform.position);
@@ -243,8 +246,11 @@ public class PlaceFortress: MonoBehaviour {
                 foundObject = nearestHit.transform.gameObject;
                 foundObject.GetComponent<MeshRenderer>().material.color = Color.green;
             }
+        }
 
-
+        if (ARhit)
+        {
+            spawnGroundReticle.transform.position = nearestHitPose.pose.position;
         }
     }
     private void CheckMove(bool rayHit, bool ARhit, RaycastHit nearestHit, ARRaycastHit nearestHitPose, Vector2 screenPosition)
@@ -351,6 +357,10 @@ public class PlaceFortress: MonoBehaviour {
         sessionController.UpdateText();   
     }
 
+    public void PlaceGroundPlaneOnReticle()
+    {
+        imageTracker.PlaceGroundPlane(spawnGroundReticle.transform.position);
+    }
 
 
 
