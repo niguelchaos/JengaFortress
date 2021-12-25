@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
 
     // States
     [SerializeField] private GameState currentGameState;
+    [SerializeField] private PlayerTurnState currentPlayerTurnState;
     [SerializeField] private CurrentPlayer currentPlayer;
     [SerializeField] private WinCondition winCondition;
 
@@ -54,8 +55,9 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        SetCurrentGameState(GameState.MAIN_MENU);
-        currentPlayer = CurrentPlayer.PLAYER_1;
+        SetCurrentGameState(GameState.SETUP);
+        SetCurrentPlayerTurnState(PlayerTurnState.START_TURN);
+        SetCurrentPlayer(CurrentPlayer.PLAYER_1);
     }
 
     private void Start()
@@ -73,6 +75,7 @@ public class GameManager : MonoBehaviour
     {
         
     }
+
     private void UpdateGameState()
     {
         if (cubeRenderer != null)
@@ -109,6 +112,18 @@ public class GameManager : MonoBehaviour
     {
         return currentGameState;
     }
+
+    public void SetCurrentPlayerTurnState(PlayerTurnState newState)
+    {
+        currentPlayerTurnState = newState;
+
+
+    }
+
+    public PlayerTurnState GetCurrentPlayerTurnState()
+    {
+        return currentPlayerTurnState;
+    }
     
     public void SetCurrentPlayer(CurrentPlayer newPlayer)
     {
@@ -134,10 +149,12 @@ public class GameManager : MonoBehaviour
     {
         SetCurrentGameState(GameState.PLAYING);
     }
-
-    // maybe use SetCurrentPlayer instead?
+    
     public void ChangePlayer()
     {
+        SetCurrentPlayerTurnState(PlayerTurnState.START_TURN);
+
+        // TODO: maybe use SetCurrentPlayer instead?
         currentPlayer = (currentPlayer == CurrentPlayer.PLAYER_1) ? CurrentPlayer.PLAYER_2 : CurrentPlayer.PLAYER_1;
     }
 }

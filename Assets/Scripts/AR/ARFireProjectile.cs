@@ -105,7 +105,13 @@ public class ARFireProjectile: MonoBehaviour {
         //Make force go up/down when it reaches a max/min
     }
 
-    public void fireBlock() {  
+    public void fireBlock() {
+        // check if player has already fired
+        if (GameManager.Instance.GetCurrentPlayerTurnState() == PlayerTurnState.END_TURN)
+        {
+            return;
+        }
+
         Vector3 screenCenter;
 
         screenCenter = myCamera.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
@@ -122,6 +128,8 @@ public class ARFireProjectile: MonoBehaviour {
         //        + spawnedProjectile.transform.position.y + ", " + spawnedProjectile.transform.position.z);
 
         // logger.Log("Force applied: " + this.appliedForce);
+
+        GameManager.Instance.SetCurrentPlayerTurnState(PlayerTurnState.END_TURN);
     }
 
     public void push () {
