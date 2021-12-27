@@ -10,7 +10,6 @@ public enum GameState
     SETUP,
     PLACE_FORTRESS,
     PLACE_CORE_BLOCK,
-    BATTLE,
     PLAYING,
     PAUSED,
     GAME_OVER

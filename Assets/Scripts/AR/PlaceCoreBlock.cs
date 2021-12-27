@@ -193,7 +193,7 @@ public class PlaceCoreBlock: MonoBehaviour
         // must be player 2
         // set both to non-kinematic, return to p1
         else {
-            GameManager.Instance.SetCurrentGameState(GameState.BATTLE);
+            GameManager.Instance.SetCurrentGameState(GameState.PLAYING);
             SetObjectIsKinematic(p1SpawnedCoreBlock, false);
             SetObjectIsKinematic(spawnedCoreBlock, false);
             GameManager.Instance.SetCurrentPlayer(CurrentPlayer.PLAYER_1);
