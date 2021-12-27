@@ -9,6 +9,7 @@ public enum GameState
     MAIN_MENU,
     SETUP,
     PLACE_FORTRESS,
+    PLACE_CORE_BLOCK,
     BATTLE,
     PLAYING,
     PAUSED,
@@ -45,6 +46,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private WinCondition winCondition;
 
     public static event Action<GameState> OnGameStateChanged;
+    public static event Action<CurrentPlayer> OnCurrentPlayerChanged;
 
     // 
     [SerializeField] private GameObject gameStateCube;
@@ -113,6 +115,8 @@ public class GameManager : MonoBehaviour
     public void SetCurrentPlayer(CurrentPlayer newPlayer)
     {
         currentPlayer = newPlayer;
+        // has anybody subscribed to this event? if so broadcast event
+        OnCurrentPlayerChanged?.Invoke(newPlayer);
     }
 
     public CurrentPlayer GetCurrentPlayer()

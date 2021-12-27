@@ -21,10 +21,17 @@ public class HiddenBlockBoundary : MonoBehaviour
 
         GetPlayerHbGO();
         StartCoroutine(WaitToAttach(2));
+
         GameManager.OnGameStateChanged += UpdateOnGameStateChanged;
+        GameManager.OnCurrentPlayerChanged += UpdateOnCurrentPlayerChanged;
+
     }
 
     private void UpdateOnGameStateChanged(GameState currentGameState)
+    {
+        CheckMeshRenderer();
+    }
+        private void UpdateOnCurrentPlayerChanged(CurrentPlayer currentPlayer)
     {
         CheckMeshRenderer();
     }
