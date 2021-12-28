@@ -9,10 +9,14 @@ public class PlayUI : MonoBehaviour
 {
 
     public TMP_Text currentPlayerText;
+    public Button endTurnButton;
+    public Image endTurnButtonImage;
     //private Player player;
 
     void Start()
     {
+        endTurnButton = GameObject.Find("EndTurnButton").GetComponent<Button>();
+        endTurnButtonImage = GameObject.Find("EndTurnButton").GetComponent<Image>();
         UpdateText();
         GameManager.OnPlayingStateChanged += UpdateOnPlayingStateChanged;
     }
@@ -38,6 +42,21 @@ public class PlayUI : MonoBehaviour
 
     public void SetEndTurnButtonActive(bool active)
     {
-        GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = active;
+        endTurnButton.interactable = active;
+        if (active)
+            StartCoroutine("startBlinkButton");
+        else
+            StopCoroutine("startBlinkButton");
+    }
+
+    private IEnumerator startBlinkButton()
+    {
+        while (true)
+        {
+            endTurnButtonImage.color = new Color(0.7f, 0.85f, 0.75f, 1f);
+            yield return new WaitForSeconds(1.5f);
+            endTurnButtonImage.color = new Color(0.75f, 0.90f, 0.8f, 1f);
+            yield return new WaitForSeconds(1.5f);
+        }
     }
 }
