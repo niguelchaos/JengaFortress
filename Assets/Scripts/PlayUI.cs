@@ -14,16 +14,30 @@ public class PlayUI : MonoBehaviour
     void Start()
     {
         UpdateText();
+        GameManager.OnPlayingStateChanged += UpdateOnPlayingStateChanged;
     }
 
     private void UpdateText()
     {
-        currentPlayerText.text = "Player " + (int)GameManager.Instance.GetCurrentPlayer();
+        currentPlayerText.text = "Player " + (int) GameManager.Instance.currentPlayer;
     }
 
     public void ChangePlayer()
     {
         GameManager.Instance.ChangePlayer();
         UpdateText();
+    }
+
+    private void UpdateOnPlayingStateChanged(PlayingState playingState)
+    {
+        if(playingState is PlayingState.END_TURN)
+            SetEndTurnButtonActive(true);
+        else
+            SetEndTurnButtonActive(false);
+    }
+
+    public void SetEndTurnButtonActive(bool active)
+    {
+        GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = active;
     }
 }
