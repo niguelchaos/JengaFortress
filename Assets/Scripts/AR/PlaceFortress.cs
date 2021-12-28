@@ -31,7 +31,7 @@ public class PlaceFortress: MonoBehaviour {
 
     static List<ARRaycastHit> myARHits = new List <ARRaycastHit>();
     private GameObject foundObject = null;
-    public GameObject spawnGroundReticle;
+    // public GameObject spawnGroundReticle;
 
     public Camera myCamera;
     public float cooldown, cooldownCount;
@@ -39,10 +39,11 @@ public class PlaceFortress: MonoBehaviour {
     public ARPlaneManager planeManager;
     private ARSessionOrigin arSessionOrigin;
 
-    public GameObject groundPlane {get; set;}
+    // public GameObject groundPlane {get; set;}
+    public GameObject content;
+
     public GameObject refPlane;
     public GameObject spawnedFortress;
-    public GameObject content;
 
 
     private static ILogger logger = Debug.unityLogger;
@@ -96,68 +97,70 @@ public class PlaceFortress: MonoBehaviour {
 
     private void CheckTouchAction(Touch touch)
     {
-        bool ARhit;
-        ARRaycastHit nearestHitPose = new ARRaycastHit();
-
-        RaycastHit[] hits;
-        Ray ray;
-
-        Vector2 screenPosition = touch.position;
-        // Debug.Log ("position:  " + screenPosition);
-
-        if (sessionController.IsPointOverUIObject(screenPosition))
+        if (GameManager.Instance.GetCurrentGameState() == GameState.PLACE_FORTRESS)
         {
-            // logger.Log ("clicked on button");
-            return;
-        }
-        /////////////////////////////////////////////////////////////////////
+            bool ARhit;
+            ARRaycastHit nearestHitPose = new ARRaycastHit();
 
-        ARhit = raycastManager.Raycast(screenPosition, myARHits,
-            TrackableType.FeaturePoint | TrackableType.PlaneWithinPolygon);
-    
+            RaycastHit[] hits;
+            Ray ray;
 
-        if (ARhit == true) {
-            // logger.Log("Hit: " + ARhit);
-            nearestHitPose = myARHits[0];
-        }
+            Vector2 screenPosition = touch.position;
+            // Debug.Log ("position:  " + screenPosition);
 
-        RaycastHit nearestHit;
-        ray = myCamera.ScreenPointToRay(screenPosition);
-        bool rayHit = Physics.Raycast(ray, out nearestHit);
-        if (rayHit)
-        {
-            Debug.DrawRay(ray.origin, ray.direction * 100, Color.yellow);
-        }  
-
-        hits = Physics.RaycastAll(ray);
-
-        
-        switch (placeMode)
-        {
-            case PlaceMode.PLACE:
-                CheckPlace(rayHit, ARhit, nearestHit, nearestHitPose, screenPosition);
-                foundObject = null;
-                break;
-            
-            case PlaceMode.SELECT:
-                CheckSelect(rayHit, ARhit, nearestHit, nearestHitPose, screenPosition);
-                break;
-            
-            case PlaceMode.MOVE:
-                if (foundObject == null)
-                {
-                    Debug.Log ("Nothing Selected");
-                    break;
-                }
-                else {
-                    CheckMove(rayHit, ARhit, nearestHit, nearestHitPose, screenPosition);   
-                }
-                break;
-            
-            case PlaceMode.FIRE:
-                break;
+            if (sessionController.IsPointOverUIObject(screenPosition))
+            {
+                // logger.Log ("clicked on button");
+                return;
             }
+            /////////////////////////////////////////////////////////////////////
+
+            ARhit = raycastManager.Raycast(screenPosition, myARHits,
+                TrackableType.FeaturePoint | TrackableType.PlaneWithinPolygon);
+        
+
+            if (ARhit == true) {
+                // logger.Log("Hit: " + ARhit);
+                nearestHitPose = myARHits[0];
+            }
+
+            RaycastHit nearestHit;
+            ray = myCamera.ScreenPointToRay(screenPosition);
+            bool rayHit = Physics.Raycast(ray, out nearestHit);
+            if (rayHit)
+            {
+                Debug.DrawRay(ray.origin, ray.direction * 100, Color.yellow);
+            }  
+
+            hits = Physics.RaycastAll(ray);
+
             
+            switch (placeMode)
+            {
+                case PlaceMode.PLACE:
+                    CheckPlace(rayHit, ARhit, nearestHit, nearestHitPose, screenPosition);
+                    foundObject = null;
+                    break;
+                
+                case PlaceMode.SELECT:
+                    CheckSelect(rayHit, ARhit, nearestHit, nearestHitPose, screenPosition);
+                    break;
+                
+                case PlaceMode.MOVE:
+                    if (foundObject == null)
+                    {
+                        Debug.Log ("Nothing Selected");
+                        break;
+                    }
+                    else {
+                        CheckMove(rayHit, ARhit, nearestHit, nearestHitPose, screenPosition);   
+                    }
+                    break;
+                
+                case PlaceMode.FIRE:
+                    break;
+            }
+        }
     }
 
     private void CheckPlace(bool rayHit, bool ARhit, RaycastHit nearestHit, ARRaycastHit nearestHitPose, Vector2 screenPosition)
@@ -246,11 +249,6 @@ public class PlaceFortress: MonoBehaviour {
                 foundObject = nearestHit.transform.gameObject;
                 foundObject.GetComponent<MeshRenderer>().material.color = Color.green;
             }
-        }
-
-        if (ARhit)
-        {
-            spawnGroundReticle.transform.position = nearestHitPose.pose.position;
         }
     }
     private void CheckMove(bool rayHit, bool ARhit, RaycastHit nearestHit, ARRaycastHit nearestHitPose, Vector2 screenPosition)
@@ -357,10 +355,7 @@ public class PlaceFortress: MonoBehaviour {
         sessionController.UpdateText();   
     }
 
-    public void PlaceGroundPlaneOnReticle()
-    {
-        imageTracker.PlaceGroundPlane(spawnGroundReticle.transform.position);
-    }
+
 
 
 

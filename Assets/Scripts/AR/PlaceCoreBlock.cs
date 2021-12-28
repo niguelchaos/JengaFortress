@@ -20,12 +20,12 @@ public class PlaceCoreBlock: MonoBehaviour
     private SessionOriginController sessionController;
     private ARRaycastManager raycastManager;
     public GameObject content;
+
     public GameObject coreBlockCanvas;
     public GameObject mainCanvas;
 
     public TMP_Text currentModeText;
     public TMP_Text currentPlayerText;
-
     
     private PlaceCoreBlockMode coreBlockMode;
     public GameObject player1Prefab;
@@ -54,7 +54,7 @@ public class PlaceCoreBlock: MonoBehaviour
 
     private void Update()
     {
-        CheckUI();
+        // CheckUI();
     }
 
     private void UpdateOnGameStateChanged(GameState currentGameState)
@@ -70,11 +70,11 @@ public class PlaceCoreBlock: MonoBehaviour
             coreBlockCanvas.SetActive(true);
             UpdateUI();
         }
-        else if (mainCanvas.activeSelf == false)
-        {
-            mainCanvas.SetActive(true);
-            coreBlockCanvas.SetActive(false);
-        }
+    }
+    private void BackToMainCanvas()
+    {
+        mainCanvas.SetActive(true);
+        coreBlockCanvas.SetActive(false);
     }
 
     private void CheckTouchAction(Touch touch)
@@ -197,6 +197,7 @@ public class PlaceCoreBlock: MonoBehaviour
             SetObjectIsKinematic(p1SpawnedCoreBlock, false);
             SetObjectIsKinematic(spawnedCoreBlock, false);
             GameManager.Instance.SetCurrentPlayer(CurrentPlayer.PLAYER_1);
+            BackToMainCanvas();
         }
 
     }
