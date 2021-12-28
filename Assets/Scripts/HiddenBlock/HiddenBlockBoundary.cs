@@ -24,7 +24,7 @@ public class HiddenBlockBoundary : MonoBehaviour
         GameManager.OnGameStateChanged += UpdateOnGameStateChanged;
     }
 
-    private void UpdateOnGameStateChanged(GameState currentGameState)
+    private void UpdateOnGameStateChanged(GameState gameState)
     {
         CheckMeshRenderer();
     }

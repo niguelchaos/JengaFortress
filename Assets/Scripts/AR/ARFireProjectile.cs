@@ -107,10 +107,8 @@ public class ARFireProjectile: MonoBehaviour {
 
     public void fireBlock() {
         // check if player has already fired
-        if (GameManager.Instance.GetPlayingState() == PlayingState.END_TURN)
-        {
+        if (GameManager.Instance.GetPlayingState() is PlayingState.END_TURN)
             return;
-        }
 
         Vector3 screenCenter;
 

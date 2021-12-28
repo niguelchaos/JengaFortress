@@ -3,19 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public enum GameState
 {
     MAIN_MENU,
     SETUP,
     PLACE_FORTRESS,
-    BATTLE,
     PLAYING,
     PAUSED,
     GAME_OVER
 }
 
-// TODO: dont care about this for now
 public enum PlayingState
 {
     START_TURN,
@@ -58,7 +55,6 @@ public class GameManager : MonoBehaviour
         Instance = this;
         SetGameState(GameState.SETUP);
         SetPlayingState(PlayingState.START_TURN);
-        //SetCurrentPlayer(CurrentPlayer.PLAYER_1);
         currentPlayer = CurrentPlayer.PLAYER_1;
     }
 
@@ -85,7 +81,7 @@ public class GameManager : MonoBehaviour
                     break;
                 case GameState.PLAYING:
                     //Call SetColor using the shader property name "_Color" and setting the color to red
-                    if(currentPlayer == CurrentPlayer.PLAYER_1)
+                    if(currentPlayer is CurrentPlayer.PLAYER_1)
                         cubeRenderer.material.color = Color.yellow;
                     else
                         cubeRenderer.material.color = Color.blue;
@@ -106,10 +102,10 @@ public class GameManager : MonoBehaviour
                                     ? CurrentPlayer.PLAYER_2
                                     : CurrentPlayer.PLAYER_1;
                 break;
-            // case PlayingState.THROWING | PlayingState.AIMING:
-            //     break;
-            // case PlayingState.END_TURN:
-            //     break;
+            /*case PlayingState.THROWING | PlayingState.AIMING:
+                break;
+            case PlayingState.END_TURN:
+                break;*/
         }
     }
 
@@ -133,7 +129,6 @@ public class GameManager : MonoBehaviour
         playingState = newState;
         UpdatePlayingState();
 
-        // has anybody subscribed to this event? if so broadcast event
         OnPlayingStateChanged?.Invoke(newState);
     }
 
@@ -141,16 +136,6 @@ public class GameManager : MonoBehaviour
     {
         return playingState;
     }
-    
-    // public void SetCurrentPlayer(CurrentPlayer newPlayer)
-    // {
-    //     _currentPlayer = newPlayer;
-    // }
-
-    // public CurrentPlayer GetCurrentPlayer()
-    // {
-    //     return _currentPlayer;
-    // }
 
     public CurrentPlayer currentPlayer
     {
@@ -176,10 +161,8 @@ public class GameManager : MonoBehaviour
     public void ChangePlayer()
     {
         SetPlayingState(PlayingState.START_TURN);
-        //SetCurrentPlayer((CurrentPlayer.PLAYER_1 & CurrentPlayer.PLAYER_2) ^ currentPlayer);
-
-        // TODO: maybe use SetCurrentPlayer instead?
         //currentPlayer = (currentPlayer == CurrentPlayer.PLAYER_1) ? CurrentPlayer.PLAYER_2 : CurrentPlayer.PLAYER_1;
+        //SetCurrentPlayer((CurrentPlayer.PLAYER_1 & CurrentPlayer.PLAYER_2) ^ currentPlayer);
     }
 
 }
