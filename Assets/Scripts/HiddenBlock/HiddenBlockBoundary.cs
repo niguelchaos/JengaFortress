@@ -32,7 +32,8 @@ public class HiddenBlockBoundary : MonoBehaviour
     public void CheckMeshRenderer()
     {
         DisableRenderer();
-        switch (GameManager.Instance.GetCurrentPlayer(), player.GetPlayerNum())
+        //switch (GameManager.Instance.GetCurrentPlayer(), player.GetPlayerNum())
+        switch (GameManager.Instance.currentPlayer, player.GetPlayerNum())
         {
             case (CurrentPlayer.PLAYER_1, PlayerNum.P1):
             case (CurrentPlayer.PLAYER_2, PlayerNum.P2):
@@ -74,7 +75,7 @@ public class HiddenBlockBoundary : MonoBehaviour
             Debug.Log("Left Boundary");
             if (GameManager.Instance.GetWinCondition() != WinCondition.HitFloor)
             {
-                GameManager.Instance.SetCurrentGameState(GameState.GAME_OVER);
+                GameManager.Instance.SetGameState(GameState.GAME_OVER);
             }
         }
     }

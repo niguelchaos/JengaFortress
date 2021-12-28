@@ -18,7 +18,8 @@ public class PlayUI : MonoBehaviour
 
     private void UpdateText()
     {
-        currentPlayerText.text = "Player " + (int)GameManager.Instance.GetCurrentPlayer();
+        //currentPlayerText.text = "Player " + (int)GameManager.Instance.GetCurrentPlayer();
+        currentPlayerText.text = "Player " + GameManager.Instance.currentPlayer;
     }
 
     public void ChangePlayer()

@@ -26,7 +26,7 @@ public class HiddenCoreBlock : MonoBehaviour
         GameManager.OnGameStateChanged += UpdateOnGameStateChanged;
     }
 
-    private void UpdateOnGameStateChanged(GameState currentGameState)
+    private void UpdateOnGameStateChanged(GameState gameState)
     {
         CheckOutline();
     }
@@ -44,7 +44,7 @@ public class HiddenCoreBlock : MonoBehaviour
             Debug.Log("hit ground");
             if (GameManager.Instance.GetWinCondition() == WinCondition.HitFloor)
             {
-                GameManager.Instance.SetCurrentGameState(GameState.GAME_OVER);
+                GameManager.Instance.SetGameState(GameState.GAME_OVER);
             }
         }
     }
@@ -53,7 +53,8 @@ public class HiddenCoreBlock : MonoBehaviour
     public void CheckOutline()
     {
         DisableOutline();
-        switch (GameManager.Instance.GetCurrentPlayer(), player.GetPlayerNum())
+        //switch (GameManager.Instance.GetCurrentPlayer(), player.GetPlayerNum())
+        switch (GameManager.Instance.currentPlayer, player.GetPlayerNum())
         {
             case (CurrentPlayer.PLAYER_1, PlayerNum.P1):
             case (CurrentPlayer.PLAYER_2, PlayerNum.P2):
