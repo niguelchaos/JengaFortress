@@ -26,7 +26,6 @@ public class Setup: MonoBehaviour
 
     public TMP_Text currentModeText;
 
-    public GameObject testGroundLocation;
     public GameObject groundPlane {get; set;}
     public GameObject spawnGroundReticle;
     public GameObject groundPlanePrefab;
@@ -218,30 +217,6 @@ public class Setup: MonoBehaviour
         PlaceGroundPlane(spawnGroundReticle.transform.position);
     }
 
-    public void PlaceTestGroundPlane()
-    {
-        if (testGroundLocation.activeSelf == true)
-        {
-            Debug.Log ("image pos:  " + testGroundLocation.transform.position);
-            groundPlane = Instantiate(groundPlanePrefab, testGroundLocation.transform.position, Quaternion.identity);
-            // placeFortress.transform.parent = testLocation.transform;
-            // myGroundPlanes[key] = groundPlanePrefab;
-
-            groundPlane.AddComponent<ARAnchor>();
-            // placeFortress.groundPlane.transform.parent = arOrigin.transform;
-
-            content.transform.position = groundPlane.transform.position;
-            Debug.Log ("groundplane pos:  " + groundPlane.transform.position);
-            
-            
-            planeManager.requestedDetectionMode = PlaneDetectionMode.None;
-            planeManager.enabled = false;
-            Debug.Log ("planes disabled");
-            
-            ConfirmFinishSetup();
-        }
-    }
-
     public void PlaceGroundPlane(Vector3 selectedPos)
     {
         Debug.Log ("ground pos:  " + selectedPos);
@@ -260,11 +235,6 @@ public class Setup: MonoBehaviour
         ConfirmFinishSetup();
     }
     /////////////////////////////////////////////////////////////////////
-
-    public void SetSetupState()
-    {
-        GameManager.Instance.SetCurrentGameState(GameState.SETUP);
-    }
 
     public void BackToMainCanvas()
     {

@@ -208,10 +208,4 @@ public class PlaceCoreBlock: MonoBehaviour
         currentPlayerText.text = GameManager.Instance.GetCurrentPlayer().ToString();
     }
 
-    public void SetCoreBlockState()
-    {
-        GameManager.Instance.SetCurrentGameState(GameState.PLACE_CORE_BLOCK);
-    }
-
-
 }

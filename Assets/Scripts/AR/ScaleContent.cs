@@ -10,11 +10,12 @@ using TMPro;
 // this entire class is jank
 public class ScaleContent: MonoBehaviour 
 {
+    private ARSessionOrigin arSessionOrigin;
     private PlaceFortress placeFortress;
     private ARFireProjectile fireProjectile;
-    private Setup setup;
-    private ARSessionOrigin arSessionOrigin;
     private SessionOriginController sessionController;
+    private Setup setup;
+    private DebugFunctions debugFunctions;
 
     public Camera myCamera;
 
@@ -37,6 +38,7 @@ public class ScaleContent: MonoBehaviour
     void Start() 
     {
         setup = GetComponent<Setup>();
+        debugFunctions = GetComponent<DebugFunctions>();
         placeFortress = GetComponent<PlaceFortress>();
         fireProjectile = GetComponent<ARFireProjectile>();
         arSessionOrigin = GetComponent<ARSessionOrigin>();
@@ -83,15 +85,15 @@ public class ScaleContent: MonoBehaviour
 
     private void PlaceCameraOnContent()
     {
-        if (placeFortress.refPlane.activeSelf == true && placeFortress.planeManager.enabled)
+        if (debugFunctions.refPlane.activeSelf == true && placeFortress.planeManager.enabled)
         {
-            arSessionOrigin.MakeContentAppearAt(placeFortress.content.transform, placeFortress.refPlane.transform.position);
+            arSessionOrigin.MakeContentAppearAt(setup.content.transform, debugFunctions.refPlane.transform.position);
         }
 
         else if (setup.groundPlane != null)
         {
             // Vector3 targetPos = new Vector3(content.transform.position.x, groundPlane.transform.position.y, content.transform.position.z);
-            arSessionOrigin.MakeContentAppearAt(placeFortress.content.transform, setup.groundPlane.transform.position);
+            arSessionOrigin.MakeContentAppearAt(setup.content.transform, setup.groundPlane.transform.position);
             Debug.Log ("ground plane scaling");
             // return;
         }

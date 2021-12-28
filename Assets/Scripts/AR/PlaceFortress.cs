@@ -20,31 +20,25 @@ public class PlaceFortress: MonoBehaviour {
 
     private InputManager inputManager;
     [SerializeField] private PlaceMode placeMode;
-    private ScaleContent scaleContent;
+    public ARPlaneManager planeManager;
+    private ARAnchorManager anc;
+    private ARSessionOrigin arSessionOrigin;
+    private ARRaycastManager raycastManager;
+
     private SessionOriginController sessionController;
-    private ImageTracker imageTracker;
+    private Setup setup;
 
 
     public GameObject fortressPrefab;
-    private ARRaycastManager raycastManager;
     private Vector2 touchPosition;
 
     static List<ARRaycastHit> myARHits = new List <ARRaycastHit>();
     private GameObject foundObject = null;
-    // public GameObject spawnGroundReticle;
 
     public Camera myCamera;
     public float cooldown, cooldownCount;
-    private ARAnchorManager anc;
-    public ARPlaneManager planeManager;
-    private ARSessionOrigin arSessionOrigin;
 
-    // public GameObject groundPlane {get; set;}
-    public GameObject content;
-
-    public GameObject refPlane;
     public GameObject spawnedFortress;
-
 
     private static ILogger logger = Debug.unityLogger;
 
@@ -64,19 +58,18 @@ public class PlaceFortress: MonoBehaviour {
         raycastManager = this.gameObject.GetComponent<ARRaycastManager>();
         anc = this.gameObject.GetComponent<ARAnchorManager>();
         planeManager = this.gameObject.GetComponent<ARPlaneManager>();
-        scaleContent = this.gameObject.GetComponent<ScaleContent>();
         sessionController = this.gameObject.GetComponent<SessionOriginController>();
-        imageTracker = this.gameObject.GetComponent<ImageTracker>();
+        setup = GetComponent<Setup>();
         
         inputManager = InputManager.Instance;   
         inputManager.OnFirstTouch += CheckTouchAction;
         // sessionController.UpdateText();
 
-        if (refPlane.activeSelf == true && planeManager.enabled)
-        {
-            content.transform.position = refPlane.transform.position;
-            // refPlane.transform.parent = arSessionOrigin.transform;
-        }
+        // if (refPlane.activeSelf == true && planeManager.enabled)
+        // {
+        //     content.transform.position = refPlane.transform.position;
+        //     // refPlane.transform.parent = arSessionOrigin.transform;
+        // }
 
     }
 
@@ -86,11 +79,11 @@ public class PlaceFortress: MonoBehaviour {
             cooldownCount += Time.deltaTime;
         }
         
-        if (refPlane.activeSelf == true && planeManager.enabled)
-        {
-            // Vector3 targetPos = new Vector3(spawnedFortress.transform.position.x, refPlane.transform.position.y, spawnedFortress.transform.position.z);
-            arSessionOrigin.MakeContentAppearAt(content.transform, refPlane.transform.position);
-        }
+        // if (refPlane.activeSelf == true && planeManager.enabled)
+        // {
+        //     // Vector3 targetPos = new Vector3(spawnedFortress.transform.position.x, refPlane.transform.position.y, spawnedFortress.transform.position.z);
+        //     arSessionOrigin.MakeContentAppearAt(content.transform, refPlane.transform.position);
+        // }
     }
 
    
@@ -205,7 +198,7 @@ public class PlaceFortress: MonoBehaviour {
         SetObjectIsKinematic(spawnedFortress, true);
         // Debug.Log("spawning on Ground Plane");
 
-        spawnedFortress.transform.parent = content.transform;
+        spawnedFortress.transform.parent = setup.content.transform;
         logger.Log("spawnedfortress parent:  " + spawnedFortress.transform.parent.name);
 
         // arSessionOrigin.MakeContentAppearAt(content.transform, groundPlane.transform.position);
@@ -220,7 +213,7 @@ public class PlaceFortress: MonoBehaviour {
         spawnedFortress = Instantiate(fortressPrefab, nearestHitPose.pose.position 
             + nearestHitPose.pose.up * 0.05f, nearestHitPose.pose.rotation);
 
-        spawnedFortress.transform.parent = content.transform;
+        spawnedFortress.transform.parent = setup.content.transform;
         logger.Log("spawnedfortress parent:  " + spawnedFortress.transform.parent.name);
         
         SetObjectIsKinematic(spawnedFortress, true);
@@ -272,6 +265,20 @@ public class PlaceFortress: MonoBehaviour {
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    public void ActivatePhysics()
+    {
+        if (spawnedFortress == null) { return; }
+        GameObject[] goArray = FindObjectsOfType<GameObject>();
+        for (int i = 0; i < goArray.Length; i++)
+        {
+            if (goArray[i].layer == LayerManager.BlockLayer)
+            {
+                SetObjectIsKinematic(goArray[i], false);
+                SetObjectGravity(goArray[i], true);
+            }
+        }
+    }
+
     private void SetObjectIsKinematic(GameObject spawnedObject, bool isKOrNotIdkMan)
     {
         Rigidbody[] rbs = spawnedObject.GetComponentsInChildren<Rigidbody>();
@@ -289,45 +296,7 @@ public class PlaceFortress: MonoBehaviour {
             rb.useGravity = onOrOff;
         }
     }
-
-    public void ActivatePhysics()
-    {
-        if (spawnedFortress == null) { return; }
-        GameObject[] goArray = FindObjectsOfType<GameObject>();
-        for (int i = 0; i < goArray.Length; i++)
-        {
-            if (goArray[i].layer == LayerManager.BlockLayer)
-            {
-                SetObjectIsKinematic(goArray[i], false);
-                SetObjectGravity(goArray[i], true);
-            }
-        }
-    }
-
-    public void ActivateKinematic()
-    {
-        if (spawnedFortress == null) { return; }
-        SetObjectIsKinematic(spawnedFortress, false);
-    }
-
-    public void DisableGravity()
-    {
-        if (spawnedFortress == null) { return; }
-        GameObject[] goArray = FindObjectsOfType<GameObject>();
-        for (int i = 0; i < goArray.Length; i++)
-        {
-            if (goArray[i].layer == LayerManager.BlockLayer)
-            {
-                SetObjectGravity(goArray[i], false);
-            }
-        }
-    }
-    public void ActivateGravity()
-    {
-        if (spawnedFortress == null) { return; }
-        SetObjectGravity(spawnedFortress, true);
-    }
-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void ChangeToSelect()
     {   
         placeMode = PlaceMode.SELECT;   
@@ -348,12 +317,7 @@ public class PlaceFortress: MonoBehaviour {
         placeMode = PlaceMode.FIRE;
         sessionController.UpdateText();   
     }
-    public void EnableRefPlane()
-    {   
-        bool active = !refPlane.gameObject.activeSelf; 
-        refPlane.gameObject.SetActive(active);
-        sessionController.UpdateText();   
-    }
+
 
 
 
