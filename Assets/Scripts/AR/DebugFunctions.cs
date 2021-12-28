@@ -15,11 +15,14 @@ public class DebugFunctions: MonoBehaviour
     private Setup setup;
     private PlaceFortress placeFortress;
     private SessionOriginController sessionController;
+    private Camera myCamera;
 
     public GameObject debugCanvas;
 
     public GameObject refPlane;
     public GameObject testGroundLocation;
+    public Slider debugFiringPosSlider;
+
 
 
     private void Awake()
@@ -33,7 +36,9 @@ public class DebugFunctions: MonoBehaviour
     }
     private void Start() 
     {
-        
+        myCamera = this.gameObject.transform.Find
+                ("AR Camera").gameObject.GetComponent<Camera>();
+
         if (refPlane.activeSelf == true && planeManager.enabled)
         {
             setup.content.transform.position = refPlane.transform.position;
@@ -140,6 +145,12 @@ public class DebugFunctions: MonoBehaviour
             
             setup.ConfirmFinishSetup();
         }
+    }
+
+    // used by slider
+    public void SetFiringPos()
+    {
+        setup.firingPos.transform.position = myCamera.gameObject.transform.position + (myCamera.transform.forward * debugFiringPosSlider.value);
     }
     //////////////////////////////////////////////////
 

@@ -28,7 +28,6 @@ public class PlaceFortress: MonoBehaviour {
     private SessionOriginController sessionController;
     private Setup setup;
 
-
     public GameObject fortressPrefab;
     private Vector2 touchPosition;
 

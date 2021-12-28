@@ -1238,7 +1238,7 @@ PrefabInstance:
     - target: {fileID: 8531777228927402663, guid: 8d695653438192447b8752f6025edc8c,
         type: 3}
       propertyPath: m_Name
-      value: testloc
+      value: testgroundloc
       objectReference: {fileID: 0}
     - target: {fileID: 8531777228927402663, guid: 8d695653438192447b8752f6025edc8c,
         type: 3}
@@ -2445,7 +2445,7 @@ GameObject:
   - component: {fileID: 439033013}
   - component: {fileID: 439033014}
   m_Layer: 5
-  m_Name: FireDistance
+  m_Name: TestFireDistance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2524,8 +2524,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2003901622}
-        m_TargetAssemblyTypeName: Setup, Assembly-CSharp
+      - m_Target: {fileID: 2003901623}
+        m_TargetAssemblyTypeName: DebugFunctions, Assembly-CSharp
         m_MethodName: SetFiringPos
         m_Mode: 1
         m_Arguments:
@@ -8616,9 +8616,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 945777f499e5c1040bab3c36cc3d53de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugCanvas: {fileID: 0}
+  debugCanvas: {fileID: 243668308}
   refPlane: {fileID: 1407411057}
-  testGroundLocation: {fileID: 0}
+  testGroundLocation: {fileID: 2133625198}
+  debugFiringPosSlider: {fileID: 439033014}
 --- !u!1 &2035655826
 GameObject:
   m_ObjectHideFlags: 0
@@ -9437,6 +9438,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2116504035}
   m_CullTransparentMesh: 1
+--- !u!1 &2133625198 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8531777228927402663, guid: 8d695653438192447b8752f6025edc8c,
+    type: 3}
+  m_PrefabInstance: {fileID: 235907490}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2234242098762015823
 PrefabInstance:
   m_ObjectHideFlags: 0
