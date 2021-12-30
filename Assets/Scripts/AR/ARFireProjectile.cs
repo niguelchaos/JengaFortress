@@ -49,7 +49,7 @@ public class ARFireProjectile: MonoBehaviour {
 
     private void CheckFirstTouchAction(Touch touch)
     {
-        if (placeFortress.GetPlaceMode() == PlaceMode.FIRE)
+        if (GameManager.Instance.GetCurrentGameState() == GameState.PLAYING)
         {
             Vector2 screenPosition = Input.GetTouch(0).position;
 

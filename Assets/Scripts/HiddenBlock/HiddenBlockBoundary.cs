@@ -12,6 +12,7 @@ public class HiddenBlockBoundary : MonoBehaviour
 
    [SerializeField]  private GameObject playerHbGO;
     private MeshRenderer meshRenderer;
+    private bool isAttached = false;
 
     private void Start()
     {
@@ -64,6 +65,8 @@ public class HiddenBlockBoundary : MonoBehaviour
     private void AttachToStartingPoint()
     {
         transform.position = playerHbGO.transform.position;
+        // print("Attached: " + transform.position);
+        isAttached = true;
     }
     
     IEnumerator WaitToAttach(int time)
@@ -75,8 +78,8 @@ public class HiddenBlockBoundary : MonoBehaviour
 
     private void OnTriggerExit(Collider col)
     {
-        HiddenCoreBlock hiddenCoreBlock = playerHbGO.GetComponent<HiddenCoreBlock>();
-        if (col.gameObject.tag == "CoreBlock")
+        // HiddenCoreBlock hiddenCoreBlock = playerHbGO.GetComponent<HiddenCoreBlock>();
+        if (col.gameObject.tag == "CoreBlock" && isAttached)
         {
             Debug.Log("Left Boundary");
             if (GameManager.Instance.GetWinCondition() != WinCondition.HitFloor)

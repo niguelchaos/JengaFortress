@@ -256,6 +256,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FortressLevel
       objectReference: {fileID: 0}
+    - target: {fileID: 6277879046460414749, guid: 8167c378571ab334bbdaee9e5e22eb9c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8167c378571ab334bbdaee9e5e22eb9c, type: 3}
 --- !u!4 &1422123113455156027 stripped

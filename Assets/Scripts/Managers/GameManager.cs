@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 
 public enum GameState
 {
@@ -50,6 +50,8 @@ public class GameManager : MonoBehaviour
     // 
     [SerializeField] private GameObject gameStateCube;
     private Renderer cubeRenderer;
+
+    public TMP_Text currentGameStateText;
     
 
     private void Awake()
@@ -101,6 +103,7 @@ public class GameManager : MonoBehaviour
     {
         currentGameState = newState;
         UpdateGameState();
+        currentGameStateText.text = GetCurrentGameStateString();
 
         // has anybody subscribed to this event? if so broadcast event
         OnGameStateChanged?.Invoke(newState);
@@ -109,6 +112,11 @@ public class GameManager : MonoBehaviour
     public GameState GetCurrentGameState()
     {
         return currentGameState;
+    }
+
+    public String GetCurrentGameStateString()
+    {
+        return currentGameState.ToString();
     }
     
     public void SetCurrentPlayer(CurrentPlayer newPlayer)
@@ -133,6 +141,7 @@ public class GameManager : MonoBehaviour
         this.winCondition = newWinCondition; 
     }
 
+    // not sure what this methods for
     public void StartGame()
     {
         SetCurrentGameState(GameState.PLAYING);

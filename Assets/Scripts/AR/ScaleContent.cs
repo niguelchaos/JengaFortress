@@ -8,6 +8,7 @@ using UnityEngine.XR.ARSubsystems;
 using TMPro;
 
 // this entire class is jank
+// much is currently not used
 public class ScaleContent: MonoBehaviour 
 {
     private ARSessionOrigin arSessionOrigin;
@@ -19,6 +20,7 @@ public class ScaleContent: MonoBehaviour
 
     public Camera myCamera;
 
+    // not used
     public float arSessionOriginSize = 55;
     private float upscaleIncrement = 5f;
     private float downscaleIncrement = -5f;

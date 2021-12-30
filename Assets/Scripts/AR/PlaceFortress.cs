@@ -18,26 +18,30 @@ public enum PlaceMode
 [RequireComponent(typeof(ARRaycastManager))]
 public class PlaceFortress: MonoBehaviour {
 
-    private InputManager inputManager;
     [SerializeField] private PlaceMode placeMode;
     public ARPlaneManager planeManager;
     private ARAnchorManager anc;
     private ARSessionOrigin arSessionOrigin;
     private ARRaycastManager raycastManager;
+    public Camera myCamera;
 
     private SessionOriginController sessionController;
     private Setup setup;
+
+    public GameObject mainCanvas;
+    public GameObject placefortressCanvas;
+    public TMP_Text currentPlayerText;
+    public TMP_Text currentModeText;
 
     public GameObject fortressPrefab;
     private Vector2 touchPosition;
 
     static List<ARRaycastHit> myARHits = new List <ARRaycastHit>();
     private GameObject foundObject = null;
-
-    public Camera myCamera;
     public float cooldown, cooldownCount;
-
-    public GameObject spawnedFortress;
+    private GameObject p1SpawnedFortress;
+    private GameObject spawnedFortress;
+    
 
     private static ILogger logger = Debug.unityLogger;
 
@@ -59,17 +63,9 @@ public class PlaceFortress: MonoBehaviour {
         planeManager = this.gameObject.GetComponent<ARPlaneManager>();
         sessionController = this.gameObject.GetComponent<SessionOriginController>();
         setup = GetComponent<Setup>();
-        
-        inputManager = InputManager.Instance;   
-        inputManager.OnFirstTouch += CheckTouchAction;
-        // sessionController.UpdateText();
-
-        // if (refPlane.activeSelf == true && planeManager.enabled)
-        // {
-        //     content.transform.position = refPlane.transform.position;
-        //     // refPlane.transform.parent = arSessionOrigin.transform;
-        // }
-
+           
+        InputManager.Instance.OnFirstTouch += CheckTouchAction;
+        GameManager.OnGameStateChanged += UpdateOnGameStateChanged;
     }
 
     void Update() {
@@ -77,20 +73,40 @@ public class PlaceFortress: MonoBehaviour {
         {
             cooldownCount += Time.deltaTime;
         }
-        
-        // if (refPlane.activeSelf == true && planeManager.enabled)
-        // {
-        //     // Vector3 targetPos = new Vector3(spawnedFortress.transform.position.x, refPlane.transform.position.y, spawnedFortress.transform.position.z);
-        //     arSessionOrigin.MakeContentAppearAt(content.transform, refPlane.transform.position);
-        // }
     }
 
-   
+    private void UpdateOnGameStateChanged(GameState currentGameState)
+    {
+        CheckUI();
+    }
+
+    private void CheckUI()
+    {
+        if (GameManager.Instance.GetCurrentGameState() == GameState.PLACE_FORTRESS)
+        {
+            mainCanvas.SetActive(false);
+            placefortressCanvas.SetActive(true);
+            UpdateUI();
+        }
+    }
+    
+    private void UpdateUI()
+    {
+        currentModeText.text = placeMode.ToString();
+        currentPlayerText.text = GameManager.Instance.GetCurrentPlayer().ToString();
+    }
+    
+    private void BackToMainCanvas()
+    {
+        mainCanvas.SetActive(true);
+        placefortressCanvas.SetActive(false);
+    }
 
     private void CheckTouchAction(Touch touch)
     {
         if (GameManager.Instance.GetCurrentGameState() == GameState.PLACE_FORTRESS)
         {
+            //////////////////////////// Basic Raycast ///////////////////////////////
             bool ARhit;
             ARRaycastHit nearestHitPose = new ARRaycastHit();
 
@@ -125,7 +141,7 @@ public class PlaceFortress: MonoBehaviour {
             }  
 
             hits = Physics.RaycastAll(ray);
-
+            /////////////////////////////////////////////////////////////////////
             
             switch (placeMode)
             {
@@ -141,7 +157,7 @@ public class PlaceFortress: MonoBehaviour {
                 case PlaceMode.MOVE:
                     if (foundObject == null)
                     {
-                        Debug.Log ("Nothing Selected");
+                        Debug.Log("Nothing Selected");
                         break;
                     }
                     else {
@@ -157,6 +173,12 @@ public class PlaceFortress: MonoBehaviour {
 
     private void CheckPlace(bool rayHit, bool ARhit, RaycastHit nearestHit, ARRaycastHit nearestHitPose, Vector2 screenPosition)
     {
+        if (spawnedFortress != null)
+        {
+            Debug.Log("Can only spawn 1 fortress per player");
+            return;
+        }
+
         if (planeManager.enabled == false || planeManager.requestedDetectionMode == PlaneDetectionMode.None)
         {
             // logger.Log ("plane manager disabled");
@@ -168,16 +190,18 @@ public class PlaceFortress: MonoBehaviour {
                 }
             }
         }
-
+        // old code - basically accounts for placing fortresses on AR planes too
         else if (ARhit == true)
         {
             CheckSpawnFortress(screenPosition, nearestHitPose, nearestHit, true);
         }
     }
-
+    
+    //////////////////////////////// Spawn fortress methods /////////////////////////////
     private void CheckSpawnFortress(Vector2 screenPosition, ARRaycastHit nearestHitPose, RaycastHit nearestRayHit, bool isArPlaneManagerEnabled)
     {
-        if (cooldownCount > cooldown) {
+        if (cooldownCount > cooldown) 
+        {
             Debug.Log("checking Spawn");
             if (isArPlaneManagerEnabled)
             {
@@ -231,6 +255,7 @@ public class PlaceFortress: MonoBehaviour {
         spawnedFortress.transform.parent = point.transform;
     }
 
+    /////////////////////////////////////////////////////////////
     private void CheckSelect(bool rayHit, bool ARhit, RaycastHit nearestHit, ARRaycastHit nearestHitPose, Vector2 screenPosition)
     {
         if (rayHit) {
@@ -260,6 +285,32 @@ public class PlaceFortress: MonoBehaviour {
         {
             foundObject.transform.position = nearestHitPose.pose.position;
         }
+    }
+
+    public void ConfirmPlacement()
+    {
+        if (spawnedFortress == null)
+        {
+            Debug.Log("Must place fortress before moving on");
+            return;
+        }
+
+        if (GameManager.Instance.GetCurrentPlayer() == CurrentPlayer.PLAYER_1)
+        {
+            GameManager.Instance.SetCurrentPlayer(CurrentPlayer.PLAYER_2);
+            p1SpawnedFortress = spawnedFortress; // remember p1 core block prefab
+            spawnedFortress = null;
+            UpdateUI();
+        }
+        // must be player 2
+        // set both to non-kinematic, return to p1
+        else {
+            GameManager.Instance.SetCurrentGameState(GameState.PLACE_CORE_BLOCK);
+            ActivatePhysics();
+            GameManager.Instance.SetCurrentPlayer(CurrentPlayer.PLAYER_1);
+            BackToMainCanvas();
+        }
+
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////

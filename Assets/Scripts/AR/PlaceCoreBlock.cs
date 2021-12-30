@@ -157,7 +157,7 @@ public class PlaceCoreBlock: MonoBehaviour
         {
             Vector3 spawnPoint = new Vector3(nearestHit.point.x, nearestHit.point.y + 1, nearestHit.point.z);
             spawnedCoreBlock = Instantiate(currentPlayerPrefab, spawnPoint, Quaternion.identity);
-            SetObjectIsKinematic(spawnedCoreBlock, true);
+            // SetObjectIsKinematic(spawnedCoreBlock, true);
 
             spawnedCoreBlock.transform.parent = content.transform;
         }
@@ -194,8 +194,8 @@ public class PlaceCoreBlock: MonoBehaviour
         // set both to non-kinematic, return to p1
         else {
             GameManager.Instance.SetCurrentGameState(GameState.PLAYING);
-            SetObjectIsKinematic(p1SpawnedCoreBlock, false);
-            SetObjectIsKinematic(spawnedCoreBlock, false);
+            // SetObjectIsKinematic(p1SpawnedCoreBlock, false);
+            // SetObjectIsKinematic(spawnedCoreBlock, false);
             GameManager.Instance.SetCurrentPlayer(CurrentPlayer.PLAYER_1);
             BackToMainCanvas();
         }
