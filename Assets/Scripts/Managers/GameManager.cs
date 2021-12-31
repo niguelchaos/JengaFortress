@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
         {
             cubeRenderer = gameStateCube.GetComponent<Renderer>();
         }
+
         SetGameState(GameState.SETUP);
         SetPlayingState(PlayingState.START_TURN);
     }
@@ -142,13 +143,6 @@ public class GameManager : MonoBehaviour
     {
         return playingState;
     }
-
-    // public PlayingState GetPlayingState()
-    // {
-    //     currentPlayer = newPlayer;
-    //     // has anybody subscribed to this event? if so broadcast event
-    //     OnCurrentPlayerChanged?.Invoke(newPlayer);
-    // }
 
     public CurrentPlayer currentPlayer
     {

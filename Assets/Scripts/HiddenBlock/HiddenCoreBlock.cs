@@ -28,7 +28,7 @@ public class HiddenCoreBlock : MonoBehaviour
 
     }
 
-    private void UpdateOnGameStateChanged(GameState currentGameState)
+    private void UpdateOnGameStateChanged(GameState gameState)
     {
         CheckOutline();
     }

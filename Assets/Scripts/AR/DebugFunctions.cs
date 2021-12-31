@@ -154,6 +154,10 @@ public class DebugFunctions: MonoBehaviour
     }
     //////////////////////////////////////////////////
 
+    public void SetPlayingState()
+    {
+        GameManager.Instance.SetGameState(GameState.PLAYING);
+    }
     public void SetCoreBlockState()
     {
         GameManager.Instance.SetGameState(GameState.PLACE_CORE_BLOCK);

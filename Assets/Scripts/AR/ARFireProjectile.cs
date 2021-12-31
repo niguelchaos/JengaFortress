@@ -66,7 +66,7 @@ public class ARFireProjectile: MonoBehaviour {
                 // Debug.Log("Touch Lifted/Released");
                 isHolding = false;
                 fireBlock();
-                appliedForce = 0.0f;
+                appliedForce = 200.0f;
                 sessionController.UpdateAppliedForceText();
             }
 
@@ -100,12 +100,16 @@ public class ARFireProjectile: MonoBehaviour {
     } 
 
     public void adjustForce(float force) {
-        this.appliedForce += 25.0f;
+        this.appliedForce = this.appliedForce > 1000f ? 1000f : this.appliedForce + 25.0f;
         //Adjust in a smoother way and display value on screen
         //Make force go up/down when it reaches a max/min
     }
 
-    public void fireBlock() {  
+    public void fireBlock() {
+        // check if player has already fired
+        if (GameManager.Instance.GetPlayingState() is PlayingState.END_TURN)
+            return;
+
         Vector3 screenCenter;
 
         screenCenter = myCamera.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
@@ -122,6 +126,8 @@ public class ARFireProjectile: MonoBehaviour {
         //        + spawnedProjectile.transform.position.y + ", " + spawnedProjectile.transform.position.z);
 
         // logger.Log("Force applied: " + this.appliedForce);
+
+        GameManager.Instance.SetPlayingState(PlayingState.END_TURN);
     }
 
     public void push () {
