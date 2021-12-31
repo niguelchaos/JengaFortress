@@ -11,8 +11,7 @@ public enum PlaceMode
 {
     PLACE, 
     SELECT,
-    MOVE,
-    FIRE
+    MOVE
 }
 
 [RequireComponent(typeof(ARRaycastManager))]
@@ -168,9 +167,6 @@ public class PlaceFortress: MonoBehaviour {
                     else {
                         CheckMove(rayHit, ARhit, nearestHit, nearestHitPose, screenPosition);   
                     }
-                    break;
-                
-                case PlaceMode.FIRE:
                     break;
             }
         }
@@ -365,11 +361,6 @@ public class PlaceFortress: MonoBehaviour {
     public void ChangeToMove()
     {   
         placeMode = PlaceMode.MOVE;
-        sessionController.UpdateText();   
-    }
-    public void ChangeToFire()
-    {   
-        placeMode = PlaceMode.FIRE;
         sessionController.UpdateText();   
     }
 

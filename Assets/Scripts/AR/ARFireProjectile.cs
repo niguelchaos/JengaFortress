@@ -80,7 +80,7 @@ public class ARFireProjectile: MonoBehaviour {
     
     private void CheckTouchCountAction(int touchCount)
     {
-        if (placeFortress.GetPlaceMode() == PlaceMode.FIRE)
+        if (GameManager.Instance.GetGameState() == GameState.PLAYING)
         {
             if(touchCount == 2) {
                 logger.Log("touched 2");
