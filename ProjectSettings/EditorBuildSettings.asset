@@ -8,12 +8,15 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/ARUrpTest.unity
     guid: 5fd0523007cd68e46b0c0d783e8d0f84
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ARPlaceFortress.unity
     guid: 182d88a5e38946f41929bb0050d367b9
   - enabled: 0
     path: Assets/Scenes/ARFireBlock.unity
     guid: a6d98a646a9d5994180ae66e1d0d76fa
+  - enabled: 1
+    path: Assets/Scenes/ARPlaceFortressMergeBackup.unity
+    guid: 13231c534f06781468dde372f035acd7
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: 744b813df90924c169af73489b8325de,
       type: 2}

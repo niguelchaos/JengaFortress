@@ -52,17 +52,14 @@ public class Setup: MonoBehaviour
         planeManager = GetComponent<ARPlaneManager>();
         sessionController = this.gameObject.GetComponent<SessionOriginController>();
         fireProjectile = GetComponent<ARFireProjectile>();
+    }
 
+    void Start() 
+    {
         InputManager.Instance.OnFirstTouch += CheckTouchAction;
         // subscribe to gamestate changes
         GameManager.OnGameStateChanged += UpdateOnGameStateChanged;
     }
-
-    // void Start() 
-    // {
-
-
-    // }
 
     
     private void Update()
