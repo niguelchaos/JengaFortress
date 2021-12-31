@@ -77,6 +77,11 @@ public class PlaceFortress: MonoBehaviour {
 
     private void UpdateOnGameStateChanged(GameState currentGameState)
     {
+        // if for some reason begins in player 2 
+        if (GameManager.Instance.currentPlayer == CurrentPlayer.PLAYER_2)
+        {
+            GameManager.Instance.currentPlayer = CurrentPlayer.PLAYER_1;
+        }
         CheckUI();
     }
 

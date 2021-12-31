@@ -46,21 +46,23 @@ public class Setup: MonoBehaviour
     private void Awake()
     {
         arSessionOrigin = GetComponent<ARSessionOrigin>();
-    }
-
-    void Start() 
-    {
         myCamera = this.gameObject.transform.Find
                 ("AR Camera").gameObject.GetComponent<Camera>();
         raycastManager = this.gameObject.GetComponent<ARRaycastManager>();
         planeManager = GetComponent<ARPlaneManager>();
         sessionController = this.gameObject.GetComponent<SessionOriginController>();
         fireProjectile = GetComponent<ARFireProjectile>();
-        
+
         InputManager.Instance.OnFirstTouch += CheckTouchAction;
         // subscribe to gamestate changes
         GameManager.OnGameStateChanged += UpdateOnGameStateChanged;
     }
+
+    // void Start() 
+    // {
+
+
+    // }
 
     
     private void Update()
@@ -74,6 +76,7 @@ public class Setup: MonoBehaviour
 
     private void CheckUI()
     {
+        print("checking ui");
         if (GameManager.Instance.GetGameState() == GameState.SETUP)
         {
             mainCanvas.SetActive(false);
