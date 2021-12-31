@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public enum GameState
 {
     MAIN_MENU,
     SETUP,
     PLACE_FORTRESS,
+    PLACE_CORE_BLOCK,
     PLAYING,
     PAUSED,
     GAME_OVER
@@ -44,17 +46,18 @@ public class GameManager : MonoBehaviour
 
     public static event Action<GameState> OnGameStateChanged;
     public static event Action<PlayingState> OnPlayingStateChanged;
+    public static event Action<CurrentPlayer> OnCurrentPlayerChanged;
 
     // 
     [SerializeField] private GameObject gameStateCube;
     private Renderer cubeRenderer;
+
+    public TMP_Text currentGameStateText;
     
 
     private void Awake()
     {
         Instance = this;
-        SetGameState(GameState.SETUP);
-        SetPlayingState(PlayingState.START_TURN);
         currentPlayer = CurrentPlayer.PLAYER_1;
     }
 
@@ -66,6 +69,9 @@ public class GameManager : MonoBehaviour
         {
             cubeRenderer = gameStateCube.GetComponent<Renderer>();
         }
+
+        SetGameState(GameState.SETUP);
+        SetPlayingState(PlayingState.START_TURN);
     }
 
     //private void Update() {}
@@ -114,6 +120,7 @@ public class GameManager : MonoBehaviour
     {
         gameState = newState;
         UpdateGameState();
+        currentGameStateText.text = GetGameState().ToString();
 
         // has anybody subscribed to this event? if so broadcast event
         OnGameStateChanged?.Invoke(newState);
@@ -140,7 +147,10 @@ public class GameManager : MonoBehaviour
     public CurrentPlayer currentPlayer
     {
         get { return _currentPlayer; }
-        set { _currentPlayer = value; }
+        set { 
+            _currentPlayer = value; 
+            OnCurrentPlayerChanged?.Invoke(value);
+        }
     }
 
     public WinCondition GetWinCondition()

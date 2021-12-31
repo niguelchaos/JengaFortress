@@ -12,6 +12,7 @@ public class HiddenBlockBoundary : MonoBehaviour
 
    [SerializeField]  private GameObject playerHbGO;
     private MeshRenderer meshRenderer;
+    private bool isAttached = false;
 
     private void Start()
     {
@@ -21,10 +22,17 @@ public class HiddenBlockBoundary : MonoBehaviour
 
         GetPlayerHbGO();
         StartCoroutine(WaitToAttach(2));
+
         GameManager.OnGameStateChanged += UpdateOnGameStateChanged;
+        GameManager.OnCurrentPlayerChanged += UpdateOnCurrentPlayerChanged;
+
     }
 
     private void UpdateOnGameStateChanged(GameState gameState)
+    {
+        CheckMeshRenderer();
+    }
+        private void UpdateOnCurrentPlayerChanged(CurrentPlayer currentPlayer)
     {
         CheckMeshRenderer();
     }
@@ -32,7 +40,6 @@ public class HiddenBlockBoundary : MonoBehaviour
     public void CheckMeshRenderer()
     {
         DisableRenderer();
-        //switch (GameManager.Instance.GetCurrentPlayer(), player.GetPlayerNum())
         switch (GameManager.Instance.currentPlayer, player.GetPlayerNum())
         {
             case (CurrentPlayer.PLAYER_1, PlayerNum.P1):
@@ -58,6 +65,8 @@ public class HiddenBlockBoundary : MonoBehaviour
     private void AttachToStartingPoint()
     {
         transform.position = playerHbGO.transform.position;
+        // print("Attached: " + transform.position);
+        isAttached = true;
     }
     
     IEnumerator WaitToAttach(int time)
@@ -69,8 +78,8 @@ public class HiddenBlockBoundary : MonoBehaviour
 
     private void OnTriggerExit(Collider col)
     {
-        HiddenCoreBlock hiddenCoreBlock = playerHbGO.GetComponent<HiddenCoreBlock>();
-        if (col.gameObject.tag == "CoreBlock")
+        // HiddenCoreBlock hiddenCoreBlock = playerHbGO.GetComponent<HiddenCoreBlock>();
+        if (col.gameObject.tag == "CoreBlock" && isAttached)
         {
             Debug.Log("Left Boundary");
             if (GameManager.Instance.GetWinCondition() != WinCondition.HitFloor)

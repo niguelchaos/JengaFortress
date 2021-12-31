@@ -9,13 +9,13 @@ public class ImageTracker : MonoBehaviour
     private ARTrackedImageManager imgtracker;
     private ARSessionOrigin arOrigin;
     private ARAnchorManager arAnchor;
-    private ARPlaneManager planeManager;
+    // private ARPlaneManager planeManager;
     // public GameObject fortress;
     private PlaceFortress placeFortress;
     private ScaleContent scaleContent;
-    public GameObject groundPlanePrefab;
+    // public GameObject groundPlanePrefab;
     public Dictionary <string, GameObject> myGroundPlanes;
-    public GameObject testLocation;
+    // public GameObject testLocation;
 
     void Awake()
     {
@@ -29,7 +29,7 @@ public class ImageTracker : MonoBehaviour
 
     private void Start()
     {
-        planeManager = GetComponent<ARPlaneManager>();
+        // planeManager = GetComponent<ARPlaneManager>();
     }
 
     void OnEnable()
@@ -78,63 +78,25 @@ public class ImageTracker : MonoBehaviour
 
 
         if (!myGroundPlanes.ContainsKey(key)) {
-            if (placeFortress.groundPlane == null)
-            {
-                Debug.Log ("image pos:  " + img.transform.position);
-                placeFortress.groundPlane = Instantiate(groundPlanePrefab, img.transform.position, Quaternion.identity);
-                // placeFortress.transform.parent = img.transform;
-                myGroundPlanes[key] = groundPlanePrefab;
+            // if (placeFortress.groundPlane == null)
+            // {
+                
+            //     Debug.Log ("image pos:  " + img.transform.position);
+            //     placeFortress.groundPlane = Instantiate(groundPlanePrefab, img.transform.position, Quaternion.identity);
+            //     // placeFortress.transform.parent = img.transform;
+            //     myGroundPlanes[key] = groundPlanePrefab;
 
-                placeFortress.groundPlane.AddComponent<ARAnchor>();
-                // placeFortress.groundPlane.transform.parent = arOrigin.transform;
+            //     placeFortress.groundPlane.AddComponent<ARAnchor>();
+            //     // placeFortress.groundPlane.transform.parent = arOrigin.transform;
 
-                placeFortress.content.transform.position = placeFortress.groundPlane.transform.position;
-                Debug.Log ("groundplane pos:  " + placeFortress.groundPlane.transform.position);
+            //     placeFortress.content.transform.position = placeFortress.groundPlane.transform.position;
+            //     Debug.Log ("groundplane pos:  " + placeFortress.groundPlane.transform.position);
                 
                 
-                planeManager.requestedDetectionMode = PlaneDetectionMode.None;
-                planeManager.enabled = false;
-                Debug.Log ("planes disabled");
-            }
+            //     planeManager.requestedDetectionMode = PlaneDetectionMode.None;
+            //     planeManager.enabled = false;
+                Debug.Log ("image detected");
+            // }
         }
-    }
-
-    public void PlaceTestGroundPlane()
-    {
-        if (testLocation.activeSelf == true)
-        {
-            Debug.Log ("image pos:  " + testLocation.transform.position);
-            placeFortress.groundPlane = Instantiate(groundPlanePrefab, testLocation.transform.position, Quaternion.identity);
-            // placeFortress.transform.parent = testLocation.transform;
-            // myGroundPlanes[key] = groundPlanePrefab;
-
-            placeFortress.groundPlane.AddComponent<ARAnchor>();
-            // placeFortress.groundPlane.transform.parent = arOrigin.transform;
-
-            placeFortress.content.transform.position = placeFortress.groundPlane.transform.position;
-            Debug.Log ("groundplane pos:  " + placeFortress.groundPlane.transform.position);
-            
-            
-            planeManager.requestedDetectionMode = PlaneDetectionMode.None;
-            planeManager.enabled = false;
-            Debug.Log ("planes disabled");
-        }
-    }
-
-    public void PlaceGroundPlane(Vector3 selectedPos)
-    {
-        Debug.Log ("ground pos:  " + selectedPos);
-        placeFortress.groundPlane = Instantiate(groundPlanePrefab, selectedPos, Quaternion.identity);
-
-        placeFortress.groundPlane.AddComponent<ARAnchor>();
-        // placeFortress.groundPlane.transform.parent = arOrigin.transform;
-
-        placeFortress.content.transform.position = placeFortress.groundPlane.transform.position;
-        Debug.Log ("groundplane pos:  " + placeFortress.groundPlane.transform.position);
-        
-        planeManager.requestedDetectionMode = PlaneDetectionMode.None;
-        planeManager.enabled = false;
-        Debug.Log ("planes disabled");
-        
     }
 }

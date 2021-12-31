@@ -8,25 +8,29 @@ using UnityEngine.XR.ARSubsystems;
 using TMPro;
 
 // this entire class is jank
+// much is currently not used
 public class ScaleContent: MonoBehaviour 
 {
+    private ARSessionOrigin arSessionOrigin;
     private PlaceFortress placeFortress;
     private ARFireProjectile fireProjectile;
-    private ARSessionOrigin arSessionOrigin;
     private SessionOriginController sessionController;
+    private Setup setup;
+    private DebugFunctions debugFunctions;
 
     public Camera myCamera;
 
+    // not used
     public float arSessionOriginSize = 55;
     private float upscaleIncrement = 5f;
     private float downscaleIncrement = -5f;
 
-    [SerializeField] public Vector3 selectedFirePosition;
+    // [SerializeField] public Vector3 selectedFirePosition;
     [SerializeField] public Vector3 prevFirePosition;
-    public GameObject firingPos;
+    // public GameObject firingPos;
     public bool prevSpawnDistActivated = false;
 
-    public Slider firingPosSlider;
+    // public Slider firingPosSlider;
 
     private void Awake()
     {
@@ -35,6 +39,8 @@ public class ScaleContent: MonoBehaviour
 
     void Start() 
     {
+        setup = GetComponent<Setup>();
+        debugFunctions = GetComponent<DebugFunctions>();
         placeFortress = GetComponent<PlaceFortress>();
         fireProjectile = GetComponent<ARFireProjectile>();
         arSessionOrigin = GetComponent<ARSessionOrigin>();
@@ -43,30 +49,6 @@ public class ScaleContent: MonoBehaviour
         myCamera = this.gameObject.transform.Find
                 ("AR Camera").gameObject.GetComponent<Camera>();
     }
-
-    // used by slider
-    public void SetFiringPos()
-    {
-        firingPos.transform.position = myCamera.gameObject.transform.position + (myCamera.transform.forward * firingPosSlider.value);
-    }
-
-    // used by setfirepos button
-    public void GetInitFirePosition()
-    {
-        selectedFirePosition = firingPos.transform.position;
-        Debug.Log("Remembering inital position:  " + selectedFirePosition);
-
-        // calculate distance between camera and firingpos, set it
-        fireProjectile.fireSpawnDist = GetInitFireSpawnDist();
-    }
-
-    public float GetInitFireSpawnDist()
-    {
-        float distance = Vector3.Distance(selectedFirePosition, myCamera.gameObject.transform.position);
-        Debug.Log("init spawn dist: " + distance);
-        return distance;
-    }
-
 
     ////////////////////////////////////////////////////////////////
     public void UpscaleSession()
@@ -89,7 +71,7 @@ public class ScaleContent: MonoBehaviour
         // doesnt work in the beginning if previous distance is 1
         if (prevSpawnDistActivated)
         {
-            firingPos.transform.position = myCamera.gameObject.transform.position + (transform.forward * fireProjectile.prevFireSpawnDist);
+            setup.firingPos.transform.position = myCamera.gameObject.transform.position + (transform.forward * fireProjectile.prevFireSpawnDist);
         }
         
         // remember this previous firepos
@@ -105,15 +87,15 @@ public class ScaleContent: MonoBehaviour
 
     private void PlaceCameraOnContent()
     {
-        if (placeFortress.refPlane.activeSelf == true && placeFortress.planeManager.enabled)
+        if (debugFunctions.refPlane.activeSelf == true && placeFortress.planeManager.enabled)
         {
-            arSessionOrigin.MakeContentAppearAt(placeFortress.content.transform, placeFortress.refPlane.transform.position);
+            arSessionOrigin.MakeContentAppearAt(setup.content.transform, debugFunctions.refPlane.transform.position);
         }
 
-        else if (placeFortress.groundPlane != null)
+        else if (setup.groundPlane != null)
         {
             // Vector3 targetPos = new Vector3(content.transform.position.x, groundPlane.transform.position.y, content.transform.position.z);
-            arSessionOrigin.MakeContentAppearAt(placeFortress.content.transform, placeFortress.groundPlane.transform.position);
+            arSessionOrigin.MakeContentAppearAt(setup.content.transform, setup.groundPlane.transform.position);
             Debug.Log ("ground plane scaling");
             // return;
         }
@@ -141,7 +123,7 @@ public class ScaleContent: MonoBehaviour
         }
 
         // apply distance difference
-        firingPos.transform.position = myCamera.gameObject.transform.position + (transform.forward * fireProjectile.fireSpawnDist);
+        setup.firingPos.transform.position = myCamera.gameObject.transform.position + (transform.forward * fireProjectile.fireSpawnDist);
     }
 
     private float GetFireSpawnDistDiff(Vector3 currentPos)

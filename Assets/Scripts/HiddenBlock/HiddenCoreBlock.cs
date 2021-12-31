@@ -24,9 +24,15 @@ public class HiddenCoreBlock : MonoBehaviour
         
         // subscribe to state changes
         GameManager.OnGameStateChanged += UpdateOnGameStateChanged;
+        GameManager.OnCurrentPlayerChanged += UpdateOnCurrentPlayerChanged;
+
     }
 
     private void UpdateOnGameStateChanged(GameState gameState)
+    {
+        CheckOutline();
+    }
+    private void UpdateOnCurrentPlayerChanged(CurrentPlayer currentPlayer)
     {
         CheckOutline();
     }
@@ -53,7 +59,6 @@ public class HiddenCoreBlock : MonoBehaviour
     public void CheckOutline()
     {
         DisableOutline();
-        //switch (GameManager.Instance.GetCurrentPlayer(), player.GetPlayerNum())
         switch (GameManager.Instance.currentPlayer, player.GetPlayerNum())
         {
             case (CurrentPlayer.PLAYER_1, PlayerNum.P1):
