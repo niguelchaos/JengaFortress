@@ -64,7 +64,7 @@ public class PlaceCoreBlock: MonoBehaviour
 
     private void CheckUI()
     {
-        if (GameManager.Instance.GetCurrentGameState() == GameState.PLACE_CORE_BLOCK)
+        if (GameManager.Instance.GetGameState() == GameState.PLACE_CORE_BLOCK)
         {
             mainCanvas.SetActive(false);
             coreBlockCanvas.SetActive(true);
@@ -79,7 +79,7 @@ public class PlaceCoreBlock: MonoBehaviour
 
     private void CheckTouchAction(Touch touch)
     {
-        if (GameManager.Instance.GetCurrentGameState() == GameState.PLACE_CORE_BLOCK)
+        if (GameManager.Instance.GetGameState() == GameState.PLACE_CORE_BLOCK)
         {
             // bool ARhit;
             // ARRaycastHit nearestHitPose = new ARRaycastHit();
@@ -132,7 +132,7 @@ public class PlaceCoreBlock: MonoBehaviour
     {
         GameObject currentPlayerPrefab;
 
-        if (GameManager.Instance.GetCurrentPlayer() == CurrentPlayer.PLAYER_1)
+        if (GameManager.Instance.currentPlayer == CurrentPlayer.PLAYER_1)
         {   currentPlayerPrefab = player1Prefab;    }
         else 
         {   currentPlayerPrefab = player2Prefab;    }
@@ -183,9 +183,9 @@ public class PlaceCoreBlock: MonoBehaviour
             return;
         }
 
-        if (GameManager.Instance.GetCurrentPlayer() == CurrentPlayer.PLAYER_1)
+        if (GameManager.Instance.currentPlayer == CurrentPlayer.PLAYER_1)
         {
-            GameManager.Instance.SetCurrentPlayer(CurrentPlayer.PLAYER_2);
+            GameManager.Instance.currentPlayer = CurrentPlayer.PLAYER_2;
             p1SpawnedCoreBlock = spawnedCoreBlock; // remember p1 core block prefab
             spawnedCoreBlock = null;
             UpdateUI();
@@ -193,10 +193,10 @@ public class PlaceCoreBlock: MonoBehaviour
         // must be player 2
         // set both to non-kinematic, return to p1
         else {
-            GameManager.Instance.SetCurrentGameState(GameState.PLAYING);
+            GameManager.Instance.SetGameState(GameState.PLAYING);
             // SetObjectIsKinematic(p1SpawnedCoreBlock, false);
             // SetObjectIsKinematic(spawnedCoreBlock, false);
-            GameManager.Instance.SetCurrentPlayer(CurrentPlayer.PLAYER_1);
+            GameManager.Instance.currentPlayer = CurrentPlayer.PLAYER_1;
             BackToMainCanvas();
         }
 
@@ -205,7 +205,7 @@ public class PlaceCoreBlock: MonoBehaviour
     private void UpdateUI()
     {
         currentModeText.text = coreBlockMode.ToString();
-        currentPlayerText.text = GameManager.Instance.GetCurrentPlayer().ToString();
+        currentPlayerText.text = GameManager.Instance.currentPlayer.ToString();
     }
 
 }

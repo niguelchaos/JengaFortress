@@ -74,7 +74,7 @@ public class Setup: MonoBehaviour
 
     private void CheckUI()
     {
-        if (GameManager.Instance.GetCurrentGameState() == GameState.SETUP)
+        if (GameManager.Instance.GetGameState() == GameState.SETUP)
         {
             mainCanvas.SetActive(false);
             setupCanvas.SetActive(true);
@@ -99,7 +99,7 @@ public class Setup: MonoBehaviour
 
     private void CheckTouchAction(Touch touch)
     {
-        if (GameManager.Instance.GetCurrentGameState() == GameState.SETUP)
+        if (GameManager.Instance.GetGameState() == GameState.SETUP)
         {
             bool ARhit;
             ARRaycastHit nearestHitPose = new ARRaycastHit();
@@ -180,7 +180,7 @@ public class Setup: MonoBehaviour
                 return;
             }
             else {
-                GameManager.Instance.SetCurrentGameState(GameState.PLACE_FORTRESS);
+                GameManager.Instance.SetGameState(GameState.PLACE_FORTRESS);
                 BackToMainCanvas();
             }
         }

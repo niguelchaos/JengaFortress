@@ -82,7 +82,7 @@ public class PlaceFortress: MonoBehaviour {
 
     private void CheckUI()
     {
-        if (GameManager.Instance.GetCurrentGameState() == GameState.PLACE_FORTRESS)
+        if (GameManager.Instance.GetGameState() == GameState.PLACE_FORTRESS)
         {
             mainCanvas.SetActive(false);
             placefortressCanvas.SetActive(true);
@@ -93,7 +93,7 @@ public class PlaceFortress: MonoBehaviour {
     private void UpdateUI()
     {
         currentModeText.text = placeMode.ToString();
-        currentPlayerText.text = GameManager.Instance.GetCurrentPlayer().ToString();
+        currentPlayerText.text = GameManager.Instance.currentPlayer.ToString();
     }
     
     private void BackToMainCanvas()
@@ -104,7 +104,7 @@ public class PlaceFortress: MonoBehaviour {
 
     private void CheckTouchAction(Touch touch)
     {
-        if (GameManager.Instance.GetCurrentGameState() == GameState.PLACE_FORTRESS)
+        if (GameManager.Instance.GetGameState() == GameState.PLACE_FORTRESS)
         {
             //////////////////////////// Basic Raycast ///////////////////////////////
             bool ARhit;
@@ -295,9 +295,9 @@ public class PlaceFortress: MonoBehaviour {
             return;
         }
 
-        if (GameManager.Instance.GetCurrentPlayer() == CurrentPlayer.PLAYER_1)
+        if (GameManager.Instance.currentPlayer == CurrentPlayer.PLAYER_1)
         {
-            GameManager.Instance.SetCurrentPlayer(CurrentPlayer.PLAYER_2);
+            GameManager.Instance.currentPlayer = CurrentPlayer.PLAYER_2;
             p1SpawnedFortress = spawnedFortress; // remember p1 core block prefab
             spawnedFortress = null;
             UpdateUI();
@@ -305,9 +305,9 @@ public class PlaceFortress: MonoBehaviour {
         // must be player 2
         // set both to non-kinematic, return to p1
         else {
-            GameManager.Instance.SetCurrentGameState(GameState.PLACE_CORE_BLOCK);
+            GameManager.Instance.SetGameState(GameState.PLACE_CORE_BLOCK);
             ActivatePhysics();
-            GameManager.Instance.SetCurrentPlayer(CurrentPlayer.PLAYER_1);
+            GameManager.Instance.currentPlayer = CurrentPlayer.PLAYER_1;
             BackToMainCanvas();
         }
 

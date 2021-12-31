@@ -156,11 +156,11 @@ public class DebugFunctions: MonoBehaviour
 
     public void SetCoreBlockState()
     {
-        GameManager.Instance.SetCurrentGameState(GameState.PLACE_CORE_BLOCK);
+        GameManager.Instance.SetGameState(GameState.PLACE_CORE_BLOCK);
     }
     public void SetSetupState()
     {
-        GameManager.Instance.SetCurrentGameState(GameState.SETUP);
+        GameManager.Instance.SetGameState(GameState.SETUP);
     }
 
 }

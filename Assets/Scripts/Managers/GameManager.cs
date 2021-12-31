@@ -15,8 +15,7 @@ public enum GameState
     GAME_OVER
 }
 
-// TODO: dont care about this for now
-public enum PlayerTurnState
+public enum PlayingState
 {
     START_TURN,
     IDLE,
@@ -31,20 +30,22 @@ public enum CurrentPlayer
     PLAYER_2 = 2
 }
 
-public enum WinCondition {HitFloor, LeaveBoundary, Both}
+public enum WinCondition { HitFloor, LeaveBoundary, Both }
 
 
 public class GameManager : MonoBehaviour
 {
-    // basically a singleton - only 1, accessible anywhere, instance can be retrieved anywhere
+    // singleton
     public static GameManager Instance;
 
     // States
-    [SerializeField] private GameState currentGameState;
-    [SerializeField] private CurrentPlayer currentPlayer;
+    [SerializeField] private GameState gameState;
+    [SerializeField] private PlayingState playingState;
+    [SerializeField] private CurrentPlayer _currentPlayer;
     [SerializeField] private WinCondition winCondition;
 
     public static event Action<GameState> OnGameStateChanged;
+    public static event Action<PlayingState> OnPlayingStateChanged;
     public static event Action<CurrentPlayer> OnCurrentPlayerChanged;
 
     // 
@@ -57,7 +58,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        SetCurrentGameState(GameState.MAIN_MENU);
         currentPlayer = CurrentPlayer.PLAYER_1;
     }
 
@@ -69,25 +69,24 @@ public class GameManager : MonoBehaviour
         {
             cubeRenderer = gameStateCube.GetComponent<Renderer>();
         }
-        //timer = changeStateTime;
+        SetGameState(GameState.SETUP);
+        SetPlayingState(PlayingState.START_TURN);
     }
 
-    private void Update()
-    {
-        
-    }
+    //private void Update() {}
+
     private void UpdateGameState()
     {
         if (cubeRenderer != null)
         {
-            switch(currentGameState)
+            switch(gameState)
             {
                 case GameState.MAIN_MENU:
                     cubeRenderer.material.color = Color.white;
                     break;
                 case GameState.PLAYING:
                     //Call SetColor using the shader property name "_Color" and setting the color to red
-                    if(currentPlayer == CurrentPlayer.PLAYER_1)
+                    if(currentPlayer is CurrentPlayer.PLAYER_1)
                         cubeRenderer.material.color = Color.yellow;
                     else
                         cubeRenderer.material.color = Color.blue;
@@ -99,36 +98,65 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SetCurrentGameState(GameState newState)
+    private void UpdatePlayingState()
     {
-        currentGameState = newState;
+        switch(playingState)
+        {
+            case PlayingState.START_TURN:
+                currentPlayer = (currentPlayer == CurrentPlayer.PLAYER_1)
+                                    ? CurrentPlayer.PLAYER_2
+                                    : CurrentPlayer.PLAYER_1;
+                break;
+            /*case PlayingState.THROWING | PlayingState.AIMING:
+                break;
+            case PlayingState.END_TURN:
+                break;*/
+        }
+    }
+
+
+    public void SetGameState(GameState newState)
+    {
+        gameState = newState;
         UpdateGameState();
-        currentGameStateText.text = GetCurrentGameStateString();
+        currentGameStateText.text = GetGameState().ToString();
 
         // has anybody subscribed to this event? if so broadcast event
         OnGameStateChanged?.Invoke(newState);
     }
 
-    public GameState GetCurrentGameState()
+    public GameState GetGameState()
     {
-        return currentGameState;
+        return gameState;
     }
 
-    public String GetCurrentGameStateString()
+    public void SetPlayingState(PlayingState newState)
     {
-        return currentGameState.ToString();
-    }
-    
-    public void SetCurrentPlayer(CurrentPlayer newPlayer)
-    {
-        currentPlayer = newPlayer;
-        // has anybody subscribed to this event? if so broadcast event
-        OnCurrentPlayerChanged?.Invoke(newPlayer);
+        playingState = newState;
+        UpdatePlayingState();
+
+        OnPlayingStateChanged?.Invoke(newState);
     }
 
-    public CurrentPlayer GetCurrentPlayer()
+    public PlayingState GetPlayingState()
     {
-        return currentPlayer;
+        return playingState;
+    }
+
+    // public PlayingState GetPlayingState()
+    // {
+    //     currentPlayer = newPlayer;
+    //     // has anybody subscribed to this event? if so broadcast event
+    //     OnCurrentPlayerChanged?.Invoke(newPlayer);
+    // }
+
+    public CurrentPlayer currentPlayer
+    {
+        get { return _currentPlayer; }
+        set { 
+            _currentPlayer = value; 
+            OnCurrentPlayerChanged?.Invoke(value);
+        }
     }
 
     public WinCondition GetWinCondition()
@@ -141,15 +169,16 @@ public class GameManager : MonoBehaviour
         this.winCondition = newWinCondition; 
     }
 
-    // not sure what this methods for
     public void StartGame()
     {
-        SetCurrentGameState(GameState.PLAYING);
+        SetGameState(GameState.PLAYING);
     }
-
-    // maybe use SetCurrentPlayer instead?
+    
     public void ChangePlayer()
     {
-        currentPlayer = (currentPlayer == CurrentPlayer.PLAYER_1) ? CurrentPlayer.PLAYER_2 : CurrentPlayer.PLAYER_1;
+        SetPlayingState(PlayingState.START_TURN);
+        //currentPlayer = (currentPlayer == CurrentPlayer.PLAYER_1) ? CurrentPlayer.PLAYER_2 : CurrentPlayer.PLAYER_1;
+        //SetCurrentPlayer((CurrentPlayer.PLAYER_1 & CurrentPlayer.PLAYER_2) ^ currentPlayer);
     }
+
 }
