@@ -59,6 +59,7 @@ public class Setup: MonoBehaviour
         InputManager.Instance.OnFirstTouch += CheckTouchAction;
         // subscribe to gamestate changes
         GameManager.OnGameStateChanged += UpdateOnGameStateChanged;
+        CheckUI();
     }
 
     
@@ -73,7 +74,7 @@ public class Setup: MonoBehaviour
 
     private void CheckUI()
     {
-        print("checking ui");
+        // print("checking ui");
         if (GameManager.Instance.GetGameState() == GameState.SETUP)
         {
             mainCanvas.SetActive(false);
@@ -112,6 +113,7 @@ public class Setup: MonoBehaviour
 
             if (sessionController.IsPointOverUIObject(screenPosition))
             {
+                // Debug.Log ("clicked on button");
                 return;
             }
 
