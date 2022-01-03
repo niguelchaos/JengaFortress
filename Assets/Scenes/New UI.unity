@@ -798,7 +798,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 243, y: -107}
+  m_AnchoredPosition: {x: 181, y: -107}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &158445805
@@ -844,7 +844,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 158445806}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 585412473}
+        m_TargetAssemblyTypeName: ScaleContent, Assembly-CSharp
+        m_MethodName: UpscaleSession
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &158445806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -883,6 +895,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 158445803}
   m_CullTransparentMesh: 1
+--- !u!1 &181566768
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 181566769}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &181566769
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 181566768}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1907492940}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &213158115
 GameObject:
   m_ObjectHideFlags: 0
@@ -1633,7 +1675,7 @@ GameObject:
   - component: {fileID: 399233855}
   - component: {fileID: 399233854}
   m_Layer: 5
-  m_Name: confirm
+  m_Name: confirmPlaceBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1656,7 +1698,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -498}
+  m_AnchoredPosition: {x: 0, y: -430}
   m_SizeDelta: {x: 450, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &399233854
@@ -1702,7 +1744,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 399233855}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 585412482}
+        m_TargetAssemblyTypeName: PlayUI, Assembly-CSharp
+        m_MethodName: activateAdjustFireScreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &399233855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2458,6 +2512,7 @@ GameObject:
   - component: {fileID: 585412473}
   - component: {fileID: 585412475}
   - component: {fileID: 585412474}
+  - component: {fileID: 585412482}
   m_Layer: 0
   m_Name: AR Session Origin
   m_TagString: Untagged
@@ -2659,6 +2714,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Camera: {fileID: 1553178437}
+--- !u!114 &585412482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585412469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e01f68fc984b897428a66a487114002c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentPlayerText: {fileID: 0}
+  endTurnButton: {fileID: 0}
+  endTurnButtonImage: {fileID: 0}
+  startScreen: {fileID: 0}
+  placeGroundScreen: {fileID: 0}
+  adjustFireScreen: {fileID: 0}
+  placePlayer1Screen: {fileID: 0}
+  placePlayer2Screen: {fileID: 0}
+  playingScreen: {fileID: 0}
 --- !u!1 &599857430
 GameObject:
   m_ObjectHideFlags: 0
@@ -2871,7 +2947,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 243, y: -237}
+  m_AnchoredPosition: {x: 181, y: -237}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &608657078
@@ -2917,7 +2993,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 608657079}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 585412473}
+        m_TargetAssemblyTypeName: ScaleContent, Assembly-CSharp
+        m_MethodName: DownscaleSession
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &608657079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4186,7 +4274,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -186, y: -184}
+  m_AnchoredPosition: {x: -129, y: -184}
   m_SizeDelta: {x: 200, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &831788752
@@ -6537,7 +6625,7 @@ GameObject:
   - component: {fileID: 1246699297}
   - component: {fileID: 1246699296}
   m_Layer: 5
-  m_Name: confirmPlace
+  m_Name: confirmPlaceP1Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6606,7 +6694,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1246699297}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 585412482}
+        m_TargetAssemblyTypeName: PlayUI, Assembly-CSharp
+        m_MethodName: activatePlacePlayer2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1246699297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7819,7 +7919,7 @@ GameObject:
   - component: {fileID: 1509730606}
   - component: {fileID: 1509730605}
   m_Layer: 5
-  m_Name: confirmPlace
+  m_Name: confirmPlaceP2Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7888,7 +7988,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1509730606}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 585412482}
+        m_TargetAssemblyTypeName: PlayUI, Assembly-CSharp
+        m_MethodName: activatePlayingScreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1509730606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9017,7 +9129,7 @@ GameObject:
   - component: {fileID: 1792879919}
   - component: {fileID: 1792879918}
   m_Layer: 5
-  m_Name: playBtn
+  m_Name: startGameBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9086,7 +9198,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1792879919}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 585412482}
+        m_TargetAssemblyTypeName: PlayUI, Assembly-CSharp
+        m_MethodName: activatePlaceGround
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: playUI.activatePlaceGround
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1792879919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9212,6 +9336,7 @@ GameObject:
   - component: {fileID: 1862419795}
   - component: {fileID: 1862419794}
   - component: {fileID: 1862419793}
+  - component: {fileID: 1862419797}
   m_Layer: 5
   m_Name: startScreen
   m_TagString: Untagged
@@ -9301,6 +9426,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!225 &1862419797
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862419792}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1871530586
 GameObject:
   m_ObjectHideFlags: 0
@@ -9812,6 +9949,7 @@ Transform:
   m_Children:
   - {fileID: 1845280787}
   - {fileID: 603884257}
+  - {fileID: 181566769}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10564,6 +10702,12 @@ MonoBehaviour:
   currentPlayerText: {fileID: 1464255216}
   endTurnButton: {fileID: 0}
   endTurnButtonImage: {fileID: 0}
+  startScreen: {fileID: 1862419795}
+  placeGroundScreen: {fileID: 1402393859}
+  adjustFireScreen: {fileID: 52485641}
+  placePlayer1Screen: {fileID: 661405618}
+  placePlayer2Screen: {fileID: 2126475295}
+  playingScreen: {fileID: 1145042070}
 --- !u!114 &2026470829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10794,7 +10938,7 @@ GameObject:
   - component: {fileID: 2030270066}
   - component: {fileID: 2030270065}
   m_Layer: 5
-  m_Name: confirm
+  m_Name: confirmAdjustFireBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10863,7 +11007,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2030270066}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 585412482}
+        m_TargetAssemblyTypeName: PlayUI, Assembly-CSharp
+        m_MethodName: activatePlacePlayer1
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2030270066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11207,7 +11363,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -48, y: 518}
+  m_AnchoredPosition: {x: -48, y: 439}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2129708738
