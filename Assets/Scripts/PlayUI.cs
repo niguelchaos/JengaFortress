@@ -11,13 +11,14 @@ public class PlayUI : MonoBehaviour
     public TMP_Text currentPlayerText;
     public Button endTurnButton;
     public Image endTurnButtonImage;
-    public Canvas oldCanvas;
-    public Canvas startScreen;
-    public Canvas placeGroundScreen;
-    public Canvas adjustFireScreen;
-    public Canvas placePlayer1Screen;
-    public Canvas placePlayer2Screen;
-    public Canvas playingScreen;
+    public GameObject oldCanvas;
+    public GameObject startScreen;
+    public GameObject placeGroundScreen;
+    public GameObject adjustFireScreen;
+    public GameObject placePlayer1Screen;
+    public GameObject placePlayer2Screen;
+    public GameObject playingScreen;
+    public GameObject currentScreen;
     //private Player player;
 
     void Start()
@@ -26,23 +27,25 @@ public class PlayUI : MonoBehaviour
         endTurnButtonImage = GameObject.Find("EndTurnButton").GetComponent<Image>();
         currentPlayerText = GameObject.Find("CurrentPlayerText").GetComponent<TMP_Text>();
 
-        oldCanvas = GameObject.Find("Canvas").GetComponent<Canvas>();
-        startScreen = GameObject.Find("startScreen").GetComponent<Canvas>();
-        placeGroundScreen = GameObject.Find("placeGroundScreen").GetComponent<Canvas>();
-        adjustFireScreen = GameObject.Find("adjustFireScreen").GetComponent<Canvas>();
-        placePlayer1Screen = GameObject.Find("placePlayer1").GetComponent<Canvas>();
-        placePlayer2Screen = GameObject.Find("placePlayer2").GetComponent<Canvas>();
-        playingScreen = GameObject.Find("playingScreen").GetComponent<Canvas>();
+        //oldCanvas = GameObject.Find("oldCanvas");
+        // //startScreen = GameObject.Find("startScreen");
+        // placeGroundScreen = GameObject.Find("placeGroundScreen");
+        // adjustFireScreen = GameObject.Find("adjustFireScreen");
+        // placePlayer1Screen = GameObject.Find("placePlayer1");
+        // placePlayer2Screen = GameObject.Find("placePlayer2");
+        // playingScreen = GameObject.Find("playingScreen");
         UpdateText();
         GameManager.OnPlayingStateChanged += UpdateOnPlayingStateChanged;
+        GameManager.OnGameStateChanged += UpdateOnGameStateChanged;
+        currentScreen = startScreen;
 
-        oldCanvas.gameObject.SetActive(false);
-        startScreen.gameObject.SetActive(true);
-        placeGroundScreen.gameObject.SetActive(false);
-        adjustFireScreen.gameObject.SetActive(false);
-        placePlayer1Screen.gameObject.SetActive(false);
-        placePlayer2Screen.gameObject.SetActive(false);
-        playingScreen.gameObject.SetActive(false);
+        oldCanvas.SetActive(false);
+        startScreen.SetActive(true);
+        placeGroundScreen.SetActive(false);
+        adjustFireScreen.SetActive(false);
+        placePlayer1Screen.SetActive(false);
+        placePlayer2Screen.SetActive(false);
+        playingScreen.SetActive(false);
     }
 
     private void UpdateText()
@@ -73,6 +76,10 @@ public class PlayUI : MonoBehaviour
             StopCoroutine("startBlinkButton");
     }
 
+    public void switchToSetup(){
+        GameManager.Instance.SetGameState(GameState.SETUP);
+    }
+
     public void activatePlaceGround(){
         switchScreen(startScreen, placeGroundScreen);
     }
@@ -93,9 +100,34 @@ public class PlayUI : MonoBehaviour
         switchScreen(placePlayer2Screen, playingScreen);
     }
 
-    private void switchScreen(Canvas a, Canvas b) {
-        a.gameObject.SetActive(false);
-        b.gameObject.SetActive(true);
+    public void UpdateOnGameStateChanged(GameState state) { 
+        switch(state){
+            case GameState.MAIN_MENU:
+                oldCanvas.SetActive(false);
+                startScreen.SetActive(true);
+                placeGroundScreen.SetActive(false);
+                adjustFireScreen.SetActive(false);
+                placePlayer1Screen.SetActive(false);
+                placePlayer2Screen.SetActive(false);
+                playingScreen.SetActive(false);
+                break;
+            case GameState.SETUP:
+                activatePlaceGround();
+                break;
+            case GameState.PLACE_FORTRESS:
+                activateAdjustFireScreen();
+                break;
+            case GameState.PLAYING:
+                activatePlayingScreen();
+                break;
+            case GameState.GAME_OVER:
+                break;     
+        }
+    }
+
+    private void switchScreen(GameObject a, GameObject b) {
+        a.SetActive(false);
+        b.SetActive(true);
     }
 
     private IEnumerator startBlinkButton()

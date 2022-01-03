@@ -2729,6 +2729,7 @@ MonoBehaviour:
   currentPlayerText: {fileID: 0}
   endTurnButton: {fileID: 0}
   endTurnButtonImage: {fileID: 0}
+  oldCanvas: {fileID: 0}
   startScreen: {fileID: 0}
   placeGroundScreen: {fileID: 0}
   adjustFireScreen: {fileID: 0}
@@ -8479,7 +8480,7 @@ GameObject:
   - component: {fileID: 1602180936}
   - component: {fileID: 1602180935}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: oldCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10702,6 +10703,7 @@ MonoBehaviour:
   currentPlayerText: {fileID: 1464255216}
   endTurnButton: {fileID: 0}
   endTurnButtonImage: {fileID: 0}
+  oldCanvas: {fileID: 0}
   startScreen: {fileID: 1862419795}
   placeGroundScreen: {fileID: 1402393859}
   adjustFireScreen: {fileID: 52485641}

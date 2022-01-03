@@ -157,6 +157,10 @@ public class GameManager : MonoBehaviour
     {
         SetGameState(GameState.PLAYING);
     }
+
+    public void goToSetup(){
+        SetGameState(GameState.SETUP);
+    }
     
     public void ChangePlayer()
     {
