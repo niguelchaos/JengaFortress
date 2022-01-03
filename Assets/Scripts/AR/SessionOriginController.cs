@@ -22,6 +22,7 @@ public class SessionOriginController: MonoBehaviour {
     private ARFireProjectile fireProjectile;
 
     private GameObject lastSelected;
+    private bool wasButtonPressed = false;
 
 
     private void Awake()
@@ -38,15 +39,7 @@ public class SessionOriginController: MonoBehaviour {
 
     public bool IsPointOverUIObject(Vector2 pos)
     {
-        if (EventSystem.current.currentSelectedGameObject == null)
-        {
-            EventSystem.current.SetSelectedGameObject(lastSelected);
-        }
-        else 
-        {
-            lastSelected = EventSystem.current.currentSelectedGameObject;
-            // Debug.Log(lastSelected.name);
-        }
+        Button currentButton = null;
 
         if (EventSystem.current.IsPointerOverGameObject()) 
         {
@@ -78,11 +71,21 @@ public class SessionOriginController: MonoBehaviour {
                 Debug.Log(result.ToString());
             }
         }
-
-        if (results.Count == 0 && Input.touches[0].phase == TouchPhase.Ended)
+        
+        // lifted, but pressed on button previously
+        if (Input.touches[0].phase == TouchPhase.Ended)
         {
-            // Debug.Log("just lifted");
-            return true;
+            if (EventSystem.current.currentSelectedGameObject != null)
+            {
+                currentButton = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+                if (currentButton != null)
+                {
+                    // Debug.Log(EventSystem.current.currentSelectedGameObject);
+                    return true;
+                }
+            }
+
+            
         }
 
         // Debug.Log(results.Count);
