@@ -54,11 +54,13 @@ public class GameManager : MonoBehaviour
 
     public TMP_Text currentGameStateText;
     
-
+    // awake should contain self setup stuff
     private void Awake()
     {
         Instance = this;
         currentPlayer = CurrentPlayer.PLAYER_1;
+        SetGameState(GameState.SETUP);
+        SetPlayingState(PlayingState.START_TURN);
     }
 
     private void Start()
@@ -69,9 +71,6 @@ public class GameManager : MonoBehaviour
         {
             cubeRenderer = gameStateCube.GetComponent<Renderer>();
         }
-
-        SetGameState(GameState.SETUP);
-        SetPlayingState(PlayingState.START_TURN);
     }
 
     //private void Update() {}

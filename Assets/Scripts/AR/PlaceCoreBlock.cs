@@ -162,7 +162,7 @@ public class PlaceCoreBlock: MonoBehaviour
             spawnedCoreBlock.transform.parent = content.transform;
         }
         else {
-            Debug.Log("Only 1 Core Block per player");
+            // Debug.Log("Only 1 Core Block per player");
         }
     }
 

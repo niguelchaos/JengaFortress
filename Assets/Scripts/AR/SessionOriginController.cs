@@ -21,6 +21,9 @@ public class SessionOriginController: MonoBehaviour {
     private ScaleContent scaleContent;
     private ARFireProjectile fireProjectile;
 
+    private GameObject lastSelected;
+    private bool wasButtonPressed = false;
+
 
     private void Awake()
     {
@@ -36,6 +39,8 @@ public class SessionOriginController: MonoBehaviour {
 
     public bool IsPointOverUIObject(Vector2 pos)
     {
+        Button currentButton = null;
+
         if (EventSystem.current.IsPointerOverGameObject()) 
         {
             if (EventSystem.current.currentSelectedGameObject != null)
@@ -53,7 +58,37 @@ public class SessionOriginController: MonoBehaviour {
 
        List<RaycastResult> results = new List<RaycastResult>();
        EventSystem.current.RaycastAll(eventPosition, results);
+        
+        foreach(RaycastResult result in results)
+        {
+            if (result.gameObject.GetComponent<Button>() != null || 
+                result.gameObject.GetComponent<TMP_Text>() != null)
+            {
+                // Debug.Log("found button ");
+                return true;
+            }
+            else {
+                Debug.Log(result.ToString());
+            }
+        }
+        
+        // lifted, but pressed on button previously
+        if (Input.touches[0].phase == TouchPhase.Ended)
+        {
+            if (EventSystem.current.currentSelectedGameObject != null)
+            {
+                currentButton = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+                if (currentButton != null)
+                {
+                    // Debug.Log(EventSystem.current.currentSelectedGameObject);
+                    return true;
+                }
+            }
 
+            
+        }
+
+        // Debug.Log(results.Count);
        return results.Count > 0;
     }
 
