@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
+
+
 public class ARFireProjectile: MonoBehaviour {
     private InputManager inputManager;
 
@@ -19,8 +21,10 @@ public class ARFireProjectile: MonoBehaviour {
     private ARAnchorManager anc;
     private ARPlaneManager plan;
     public float appliedForce = 0.0f;
+    private float maxForce = 10000f;
+    private float forceIncrement = 50f;
     public bool isHolding = false;
-    [SerializeField] private float fireForce = 10;
+    // [SerializeField] private float fireForce = 10;
 
     [SerializeField] public float prevFireSpawnDist = 1;
     [SerializeField] public float fireSpawnDist = 1;
@@ -49,7 +53,8 @@ public class ARFireProjectile: MonoBehaviour {
 
     private void CheckFirstTouchAction(Touch touch)
     {
-        if (GameManager.Instance.GetGameState() == GameState.PLAYING)
+        if (GameManager.Instance.GetGameState() == GameState.PLAYING
+            && GameManager.Instance.coreLoopMode == CoreLoopMode.FIRE_BLOCK)
         {
             Vector2 screenPosition = Input.GetTouch(0).position;
 
@@ -100,7 +105,7 @@ public class ARFireProjectile: MonoBehaviour {
     } 
 
     public void adjustForce(float force) {
-        this.appliedForce = this.appliedForce > 1000f ? 1000f : this.appliedForce + 25.0f;
+        this.appliedForce = this.appliedForce > maxForce ? maxForce : this.appliedForce + forceIncrement;
         //Adjust in a smoother way and display value on screen
         //Make force go up/down when it reaches a max/min
     }

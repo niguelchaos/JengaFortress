@@ -159,35 +159,6 @@ public class Setup: MonoBehaviour
         }
     }
 
-
-    public void ConfirmFinishSetup()
-    {
-        if (setupPhase == SetupPhase.GROUNDPLANE)
-        {
-            if (groundPlane == null)
-            {
-                Debug.Log("Must place ground plane before moving on");
-                return;
-            }
-            else {
-                setupPhase = SetupPhase.FIRING_POSITION;
-            }
-            CheckUI();
-        }
-        else if (setupPhase == SetupPhase.FIRING_POSITION)
-        {
-            if (fireProjectile.fireSpawnDist == 0)
-            {
-                Debug.Log("Must set firing pos");
-                return;
-            }
-            else {
-                GameManager.Instance.SetGameState(GameState.PLACE_FORTRESS);
-                BackToMainCanvas();
-            }
-        }
-    }
-
     ///////////////////////////////// Firing pos ///////////////////////////////
     // used by slider
     public void SetFiringPos()
@@ -237,6 +208,35 @@ public class Setup: MonoBehaviour
         ConfirmFinishSetup();
     }
     /////////////////////////////////////////////////////////////////////
+
+    public void ConfirmFinishSetup()
+    {
+        if (setupPhase == SetupPhase.GROUNDPLANE)
+        {
+            if (groundPlane == null)
+            {
+                Debug.Log("Must place ground plane before moving on");
+                return;
+            }
+            else {
+                setupPhase = SetupPhase.FIRING_POSITION;
+            }
+            CheckUI();
+        }
+        else if (setupPhase == SetupPhase.FIRING_POSITION)
+        {
+            if (fireProjectile.fireSpawnDist == 0)
+            {
+                Debug.Log("Must set firing pos");
+                return;
+            }
+            else {
+                firingPos.transform.position = myCamera.gameObject.transform.position + (myCamera.transform.forward * 1000f);
+                GameManager.Instance.SetGameState(GameState.PLACE_FORTRESS);
+                BackToMainCanvas();
+            }
+        }
+    }
 
     public void BackToMainCanvas()
     {
