@@ -31,8 +31,17 @@ public class PlaceCoreBlock: MonoBehaviour
     public GameObject player1Prefab;
     public GameObject player2Prefab;
     private Vector2 touchPosition;
-    private GameObject p1SpawnedCoreBlock;
-    private GameObject spawnedCoreBlock;
+
+    private GameObject currentPlayer; 
+    private GameObject player1; 
+    private GameObject player2;
+
+    private GameObject coreBlockP1;
+    private GameObject coreBlockP2;
+
+    private GameObject HBBoundaryP1;
+    private GameObject HBBoundaryP2;
+
 
     // private void Awake()
     // {
@@ -141,7 +150,12 @@ public class PlaceCoreBlock: MonoBehaviour
         {
             if (nearestHit.transform.gameObject.layer == LayerManager.GroundLayer ||
                 nearestHit.transform.gameObject.layer == LayerManager.BlockLayer) {
-                SpawnPlayerBlock(currentPlayerPrefab, nearestHit);
+                if (currentPlayer != null)
+                {
+                    AdjustPlayerBlock(nearestHit);
+                } else {
+                    SpawnPlayerBlock(currentPlayerPrefab, nearestHit);
+                }
                 return;
             }
         }
@@ -153,16 +167,41 @@ public class PlaceCoreBlock: MonoBehaviour
 
     private void SpawnPlayerBlock(GameObject currentPlayerPrefab, RaycastHit nearestHit)
     {
-        if (spawnedCoreBlock == null)
+        if (currentPlayer == null)
         {
             Vector3 spawnPoint = new Vector3(nearestHit.point.x, nearestHit.point.y + 1, nearestHit.point.z);
-            spawnedCoreBlock = Instantiate(currentPlayerPrefab, spawnPoint, Quaternion.identity);
+            currentPlayer = Instantiate(currentPlayerPrefab, spawnPoint, Quaternion.identity);
+
+            if (GameManager.Instance.currentPlayer == CurrentPlayer.PLAYER_1)
+            {
+                coreBlockP1 = currentPlayer.transform.Find("HiddenBlock_P1").gameObject;
+                HBBoundaryP1 = currentPlayer.transform.Find("HBBoundary_P1").gameObject;
+                // HBBoundaryP1.SetActive(false);
+            }
+            else 
+            {
+                coreBlockP2 = currentPlayer.transform.Find("HiddenBlock_P2").gameObject;
+                HBBoundaryP2 = currentPlayer.transform.Find("HBBoundary_P2").gameObject;
+                // HBBoundaryP2.SetActive(false);
+            }
             // SetObjectIsKinematic(spawnedCoreBlock, true);
 
-            spawnedCoreBlock.transform.parent = content.transform;
+            currentPlayer.transform.parent = content.transform;
         }
         else {
             // Debug.Log("Only 1 Core Block per player");
+        }
+    }
+
+    private void AdjustPlayerBlock(RaycastHit nearestHit)
+    {
+        Vector3 adjustPos = new Vector3(nearestHit.point.x, nearestHit.point.y + 1, nearestHit.point.z);
+        if (GameManager.Instance.currentPlayer == CurrentPlayer.PLAYER_1)
+        {
+            coreBlockP1.transform.position = adjustPos;
+        }
+        else {
+            coreBlockP2.transform.position = adjustPos;
         }
     }
 
@@ -177,7 +216,7 @@ public class PlaceCoreBlock: MonoBehaviour
 
     public void ConfirmPlacement()
     {
-        if (spawnedCoreBlock == null)
+        if (currentPlayer == null)
         {
             Debug.Log("Must place core block before moving on");
             return;
@@ -186,17 +225,19 @@ public class PlaceCoreBlock: MonoBehaviour
         if (GameManager.Instance.currentPlayer == CurrentPlayer.PLAYER_1)
         {
             GameManager.Instance.currentPlayer = CurrentPlayer.PLAYER_2;
-            p1SpawnedCoreBlock = spawnedCoreBlock; // remember p1 core block prefab
-            spawnedCoreBlock = null;
+            player1 = currentPlayer; // remember p1 core block prefab
+            currentPlayer = null;
             UpdateUI();
         }
         // must be player 2
         // set both to non-kinematic, return to p1
         else {
+            player2 = currentPlayer;
+            // HBBoundaryP1.SetActive(true);
+            // HBBoundaryP2.SetActive(true);
             GameManager.Instance.SetGameState(GameState.PLAYING);
-            // SetObjectIsKinematic(p1SpawnedCoreBlock, false);
-            // SetObjectIsKinematic(spawnedCoreBlock, false);
             GameManager.Instance.currentPlayer = CurrentPlayer.PLAYER_1;
+            Debug.Log("back to playing state");
             BackToMainCanvas();
         }
 

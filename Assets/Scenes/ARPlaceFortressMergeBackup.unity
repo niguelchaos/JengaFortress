@@ -5527,8 +5527,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayUI, Assembly-CSharp
+      - m_Target: {fileID: 1916586590}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: ChangePlayer
         m_Mode: 1
         m_Arguments:
@@ -11597,6 +11597,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ReferencePlane
+      objectReference: {fileID: 0}
+    - target: {fileID: 2234242097925162814, guid: d18ae27b959f1b94e81785cdde36a142,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d18ae27b959f1b94e81785cdde36a142, type: 3}
