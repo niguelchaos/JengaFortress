@@ -7,7 +7,7 @@ public class PlayerBoundary : MonoBehaviour
     [SerializeField] private Player player;
     private BoxCollider boundaryCollider;
     [SerializeField] private float boundaryOffset = 5.0f;
-    //private Vector3 boundaryPos_P1, boundaryPos_P2;
+    private Vector3 boundaryPos_P1, boundaryPos_P2;
     public bool isWithinBoundary { get; set; } // todo: would it be logical to have canInteract() eller något i player.cs?
     
     [SerializeField] private GameObject groundPlaneGO;
@@ -47,32 +47,42 @@ public class PlayerBoundary : MonoBehaviour
     }
     private void UpdateOnCurrentPlayerChanged(CurrentPlayer currentPlayer)
     {
-        //transform.position = playerBoundaryCenter.transform.position; // todo: TODO
+        // todo: TODO
+        if (player.GetPlayerNum() is PlayerNum.P1)
+            transform.position = boundaryPos_P1;
+        else if (player.GetPlayerNum() is PlayerNum.P1)
+            transform.position = boundaryPos_P2;
+        
         if (GameManager.Instance.GetGameState() == GameState.PLAYING)
-        {
             isAttached = true;
-        }
     }
 
     private void SetBoundaryTransform()
     {
         GameObject groundPlaneGO = GameObject.Find(groundPlaneGameObjName);
 
-        // todo: Ska det va ett skript för varje spelare eller inte?
-        // todo: whatt to do?
+        // todo: Ska det va ett skript för varje spelare eller inte? + whatt to do?
         boundaryCollider.size = new Vector3(
             groundPlaneGO.transform.localScale.x / 2 - boundaryOffset * 2,
             25f,
             groundPlaneGO.transform.localScale.z - boundaryOffset * 2
         );
 
-        transform.position = new Vector3(
-            boundaryOffset + (player.GetPlayerNum() is PlayerNum.P1 ? 0 :
-                groundPlaneGO.transform.position.x),
-            0f,
-            boundaryOffset
+        // transform.position = new Vector3(
+        //     boundaryOffset + (player.GetPlayerNum() is PlayerNum.P1 ? 0 :
+        //         groundPlaneGO.transform.position.x),
+        //     0f,
+        //     boundaryOffset
+        // );
+
+        boundaryPos_P1 = new Vector3 (
+                boundaryOffset, 0, boundaryOffset
         );
 
+        boundaryPos_P2 = new Vector3 (
+            groundPlaneGO.transform.position.x + boundaryOffset, 0, boundaryOffset
+        );
+    
         // switch (player.GetPlayerNum()) {
         // case PlayerNum.P1:
         //     boundaryPos_P1 = new Vector3 {
@@ -87,6 +97,7 @@ public class PlayerBoundary : MonoBehaviour
         // }
     }
     
+    // todo: what to do with this? remove isAttached?
     // private void AttachToStartingPoint()
     // {
     //     transform.position = playerBoundaryCenter.transform.position;
