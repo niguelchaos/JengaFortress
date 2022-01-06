@@ -23,6 +23,7 @@ public class PlaceCoreBlock: MonoBehaviour
 
     public GameObject coreBlockCanvas;
     public GameObject mainCanvas;
+    public GameObject playCanvas;
 
     public TMP_Text currentModeText;
     public TMP_Text currentPlayerText;
@@ -84,6 +85,7 @@ public class PlaceCoreBlock: MonoBehaviour
     {
         mainCanvas.SetActive(true);
         coreBlockCanvas.SetActive(false);
+        playCanvas.SetActive(true);
     }
 
     private void CheckTouchAction(Touch touch)

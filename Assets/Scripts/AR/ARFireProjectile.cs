@@ -26,6 +26,9 @@ public class ARFireProjectile: MonoBehaviour {
     public bool isHolding = false;
     // [SerializeField] private float fireForce = 10;
 
+    // public GameObject mainCanvas;
+    // public GameObject playCanvas;
+
     [SerializeField] public float prevFireSpawnDist = 1;
     [SerializeField] public float fireSpawnDist = 1;
 
@@ -49,6 +52,8 @@ public class ARFireProjectile: MonoBehaviour {
         inputManager = InputManager.Instance;   
         inputManager.OnFirstTouch += CheckFirstTouchAction;
         inputManager.OnTouchCount += CheckTouchCountAction;
+        // GameManager.OnGameStateChanged += UpdateOnGameStateChanged;
+
     }
 
     private void CheckFirstTouchAction(Touch touch)

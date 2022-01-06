@@ -9086,12 +9086,12 @@ GameObject:
   - component: {fileID: 1757366051}
   - component: {fileID: 1757366050}
   m_Layer: 5
-  m_Name: Play Canvas (1)
+  m_Name: PlayCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1757366050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10643,6 +10643,7 @@ MonoBehaviour:
   content: {fileID: 620798911}
   coreBlockCanvas: {fileID: 1530182529}
   mainCanvas: {fileID: 1627146721}
+  playCanvas: {fileID: 1757366048}
   currentModeText: {fileID: 1079925160}
   currentPlayerText: {fileID: 457241495}
   player1Prefab: {fileID: 7180467041660535504, guid: e1934310e763078419fe6071505461e7,
@@ -11601,7 +11602,7 @@ PrefabInstance:
     - target: {fileID: 2234242097925162814, guid: d18ae27b959f1b94e81785cdde36a142,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d18ae27b959f1b94e81785cdde36a142, type: 3}

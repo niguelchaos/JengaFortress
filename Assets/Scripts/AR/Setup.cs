@@ -77,7 +77,7 @@ public class Setup: MonoBehaviour
         // print("checking ui");
         if (GameManager.Instance.GetGameState() == GameState.SETUP)
         {
-            mainCanvas.SetActive(false);
+            // mainCanvas.SetActive(false);
             setupCanvas.SetActive(true);
             switch (setupPhase)
             {
