@@ -18,7 +18,7 @@ public class PlayerBoundary : MonoBehaviour
 
     void Start()
     {
-        boundaryCollider = GetComponent<BoxCollider>();
+        boundaryCollider = GetComponent<BoxCollider>(); // todo: cylinder
 
         meshRenderer = GetComponent<MeshRenderer>();
         player = gameObject.transform.parent.gameObject.GetComponent<Player>(); // todo: vettefan..
