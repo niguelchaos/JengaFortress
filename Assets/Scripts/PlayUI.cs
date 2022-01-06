@@ -21,6 +21,7 @@ public class PlayUI : MonoBehaviour
     public GameObject placePlayer2Screen;
     public GameObject playingScreen;
     public GameObject currentScreen;
+    public GameObject gameOverScreen;
     //private Player player;
 
     void Start()
@@ -51,6 +52,7 @@ public class PlayUI : MonoBehaviour
         placePlayer1Screen.SetActive(false);
         placePlayer2Screen.SetActive(false);
         playingScreen.SetActive(false);
+        gameOverScreen.SetActive(false);
     }
 
     private void UpdateText()
@@ -103,6 +105,10 @@ public class PlayUI : MonoBehaviour
 
     public void activatePlayingScreen() {
         switchScreen(placePlayer2Screen, playingScreen);
+    }
+
+    public void activateGameOverScreen() {
+        switchScreen(playingScreen, gameOverScreen);
     }
 
     public void UpdateOnGameStateChanged(GameState state) { 
