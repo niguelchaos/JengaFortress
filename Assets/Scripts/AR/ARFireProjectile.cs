@@ -14,6 +14,7 @@ public class ARFireProjectile: MonoBehaviour {
     private SessionOriginController sessionController;
 
     public GameObject projectilePrefab;
+    //private HashSet<string, GameObject> projectilePrefabRefs = new HashSet<string, GameObject>();
     public Camera myCamera;
     public float cooldown, cooldownCount;
     private ARAnchorManager anc;
@@ -149,5 +150,18 @@ public class ARFireProjectile: MonoBehaviour {
         }
     }
 
+    void setProjectilePrefab(string projectilePrefab) 
+    {
+        this.projectilePrefab = Resources.Load<GameObject>(projectilePrefab);
+    }
+
+    // public void LoadAsset(string address, Action<GameObject> callback = null)
+    // {
+    //     Action<AsyncOperationHandle<GameObject>> addressableLoaded = (asyncOperation) =>
+    //     {
+    //         callback?.Invoke(asyncOperation.Result);
+    //     };
+    //     Addressables.LoadAssetAsync<GameObject>(address).Completed += addressableLoaded;
+    // }
 
 }
