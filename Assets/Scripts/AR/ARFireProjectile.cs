@@ -14,7 +14,8 @@ public class ARFireProjectile: MonoBehaviour {
     private SessionOriginController sessionController;
 
     public GameObject projectilePrefab;
-    //private HashSet<string, GameObject> projectilePrefabRefs = new HashSet<string, GameObject>();
+    private Dictionary<string, GameObject> projectilePrefabs; // todo: flytta till vettigare ställe sen.
+
     public Camera myCamera;
     public float cooldown, cooldownCount;
     private ARAnchorManager anc;
@@ -46,6 +47,15 @@ public class ARFireProjectile: MonoBehaviour {
         inputManager = InputManager.Instance;   
         inputManager.OnFirstTouch += CheckFirstTouchAction;
         inputManager.OnTouchCount += CheckTouchCountAction;
+
+
+        
+        projectilePrefabs = new Dictionary<string, GameObject>()
+        {
+            {"regularBlock", Resources.Load<GameObject>("regularBlock")},
+            {"explosiveBlock", Resources.Load<GameObject>("explosiveBlock")},
+            {"iceBlock", Resources.Load<GameObject>("iceBlock")}
+        };
     }
 
     private void CheckFirstTouchAction(Touch touch)
@@ -131,6 +141,10 @@ public class ARFireProjectile: MonoBehaviour {
         GameManager.Instance.SetPlayingState(PlayingState.END_TURN);
     }
 
+    void setProjectilePrefab(string type) {
+        projectilePrefab = projectilePrefabs[type];
+    }
+
     public void push () {
         RaycastHit[] myHits;
         Ray r;
@@ -148,11 +162,6 @@ public class ARFireProjectile: MonoBehaviour {
                             (r.direction * 10000);
             }
         }
-    }
-
-    void setProjectilePrefab(string projectilePrefab) 
-    {
-        this.projectilePrefab = Resources.Load<GameObject>(projectilePrefab);
     }
 
     // public void LoadAsset(string address, Action<GameObject> callback = null)
