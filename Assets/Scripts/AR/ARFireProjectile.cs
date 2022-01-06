@@ -47,14 +47,12 @@ public class ARFireProjectile: MonoBehaviour {
         inputManager = InputManager.Instance;   
         inputManager.OnFirstTouch += CheckFirstTouchAction;
         inputManager.OnTouchCount += CheckTouchCountAction;
-
-
         
         projectilePrefabs = new Dictionary<string, GameObject>()
         {
-            {"regularBlock", Resources.Load<GameObject>("regularBlock")},
-            {"explosiveBlock", Resources.Load<GameObject>("explosiveBlock")},
-            {"iceBlock", Resources.Load<GameObject>("iceBlock")}
+            {"regularBlock", Resources.Load<GameObject>("Block")},
+            {"explosiveBlock", Resources.Load<GameObject>("ExplosiveBlock")},
+            {"iceBlock", Resources.Load<GameObject>("iceblock")}
         };
     }
 

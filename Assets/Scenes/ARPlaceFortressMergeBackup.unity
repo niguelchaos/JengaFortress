@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1368,6 +1368,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -1880,6 +1881,14 @@ MonoBehaviour:
   currentPlayerText: {fileID: 1371851281}
   endTurnButton: {fileID: 0}
   endTurnButtonImage: {fileID: 0}
+  oldCanvas: {fileID: 0}
+  startScreen: {fileID: 0}
+  placeGroundScreen: {fileID: 0}
+  adjustFireScreen: {fileID: 0}
+  placePlayer1Screen: {fileID: 0}
+  placePlayer2Screen: {fileID: 0}
+  playingScreen: {fileID: 0}
+  currentScreen: {fileID: 0}
 --- !u!1 &263080005
 GameObject:
   m_ObjectHideFlags: 0
@@ -7225,8 +7234,9 @@ GameObject:
   - component: {fileID: 1315861248}
   - component: {fileID: 1315861251}
   - component: {fileID: 1315861250}
-  - component: {fileID: 1315861249}
   - component: {fileID: 1315861253}
+  - component: {fileID: 1315861254}
+  - component: {fileID: 1315861249}
   m_Layer: 0
   m_Name: AR Camera
   m_TagString: Untagged
@@ -7363,6 +7373,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -7373,6 +7384,22 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &1315861254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315861247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b15f82cc229284894964d2d30806969d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HumanSegmentationStencilMode: 0
+  m_HumanSegmentationDepthMode: 0
+  m_EnvironmentDepthMode: 3
+  m_OcclusionPreferenceMode: 0
 --- !u!1 &1339154914
 GameObject:
   m_ObjectHideFlags: 0
@@ -8699,6 +8726,14 @@ MonoBehaviour:
   currentPlayerText: {fileID: 1142146438}
   endTurnButton: {fileID: 939730790}
   endTurnButtonImage: {fileID: 0}
+  oldCanvas: {fileID: 0}
+  startScreen: {fileID: 0}
+  placeGroundScreen: {fileID: 0}
+  adjustFireScreen: {fileID: 0}
+  placePlayer1Screen: {fileID: 0}
+  placePlayer2Screen: {fileID: 0}
+  playingScreen: {fileID: 0}
+  currentScreen: {fileID: 0}
 --- !u!114 &1757366050
 MonoBehaviour:
   m_ObjectHideFlags: 0

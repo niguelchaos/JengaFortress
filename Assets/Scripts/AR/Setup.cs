@@ -181,8 +181,9 @@ public class Setup: MonoBehaviour
                 Debug.Log("Must set firing pos");
                 return;
             }
-            else {
-                GameManager.Instance.SetGameState(GameState.PLACE_FORTRESS);
+            else {   
+                GameManager.Instance.SetGameState(GameState.SET_BOUNDARIES);
+                // GameManager.Instance.SetGameState(GameState.PLACE_FORTRESS);
                 BackToMainCanvas();
             }
         }

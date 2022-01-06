@@ -10,7 +10,7 @@ public class HiddenBlockBoundary : MonoBehaviour
     private string p1GameObjName = "HiddenBlock_P1";
     private string p2GameObjName = "HiddenBlock_P2";
 
-   [SerializeField]  private GameObject playerHbGO;
+   [SerializeField] private GameObject playerHbGO;
     private MeshRenderer meshRenderer;
     private bool isAttached = false;
 

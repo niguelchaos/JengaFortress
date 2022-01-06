@@ -5,26 +5,26 @@ using UnityEngine;
 public class PlayerBoundary : MonoBehaviour
 {
     [SerializeField] private Player player;
+    
     private BoxCollider boundaryCollider;
+    [SerializeField] private float boundaryOffset = 5.f;
+    //private Vector3 boundaryPos_P1, boundaryPos_P2;
+    private bool isWithinBoundary { get; } // todo: would it be logical to have canInteract() eller något i player.cs?
+    private string groundPlaneGameObjName = "GroundPlane";
 
-    // The objects that are in the player's boundary
-    // todo: not sure what object to use as reference point
-    private string p1GameObjName = "Fortress_P1";
-    private string p2GameObjName = "Fortress_P2";
 
-    [SerializeField] private GameObject playerBoundaryCenter;
+    //[SerializeField] private GameObject groundPlaneGO;
     private MeshRenderer meshRenderer;
-    private bool isAttached = false;
 
     void Start()
     {
-        boundaryCollider = GetComponent<BoxCollider>(); // todo: cylinder
+        boundaryCollider = GetComponent<BoxCollider>();
 
         meshRenderer = GetComponent<MeshRenderer>();
-        player = gameObject.transform.parent.gameObject.GetComponent<Player>(); // todo: vettefan..
+        //player = gameObject.transform.parent.gameObject.GetComponent<Player>(); // todo: vettefan..
         
-        GetPlayerBoundaryCenter();
-        StartCoroutine(WaitToAttach(2));
+        //GetPlayerBoundaryCenter();
+        // StartCoroutine(WaitToAttach(2));
 
         GameManager.OnGameStateChanged += UpdateOnGameStateChanged;
         GameManager.OnCurrentPlayerChanged += UpdateOnCurrentPlayerChanged;
@@ -33,7 +33,7 @@ public class PlayerBoundary : MonoBehaviour
     private void OnEnable()
     {
         isAttached = false;
-        StartCoroutine(WaitToAttach(2));
+
     }
     private void OnDisable()
     {
@@ -42,10 +42,10 @@ public class PlayerBoundary : MonoBehaviour
 
     private void UpdateOnGameStateChanged(GameState gameState)
     {
-        if (gameState == GameState.PLAYING)
+        if (gameState == GameState.SET_BOUNDARIES)
         {
-            isAttached = false;
-            StartCoroutine(WaitToAttach(2));
+            //groundPlaneGO = Transform.Find("GroundPlane");
+            SetBoundaryTransforms();
         }
         CheckMeshRenderer();
     }
@@ -58,31 +58,42 @@ public class PlayerBoundary : MonoBehaviour
         }
     }
 
-    // todo: could this instead be in player.cs?
-    private void GetPlayerBoundaryCenter()
+    private void SetBoundaryTransforms()
     {
-        switch(player.GetPlayerNum())
-        {
-            case PlayerNum.P1:
-                playerBoundaryCenter = GameObject.Find(p1GameObjName);
-                break;
-            case PlayerNum.P2:
-                playerBoundaryCenter = GameObject.Find(p2GameObjName);
-                break;
-        }
+        GameObject groundPlaneGO = GameObject.Find(groundPlaneGameObjName);
+        
+        boundaryCollider.transform.scale = new Vector3 {
+            groundPlaneGO.transform.scale.x / 2 - boundaryOffset * 2,
+            0,
+            groundPlaneGO.transform.scale.z - boundaryOffset * 2
+        };
+
+        boundaryCollider.transform.position = new Vector3 {
+            boundaryOffset + (player.GetPlayerNum() is PlayerNum.P1 ? 0 :
+                groundPlaneGO.transform.position.x),
+            0,
+            boundaryOffset
+        };
+
+        // switch (player.GetPlayerNum()) {
+        // case PlayerNum.P1:
+        //     boundaryPos_P1 = new Vector3 {
+        //         boundaryOffset, 0, boundaryOffset
+        //     };
+        //     break;
+        // case PlayerNum.P2:
+        //     boundaryPos_P2 = new Vector3 {
+        //         groundPlaneGO.transform.position.x + boundaryOffset, 0, boundaryOffset
+        //     };
+        //     break;
+        // }
     }
     
-    private void AttachToStartingPoint()
-    {
-        transform.position = playerBoundaryCenter.transform.position;
-        isAttached = true;
-    }
-
-    IEnumerator WaitToAttach(int time)
-    {
-        yield return new WaitForSeconds(time);
-        AttachToStartingPoint();
-    }
+    // private void AttachToStartingPoint()
+    // {
+    //     transform.position = playerBoundaryCenter.transform.position;
+    //     isAttached = true;
+    // }
 
     public void CheckMeshRenderer()
     {
@@ -103,6 +114,13 @@ public class PlayerBoundary : MonoBehaviour
     public void DisableRenderer()
     {
         meshRenderer.enabled = false;
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        isWithinBoundary = true;
+    }
+    private void OnTriggerExit(Collider other) {
+        isWithinBoundary = false;
     }
 
 }
