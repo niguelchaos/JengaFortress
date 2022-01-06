@@ -5,26 +5,22 @@ using UnityEngine;
 public class PlayerBoundary : MonoBehaviour
 {
     [SerializeField] private Player player;
-    
     private BoxCollider boundaryCollider;
-    [SerializeField] private float boundaryOffset = 5.f;
+    [SerializeField] private float boundaryOffset = 5.0f;
     //private Vector3 boundaryPos_P1, boundaryPos_P2;
-    private bool isWithinBoundary { get; } // todo: would it be logical to have canInteract() eller något i player.cs?
+    public bool isWithinBoundary { get; set; } // todo: would it be logical to have canInteract() eller något i player.cs?
+    
+    [SerializeField] private GameObject groundPlaneGO;
     private string groundPlaneGameObjName = "GroundPlane";
 
-
-    //[SerializeField] private GameObject groundPlaneGO;
     private MeshRenderer meshRenderer;
+    private bool isAttached = false;
 
     void Start()
     {
         boundaryCollider = GetComponent<BoxCollider>();
-
         meshRenderer = GetComponent<MeshRenderer>();
-        //player = gameObject.transform.parent.gameObject.GetComponent<Player>(); // todo: vettefan..
-        
-        //GetPlayerBoundaryCenter();
-        // StartCoroutine(WaitToAttach(2));
+        //player = gameObject.transform.parent.gameObject.GetComponent<Player>(); // todo: TODO
 
         GameManager.OnGameStateChanged += UpdateOnGameStateChanged;
         GameManager.OnCurrentPlayerChanged += UpdateOnCurrentPlayerChanged;
@@ -45,35 +41,37 @@ public class PlayerBoundary : MonoBehaviour
         if (gameState == GameState.SET_BOUNDARIES)
         {
             //groundPlaneGO = Transform.Find("GroundPlane");
-            SetBoundaryTransforms();
+            SetBoundaryTransform();
         }
         CheckMeshRenderer();
     }
     private void UpdateOnCurrentPlayerChanged(CurrentPlayer currentPlayer)
     {
-        transform.position = playerBoundaryCenter.transform.position;
+        //transform.position = playerBoundaryCenter.transform.position; // todo: TODO
         if (GameManager.Instance.GetGameState() == GameState.PLAYING)
         {
             isAttached = true;
         }
     }
 
-    private void SetBoundaryTransforms()
+    private void SetBoundaryTransform()
     {
         GameObject groundPlaneGO = GameObject.Find(groundPlaneGameObjName);
-        
-        boundaryCollider.transform.scale = new Vector3 {
-            groundPlaneGO.transform.scale.x / 2 - boundaryOffset * 2,
-            0,
-            groundPlaneGO.transform.scale.z - boundaryOffset * 2
-        };
 
-        boundaryCollider.transform.position = new Vector3 {
+        // todo: Ska det va ett skript för varje spelare eller inte?
+        // todo: whatt to do?
+        boundaryCollider.size = new Vector3(
+            groundPlaneGO.transform.localScale.x / 2 - boundaryOffset * 2,
+            25f,
+            groundPlaneGO.transform.localScale.z - boundaryOffset * 2
+        );
+
+        transform.position = new Vector3(
             boundaryOffset + (player.GetPlayerNum() is PlayerNum.P1 ? 0 :
                 groundPlaneGO.transform.position.x),
-            0,
+            0f,
             boundaryOffset
-        };
+        );
 
         // switch (player.GetPlayerNum()) {
         // case PlayerNum.P1:
