@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
         currentPlayer = CurrentPlayer.PLAYER_1;
-        SetGameState(GameState.SETUP);
+        SetGameState(GameState.MAIN_MENU);
         SetPlayingState(PlayingState.START_TURN);
     }
 
