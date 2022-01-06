@@ -68,15 +68,18 @@ public class DragRigidBody : MonoBehaviour
     {
         RaycastHit hitInfo = new RaycastHit();
         Ray ray = targetCamera.ScreenPointToRay(touch.position);
-        bool hit = Physics.Raycast(ray, out hitInfo);
+        bool hit = Physics.Raycast(ray, out hitInfo, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore);
         if (hit)
         {
             if (hitInfo.collider.gameObject.GetComponent<Rigidbody>())
             {
-                selectionDistance = Vector3.Distance(ray.origin, hitInfo.point);
-                originalScreenTargetPosition = targetCamera.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, selectionDistance));
-                originalRigidbodyPos = hitInfo.collider.transform.position;
-                return hitInfo.collider.gameObject.GetComponent<Rigidbody>();
+                if (!hitInfo.collider.gameObject.CompareTag("CoreBlock"))
+                {
+                    selectionDistance = Vector3.Distance(ray.origin, hitInfo.point);
+                    originalScreenTargetPosition = targetCamera.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, selectionDistance));
+                    originalRigidbodyPos = hitInfo.collider.transform.position;
+                    return hitInfo.collider.gameObject.GetComponent<Rigidbody>();
+                }
             }
         }
         return null;
