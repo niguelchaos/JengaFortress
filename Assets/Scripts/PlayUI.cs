@@ -11,6 +11,8 @@ public class PlayUI : MonoBehaviour
     public TMP_Text currentPlayerText;
     public Button endTurnButton;
     public Image endTurnButtonImage;
+    public GameObject debugCanvas;
+    public GameObject playCanvas; 
     public GameObject oldCanvas;
     public GameObject startScreen;
     public GameObject placeGroundScreen;
@@ -39,6 +41,9 @@ public class PlayUI : MonoBehaviour
         GameManager.OnGameStateChanged += UpdateOnGameStateChanged;
         currentScreen = startScreen;
 
+
+        debugCanvas.SetActive(false);
+        playCanvas.SetActive(false);
         oldCanvas.SetActive(false);
         startScreen.SetActive(true);
         placeGroundScreen.SetActive(false);

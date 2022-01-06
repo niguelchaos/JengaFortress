@@ -2653,7 +2653,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1588483058}
         m_TargetAssemblyTypeName: PlayUI, Assembly-CSharp
         m_MethodName: activatePlacePlayer1
         m_Mode: 1
@@ -9228,7 +9228,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1588483058}
         m_TargetAssemblyTypeName: PlayUI, Assembly-CSharp
         m_MethodName: activateAdjustFireScreen
         m_Mode: 1
@@ -13770,7 +13770,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1588483058}
         m_TargetAssemblyTypeName: PlayUI, Assembly-CSharp
         m_MethodName: activatePlacePlayer2
         m_Mode: 1
@@ -15035,7 +15035,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1588483058}
         m_TargetAssemblyTypeName: PlayUI, Assembly-CSharp
         m_MethodName: activatePlayingScreen
         m_Mode: 1
@@ -16921,6 +16921,16 @@ PrefabInstance:
       propertyPath: oldCanvas
       value: 
       objectReference: {fileID: 196122689}
+    - target: {fileID: 74062838038456157, guid: 498805322a6878945856cb7e813b9a38,
+        type: 3}
+      propertyPath: playCanvas
+      value: 
+      objectReference: {fileID: 720754228}
+    - target: {fileID: 74062838038456157, guid: 498805322a6878945856cb7e813b9a38,
+        type: 3}
+      propertyPath: debugCanvas
+      value: 
+      objectReference: {fileID: 1627146721}
     - target: {fileID: 74062838038456157, guid: 498805322a6878945856cb7e813b9a38,
         type: 3}
       propertyPath: startScreen
