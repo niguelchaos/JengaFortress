@@ -84,7 +84,7 @@ public class HiddenBlockBoundary : MonoBehaviour
             Debug.Log("Left Boundary");
             if (GameManager.Instance.GetWinCondition() != WinCondition.HitFloor)
             {
-                GameManager.Instance.SetGameState(GameState.GAME_OVER);
+                //GameManager.Instance.SetGameState(GameState.GAME_OVER);
             }
         }
     }

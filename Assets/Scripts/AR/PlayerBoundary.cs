@@ -7,7 +7,7 @@ public class PlayerBoundary : MonoBehaviour
     //[SerializeField] private Player player;
     [SerializeField] public CurrentPlayer player { get; set; }
     private BoxCollider boundaryCollider;
-    [SerializeField] private float boundaryOffset = 5.0f;
+    [SerializeField] private float boundaryOffset = 50.0f;
     //private Vector3 boundaryPos_P1, boundaryPos_P2;
     public bool isWithinBoundary { get; private set; }
     // [SerializeField] private GameObject groundPlaneGO;
@@ -34,7 +34,7 @@ public class PlayerBoundary : MonoBehaviour
     }
 
     // todo: dont think the position are set correctly (might have something to do with ARSessionOrigin's scaling)
-    public void SetBoundaryTransform(GameObject groundPlaneGO)
+    public void SetBoundaryTransform(GameObject groundPlaneGO, float scaleFactor = 1.0f)
     {
         //GameObject groundPlaneGO = setup.groundPlane;
 
@@ -43,31 +43,45 @@ public class PlayerBoundary : MonoBehaviour
         Debug.Log("groundPlaneGO.transform.position: " + groundPlaneGO.transform.localPosition);
 
         // boundaryCollider.size = new Vector3 (
-        transform.localScale = new Vector3 (
-            groundPlaneGO.transform.localScale.x / 2 - boundaryOffset * 2,
-            25f,
-            groundPlaneGO.transform.localScale.z - boundaryOffset * 2
+        Vector3 scaledGroundPlaneScale = groundPlaneGO.transform.localScale * scaleFactor;
+        Vector3 scaledGroundPlanePosition = groundPlaneGO.transform.position * scaleFactor;
+        float scaledBoundaryOffset = boundaryOffset * scaleFactor;
+
+        transform.localScale = new Vector3(
+            scaledGroundPlaneScale.x / 2 - scaledBoundaryOffset * 2,
+            200f,
+            scaledGroundPlaneScale.z - scaledBoundaryOffset * 2
         );
 
+        // if (player == CurrentPlayer.PLAYER_1) {
+        //     transform.position = groundPlaneGO.transform.position + new Vector3(
+        //         -scaledGroundPlaneScale.x / (2 *  scaleFactor) + scaledBoundaryOffset,
+        //         -0.5f,
+        //         -scaledGroundPlaneScale.z / (2 *  scaleFactor) + scaledBoundaryOffset
+        //     );
+        // } else if (player == CurrentPlayer.PLAYER_2) {
+        //     transform.position = groundPlaneGO.transform.position + new Vector3(
+        //         scaledBoundaryOffset,
+        //         -0.5f,
+        //         -scaledGroundPlaneScale.z / (2 *  scaleFactor) + scaledBoundaryOffset
+        //     );
+        // }
+
         if (player == CurrentPlayer.PLAYER_1) {
-            transform.position = groundPlaneGO.transform.position + new Vector3 (
-                - groundPlaneGO.transform.localScale.x / 2 + boundaryOffset,
-                0f,
-                - groundPlaneGO.transform.localScale.z / 2 + boundaryOffset
+            transform.position = groundPlaneGO.transform.position + new Vector3(
+                -scaledGroundPlaneScale.x / (2 *  scaleFactor) + scaledBoundaryOffset,
+                -0.5f,
+                -scaledGroundPlaneScale.z / (2 *  scaleFactor) + scaledBoundaryOffset
             );
         } else if (player == CurrentPlayer.PLAYER_2) {
-            transform.position = groundPlaneGO.transform.position + new Vector3 (
-                boundaryOffset,
-                0f,
-                - groundPlaneGO.transform.localScale.z / 2 + boundaryOffset
+            transform.position = groundPlaneGO.transform.position + new Vector3(
+                scaledBoundaryOffset,
+                -0.5f,
+                -scaledGroundPlaneScale.z / (2 *  scaleFactor) + scaledBoundaryOffset
             );
         }
 
-        // transform.position = new Vector3(
-        //     boundaryOffset + (player == CurrentPlayer.PLAYER_1 ? 0 : groundPlaneGO.transform.position.x),
-        //     0f,
-        //     boundaryOffset
-        // );
+
     }
 
     public void CheckMeshRenderer()
@@ -91,12 +105,14 @@ public class PlayerBoundary : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         // if (other.gameObject.tag == "Player") {}
         isWithinBoundary = true;
-        Debug.Log("OnTriggerExit: " + other.gameObject.name);
+        DisableRenderer();
+        //Debug.Log("OnTriggerEnter: " + other.gameObject.name);
     }
     private void OnTriggerExit(Collider other) {
         // if (other.gameObject.tag == "Player") {}
         isWithinBoundary = false;
-        Debug.Log("OnTriggerExit: " + other.gameObject.name);
+        EnableRenderer();
+        //Debug.Log("OnTriggerExit: " + other.gameObject.name);
     }
 
 }

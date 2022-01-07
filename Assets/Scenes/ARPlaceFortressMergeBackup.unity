@@ -10727,6 +10727,7 @@ MonoBehaviour:
   - {fileID: 5909332988306558012, guid: 55828140a51d2a940adf578501b6a52d, type: 3}
   - {fileID: 7478470662186750750, guid: 302fdb4fb8ce1414c85216a3916543ce, type: 3}
   - {fileID: 3997936571068787077, guid: c9a6dd20387f7964e9d0b3bc545121a3, type: 3}
+  - {fileID: 838446198959527964, guid: fcfbccae71afcb945836ed0ccb0f4841, type: 3}
   myCamera: {fileID: 1315861248}
   cooldown: 0
   cooldownCount: 0

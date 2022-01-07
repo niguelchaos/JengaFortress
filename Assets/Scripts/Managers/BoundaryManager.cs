@@ -4,11 +4,29 @@ using UnityEngine;
 
 public class BoundaryManager : MonoBehaviour
 {
+    // singleton
+    public static BoundaryManager Instance;
+
     [SerializeField] private GameObject playerBoundaryPrefab;
     private PlayerBoundary playerBoundary_P1, playerBoundary_P2;
 
     private GameObject sessionOrigin;
     [SerializeField] private GameObject groundPlaneGO;
+
+    public bool isWithinBoundary(CurrentPlayer player) {
+        switch (player) {
+            case CurrentPlayer.PLAYER_1:
+                return playerBoundary_P1.isWithinBoundary;
+            case CurrentPlayer.PLAYER_2:
+                return playerBoundary_P2.isWithinBoundary;
+        }
+        return true;
+    }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {

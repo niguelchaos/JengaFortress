@@ -124,6 +124,12 @@ public class ARFireProjectile: MonoBehaviour {
         if (GameManager.Instance.GetPlayingState() is PlayingState.END_TURN)
             return;
 
+        if (!BoundaryManager.Instance.isWithinBoundary(GameManager.Instance.currentPlayer))
+        {
+            Debug.Log("Out of bounds");
+            return;
+        }
+
         Vector3 screenCenter;
 
         screenCenter = myCamera.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
@@ -144,7 +150,6 @@ public class ARFireProjectile: MonoBehaviour {
         GameManager.Instance.SetPlayingState(PlayingState.END_TURN);
     }
 
-    // todo: set the buttons text to the block type (in PlayUI.cs later)?
     private void selectProjectilePrefab(int index) {
         projectilePrefabIndex = index;
         projectilePrefab = (GameObject) projectilePrefabs[projectilePrefabIndex];
@@ -153,7 +158,7 @@ public class ARFireProjectile: MonoBehaviour {
     }
 
     public void selectNextProjectilePrefab() {
-        selectProjectilePrefab((projectilePrefabIndex + 1) % 3);
+        selectProjectilePrefab((projectilePrefabIndex + 1) % 4);
     }
 
     public void push () {
