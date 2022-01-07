@@ -33,6 +33,7 @@ public class PlayerBoundary : MonoBehaviour
         CheckMeshRenderer();
     }
 
+    // todo: dont think the position are set correctly (might have something to do with ARSessionOrigin's scaling)
     public void SetBoundaryTransform(GameObject groundPlaneGO)
     {
         //GameObject groundPlaneGO = setup.groundPlane;
@@ -88,16 +89,14 @@ public class PlayerBoundary : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (other.gameObject.tag == "Player") {
-            isWithinBoundary = true;
-            Debug.Log("OnTriggerExit: " + other.gameObject.name);
-        }
+        // if (other.gameObject.tag == "Player") {}
+        isWithinBoundary = true;
+        Debug.Log("OnTriggerExit: " + other.gameObject.name);
     }
     private void OnTriggerExit(Collider other) {
-        if (other.gameObject.tag == "Player") {
-            isWithinBoundary = false;
-            Debug.Log("OnTriggerExit: " + other.gameObject.name);
-        }
+        // if (other.gameObject.tag == "Player") {}
+        isWithinBoundary = false;
+        Debug.Log("OnTriggerExit: " + other.gameObject.name);
     }
 
 }
