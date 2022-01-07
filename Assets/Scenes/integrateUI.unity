@@ -9799,9 +9799,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlaceFortress, Assembly-CSharp
-        m_MethodName: ChangeToFire
+      - m_Target: {fileID: 2041287289}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: SetCoreLoopFire
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17294,7 +17294,7 @@ GameObject:
   - component: {fileID: 1764831327}
   - component: {fileID: 1764831326}
   m_Layer: 5
-  m_Name: selectModeBtn
+  m_Name: moveModeBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17364,9 +17364,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlaceFortress, Assembly-CSharp
-        m_MethodName: ChangeToSelect
+      - m_Target: {fileID: 2041287289}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: SetCoreLoopMove
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -18715,7 +18715,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Select
+  m_text: Move
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1de89442fac649a429d34988486b9138, type: 2}
   m_sharedMaterial: {fileID: 6518796793067708676, guid: 1de89442fac649a429d34988486b9138,
@@ -19431,6 +19431,7 @@ GameObject:
   - component: {fileID: 2003901620}
   - component: {fileID: 2003901622}
   - component: {fileID: 2003901623}
+  - component: {fileID: 2003901624}
   m_Layer: 0
   m_Name: AR Session Origin
   m_TagString: Untagged
@@ -19563,7 +19564,6 @@ MonoBehaviour:
   cooldownCount: 0
   appliedForce: 0
   isHolding: 0
-  fireForce: 10
   prevFireSpawnDist: 1
   fireSpawnDist: 1
 --- !u!114 &2003901617
@@ -19640,6 +19640,7 @@ MonoBehaviour:
   content: {fileID: 620798911}
   coreBlockCanvas: {fileID: 1530182529}
   mainCanvas: {fileID: 1627146721}
+  playCanvas: {fileID: 845569230}
   currentModeText: {fileID: 1079925160}
   currentPlayerText: {fileID: 457241495}
   player1Prefab: {fileID: 7180467041660535504, guid: e1934310e763078419fe6071505461e7,
@@ -19686,6 +19687,19 @@ MonoBehaviour:
   refPlane: {fileID: 1407411057}
   testGroundLocation: {fileID: 2133625198}
   debugFiringPosSlider: {fileID: 439033014}
+--- !u!114 &2003901624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2003901608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93096655c8a109d44b3f36005fc53ed3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forceAmount: 100
 --- !u!1 &2010940146
 GameObject:
   m_ObjectHideFlags: 0
@@ -20433,6 +20447,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3a45768c5ff19d4eac29df4c0c0231d, type: 3}
+--- !u!114 &2041287289 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 971656636827933253, guid: d3a45768c5ff19d4eac29df4c0c0231d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2041287288}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcccd566f6270be43aa65f100961b533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2043133228
 GameObject:
   m_ObjectHideFlags: 0
