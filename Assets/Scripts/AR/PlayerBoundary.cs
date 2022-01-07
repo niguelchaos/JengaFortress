@@ -4,115 +4,77 @@ using UnityEngine;
 
 public class PlayerBoundary : MonoBehaviour
 {
-    [SerializeField] private Player player;
+    //[SerializeField] private Player player;
+    [SerializeField] public CurrentPlayer player { get; set; }
     private BoxCollider boundaryCollider;
     [SerializeField] private float boundaryOffset = 5.0f;
-    private Vector3 boundaryPos_P1, boundaryPos_P2;
-    public bool isWithinBoundary { get; set; } // todo: would it be logical to have canInteract() eller något i player.cs?
-    
-    [SerializeField] private GameObject groundPlaneGO;
-    private string groundPlaneGameObjName = "GroundPlane";
+    //private Vector3 boundaryPos_P1, boundaryPos_P2;
+    public bool isWithinBoundary { get; private set; }
+    // [SerializeField] private GameObject groundPlaneGO;
+    // private GameObject sessionOrigin;
+    // private Setup setup;
 
     private MeshRenderer meshRenderer;
-    private bool isAttached = false;
 
     void Start()
     {
         boundaryCollider = GetComponent<BoxCollider>();
         meshRenderer = GetComponent<MeshRenderer>();
-        //player = gameObject.transform.parent.gameObject.GetComponent<Player>(); // todo: TODO
-
+        // sessionOrigin = GameObject.Find("AR Session Origin");
+        // setup = sessionOrigin.GetComponent<Setup>();
+        
         GameManager.OnGameStateChanged += UpdateOnGameStateChanged;
-        GameManager.OnCurrentPlayerChanged += UpdateOnCurrentPlayerChanged;
-    }
-
-    private void OnEnable()
-    {
-        isAttached = false;
-
-    }
-    private void OnDisable()
-    {
-        isAttached = false;
     }
 
     private void UpdateOnGameStateChanged(GameState gameState)
     {
-        if (gameState == GameState.SET_BOUNDARIES)
-        {
-            //groundPlaneGO = Transform.Find("GroundPlane");
-            SetBoundaryTransform();
-        }
+        // if (gameState == GameState.SET_BOUNDARIES)
+        //     SetBoundaryTransform();
         CheckMeshRenderer();
     }
-    private void UpdateOnCurrentPlayerChanged(CurrentPlayer currentPlayer)
-    {
-        // todo: TODO
-        if (player.GetPlayerNum() is PlayerNum.P1)
-            transform.position = boundaryPos_P1;
-        else if (player.GetPlayerNum() is PlayerNum.P1)
-            transform.position = boundaryPos_P2;
-        
-        if (GameManager.Instance.GetGameState() == GameState.PLAYING)
-            isAttached = true;
-    }
 
-    private void SetBoundaryTransform()
+    public void SetBoundaryTransform(GameObject groundPlaneGO)
     {
-        GameObject groundPlaneGO = GameObject.Find(groundPlaneGameObjName);
+        //GameObject groundPlaneGO = setup.groundPlane;
 
-        // todo: Ska det va ett skript för varje spelare eller inte? + whatt to do?
-        boundaryCollider.size = new Vector3(
+        Debug.Log("groundPlaneGO.transform.localScale: " + groundPlaneGO.transform.localScale);
+        Debug.Log("groundPlaneGO.transform.localPosition: " + groundPlaneGO.transform.localPosition);
+        Debug.Log("groundPlaneGO.transform.position: " + groundPlaneGO.transform.localPosition);
+
+        // boundaryCollider.size = new Vector3 (
+        transform.localScale = new Vector3 (
             groundPlaneGO.transform.localScale.x / 2 - boundaryOffset * 2,
             25f,
             groundPlaneGO.transform.localScale.z - boundaryOffset * 2
         );
 
+        if (player == CurrentPlayer.PLAYER_1) {
+            transform.position = groundPlaneGO.transform.position + new Vector3 (
+                - groundPlaneGO.transform.localScale.x / 2 + boundaryOffset,
+                0f,
+                - groundPlaneGO.transform.localScale.z / 2 + boundaryOffset
+            );
+        } else if (player == CurrentPlayer.PLAYER_2) {
+            transform.position = groundPlaneGO.transform.position + new Vector3 (
+                boundaryOffset,
+                0f,
+                - groundPlaneGO.transform.localScale.z / 2 + boundaryOffset
+            );
+        }
+
         // transform.position = new Vector3(
-        //     boundaryOffset + (player.GetPlayerNum() is PlayerNum.P1 ? 0 :
-        //         groundPlaneGO.transform.position.x),
+        //     boundaryOffset + (player == CurrentPlayer.PLAYER_1 ? 0 : groundPlaneGO.transform.position.x),
         //     0f,
         //     boundaryOffset
         // );
-
-        boundaryPos_P1 = new Vector3 (
-                boundaryOffset, 0, boundaryOffset
-        );
-
-        boundaryPos_P2 = new Vector3 (
-            groundPlaneGO.transform.position.x + boundaryOffset, 0, boundaryOffset
-        );
-    
-        // switch (player.GetPlayerNum()) {
-        // case PlayerNum.P1:
-        //     boundaryPos_P1 = new Vector3 {
-        //         boundaryOffset, 0, boundaryOffset
-        //     };
-        //     break;
-        // case PlayerNum.P2:
-        //     boundaryPos_P2 = new Vector3 {
-        //         groundPlaneGO.transform.position.x + boundaryOffset, 0, boundaryOffset
-        //     };
-        //     break;
-        // }
     }
-    
-    // todo: what to do with this? remove isAttached?
-    // private void AttachToStartingPoint()
-    // {
-    //     transform.position = playerBoundaryCenter.transform.position;
-    //     isAttached = true;
-    // }
 
     public void CheckMeshRenderer()
     {
         DisableRenderer();
-        switch (GameManager.Instance.currentPlayer, player.GetPlayerNum())
+        if (GameManager.Instance.currentPlayer == player)
         {
-            case (CurrentPlayer.PLAYER_1, PlayerNum.P1):
-            case (CurrentPlayer.PLAYER_2, PlayerNum.P2):
-                EnableRenderer();
-                break;
+            EnableRenderer();
         }
     }
 
@@ -126,10 +88,16 @@ public class PlayerBoundary : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        isWithinBoundary = true;
+        if (other.gameObject.tag == "Player") {
+            isWithinBoundary = true;
+            Debug.Log("OnTriggerExit: " + other.gameObject.name);
+        }
     }
     private void OnTriggerExit(Collider other) {
-        isWithinBoundary = false;
+        if (other.gameObject.tag == "Player") {
+            isWithinBoundary = false;
+            Debug.Log("OnTriggerExit: " + other.gameObject.name);
+        }
     }
 
 }

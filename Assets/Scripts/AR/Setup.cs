@@ -26,7 +26,8 @@ public class Setup: MonoBehaviour
 
     public TMP_Text currentModeText;
 
-    public GameObject groundPlane {get; set;}
+    public GameObject groundPlane { get; set; }
+
     public GameObject spawnGroundReticle;
     public GameObject groundPlanePrefab;
 
@@ -246,4 +247,5 @@ public class Setup: MonoBehaviour
         groundplaneCanvas.SetActive(false);
         firingposCanvas.SetActive(false);
     }
+
 }

@@ -14,7 +14,8 @@ public class ARFireProjectile: MonoBehaviour {
     private SessionOriginController sessionController;
 
     public GameObject projectilePrefab;
-    private Dictionary<string, GameObject> projectilePrefabs; // todo: flytta till vettigare ställe sen.
+    public GameObject[] projectilePrefabs;
+    private int projectilePrefabIndex = 0;
 
     public Camera myCamera;
     public float cooldown, cooldownCount;
@@ -48,12 +49,12 @@ public class ARFireProjectile: MonoBehaviour {
         inputManager.OnFirstTouch += CheckFirstTouchAction;
         inputManager.OnTouchCount += CheckTouchCountAction;
         
-        projectilePrefabs = new Dictionary<string, GameObject>()
-        {
-            {"regularBlock", Resources.Load<GameObject>("Block")},
-            {"explosiveBlock", Resources.Load<GameObject>("ExplosiveBlock")},
-            {"iceBlock", Resources.Load<GameObject>("iceblock")}
-        };
+        // projectilePrefabs = new Dictionary<string, GameObject>()
+        // {
+        //     {"regularBlock", Resources.Load<GameObject>("Block")},
+        //     {"explosiveBlock", Resources.Load<GameObject>("ExplosiveBlock")},
+        //     {"iceBlock", Resources.Load<GameObject>("iceblock")}
+        // };
     }
 
     private void CheckFirstTouchAction(Touch touch)
@@ -139,8 +140,15 @@ public class ARFireProjectile: MonoBehaviour {
         GameManager.Instance.SetPlayingState(PlayingState.END_TURN);
     }
 
-    void setProjectilePrefab(string type) {
-        projectilePrefab = projectilePrefabs[type];
+    // void setProjectilePrefab(string type) {
+    //     projectilePrefab = projectilePrefabs[type];
+    // }
+
+    // todo: set the buttons text to the block type (in PlayUI.cs later)?
+    public void selectNextProjectilePrefab() {
+        projectilePrefabIndex = (projectilePrefabIndex + 1) % 3;
+        projectilePrefab = (GameObject) projectilePrefabs[projectilePrefabIndex];
+        Debug.Log("projectilePrefab: " + projectilePrefab.name);
     }
 
     public void push () {
