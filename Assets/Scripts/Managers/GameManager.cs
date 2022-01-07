@@ -31,6 +31,12 @@ public enum CurrentPlayer
     PLAYER_2 = 2
 }
 
+public enum CoreLoopMode
+{
+    FIRE_BLOCK,
+    MOVE_BLOCK
+}
+
 public enum WinCondition { HitFloor, LeaveBoundary, Both }
 
 
@@ -44,10 +50,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayingState playingState;
     [SerializeField] private CurrentPlayer _currentPlayer;
     [SerializeField] private WinCondition winCondition;
+    [SerializeField] private CoreLoopMode _coreLoopMode;
 
     public static event Action<GameState> OnGameStateChanged;
     public static event Action<PlayingState> OnPlayingStateChanged;
     public static event Action<CurrentPlayer> OnCurrentPlayerChanged;
+    public static event Action<CoreLoopMode> OnCoreLoopModeChanged;
 
     // 
     [SerializeField] private GameObject gameStateCube;
@@ -60,7 +68,7 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
         currentPlayer = CurrentPlayer.PLAYER_1;
-        SetGameState(GameState.SETUP);
+        SetGameState(GameState.MAIN_MENU);
         SetPlayingState(PlayingState.START_TURN);
     }
 
@@ -178,5 +186,24 @@ public class GameManager : MonoBehaviour
         //currentPlayer = (currentPlayer == CurrentPlayer.PLAYER_1) ? CurrentPlayer.PLAYER_2 : CurrentPlayer.PLAYER_1;
         //SetCurrentPlayer((CurrentPlayer.PLAYER_1 & CurrentPlayer.PLAYER_2) ^ currentPlayer);
     }
+
+    public CoreLoopMode coreLoopMode
+    {
+        get { return _coreLoopMode; }
+        set {
+            _coreLoopMode = value;
+            OnCoreLoopModeChanged?.Invoke(value);
+        }
+    }
+
+    public void SetCoreLoopFire()
+    {
+        _coreLoopMode = CoreLoopMode.FIRE_BLOCK;
+    }
+    public void SetCoreLoopMove()
+    {
+        _coreLoopMode = CoreLoopMode.MOVE_BLOCK;
+    }
+
 
 }

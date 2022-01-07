@@ -47,7 +47,7 @@ public class HiddenCoreBlock : MonoBehaviour
     {
         if (col.gameObject.layer == LayerManager.GroundLayer)
         {
-            Debug.Log("hit ground");
+            // Debug.Log("hit ground");
             if (GameManager.Instance.GetWinCondition() == WinCondition.HitFloor)
             {
                 GameManager.Instance.SetGameState(GameState.GAME_OVER);
