@@ -12969,7 +12969,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 884}
-  m_SizeDelta: {x: 400, y: 110}
+  m_SizeDelta: {x: 500, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1260554634
 MonoBehaviour:
@@ -13010,12 +13010,12 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1260554635}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1588483058}
         m_TargetAssemblyTypeName: PlayUI, Assembly-CSharp
         m_MethodName: ChangePlayer
         m_Mode: 1
@@ -16816,7 +16816,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 24, y: -667}
-  m_SizeDelta: {x: 601.09, y: 107.8}
+  m_SizeDelta: {x: 1201.09, y: 157.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1715183351
 MonoBehaviour:
@@ -16869,8 +16869,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2003901623}
-        m_TargetAssemblyTypeName: DebugFunctions, Assembly-CSharp
+      - m_Target: {fileID: 2003901622}
+        m_TargetAssemblyTypeName: Setup, Assembly-CSharp
         m_MethodName: SetFiringPos
         m_Mode: 1
         m_Arguments:
@@ -19667,7 +19667,7 @@ MonoBehaviour:
   setupCanvas: {fileID: 870063816}
   groundplaneCanvas: {fileID: 529415912}
   firingposCanvas: {fileID: 1025581216}
-  firingPosSlider: {fileID: 483005991}
+  firingPosSlider: {fileID: 1715183351}
   firingPos: {fileID: 1287332935}
   selectedFirePosition: {x: 0, y: 0, z: 0}
 --- !u!114 &2003901623

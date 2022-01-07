@@ -121,6 +121,10 @@ public class PlayUI : MonoBehaviour
         switchScreen(playingScreen, gameOverScreen);
     }
 
+    public void switchToNoScreen(){ 
+        currentScreen.SetActive(false);
+    }
+
     public void UpdateOnGameStateChanged(GameState state) { 
         switch(state){
             case GameState.MAIN_MENU:
@@ -136,12 +140,14 @@ public class PlayUI : MonoBehaviour
                 activatePlaceGround();
                 break;
             case GameState.PLACE_FORTRESS:
-                switchScreen(adjustFireScreen, placePlayer1Screen);
+                //CallswitchScreen(adjustFireScreen, placePlayer1Screen);
+                switchToNoScreen();
                 break;
             case GameState.PLAYING:
                 activatePlayingScreen();
                 break;
             case GameState.GAME_OVER:
+                activateGameOverScreen();
                 break;     
         }
     }
@@ -149,6 +155,7 @@ public class PlayUI : MonoBehaviour
     private void switchScreen(GameObject a, GameObject b) {
         a.SetActive(false);
         b.SetActive(true);
+        currentScreen = b;
     }
 
     private IEnumerator startBlinkButton()
