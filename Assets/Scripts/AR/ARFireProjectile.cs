@@ -16,6 +16,7 @@ public class ARFireProjectile: MonoBehaviour {
     public GameObject projectilePrefab;
     public GameObject[] projectilePrefabs;
     private int projectilePrefabIndex = 0;
+    private Text selectedBlockText;
 
     public Camera myCamera;
     public float cooldown, cooldownCount;
@@ -48,6 +49,9 @@ public class ARFireProjectile: MonoBehaviour {
         inputManager = InputManager.Instance;   
         inputManager.OnFirstTouch += CheckFirstTouchAction;
         inputManager.OnTouchCount += CheckTouchCountAction;
+
+        selectedBlockText = GameObject.Find("SelectedBlockText").GetComponent<Text>();
+        selectProjectilePrefab(projectilePrefabIndex);
         
         // projectilePrefabs = new Dictionary<string, GameObject>()
         // {
@@ -140,15 +144,16 @@ public class ARFireProjectile: MonoBehaviour {
         GameManager.Instance.SetPlayingState(PlayingState.END_TURN);
     }
 
-    // void setProjectilePrefab(string type) {
-    //     projectilePrefab = projectilePrefabs[type];
-    // }
-
     // todo: set the buttons text to the block type (in PlayUI.cs later)?
-    public void selectNextProjectilePrefab() {
-        projectilePrefabIndex = (projectilePrefabIndex + 1) % 3;
+    private void selectProjectilePrefab(int index) {
+        projectilePrefabIndex = index;
         projectilePrefab = (GameObject) projectilePrefabs[projectilePrefabIndex];
-        Debug.Log("projectilePrefab: " + projectilePrefab.name);
+        selectedBlockText.text = projectilePrefab.name;
+        //Debug.Log("projectilePrefab: " + projectilePrefab.name);
+    }
+
+    public void selectNextProjectilePrefab() {
+        selectProjectilePrefab((projectilePrefabIndex + 1) % 3);
     }
 
     public void push () {
