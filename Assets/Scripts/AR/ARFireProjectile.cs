@@ -158,7 +158,7 @@ public class ARFireProjectile: MonoBehaviour {
     }
 
     public void selectNextProjectilePrefab() {
-        selectProjectilePrefab((projectilePrefabIndex + 1) % 4);
+        selectProjectilePrefab((projectilePrefabIndex + 1) % 3);
     }
 
     public void push () {
