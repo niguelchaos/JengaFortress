@@ -1,45 +1,37 @@
 # Jenga Fortress
+This is a guide on how to set up and play Jenga Fortress.
 
-## Controls: ##
-* Demo Scene: **A3FortressDemo** 
-* SPACE to fire
-* To change winning condition to "hit floor":
-    1. Find GameManager gameobject: Managers > GameManager
-    2. Choose win condition in Inspector
-    3. Manually drag core block to ground in Scene view 
-    4. Observe the game ending when it hits the floor
-## Introduction ##
-In this game, players take turns to shoot projectiles at each others' fortresses. The fortresses are made out of jenga blocks (mostly). We intended from
-the start to have the entire fortress made out of jenga blocks, but that proved to be computationally prohibitive. Therefore we compromised by creating larger blocks for some fortress elements instead of several smaller ones, reducing the amount of colliders. Other optimizations included reducing fortress complexity and modifying Unity physics' settings. This boosts the performance by a large margin since it's not simulating physics for tons of smaller blocks. 
+Demo Scene: **IntegrateUI**
 
-### Block Types ###
-To switch it up from regular jenga blocks that are usually made out of wood, we created new blocks made out of ice and rubber. We created new physics material for these blocks and adjusted the parameters according to https://medium.com/sun-dog-studios/rapid-unity-tutorials-1-physics-materials-68758351fd8a in order to try matching the real world ice and rubber behavior. The rubber block has more bounciness while the ice block has much less static and dynamic friction compared to the wooden block. 
+## Getting started
+1. To start playing, tap the <strong>Play</strong> button 
+2. Set the stage by tapping on a detected surface, then tap the <strong>Place</strong>. When you see the grid plane, tap the <strong>Confirm</strong> button
+3. You will now set the firing position relative to your camera. Use the <strong>slider</strong> to move the gray sphere, which represents the position where your projectiles will be fired from. We recommend you to have the sphere close to your camera, so that the projectiles look like they come straight out of the camera. 
+4. Each player will now place their fortresses on the playing field. Start with <strong>Player 1</strong>, simply tap somewhere on the playing field (grid) where you want your fortress to be placed. When you see your fortress on the playing field, tap the <strong>Confirm</strong> button. <strong>Player 2</strong> will now do the same procedure. 
+5. Each player will now place their <strong>Core block</strong>, hide this block somewhere in your fortress. Tap on the place you want your core block to be placed. When Player 1 has placed their core block and you can see it, tap the <strong>Confirm</strong> button and pass the phone to Player 2. Player 2 will do the same procedure.
 
-### Springs-Connected Blocks ###
+## Playing the game
+After getting through the set up process, you find yourself in the game loop! Here's how it goes:
+ ### What you can do on your turn
+ * <strong>Fire</strong>: You can fire a block by tapping and holding the screen. The longer your hold your finger on the screen, the more force you are applying to your projectile. Release your finger when you are ready to fire and watch a projectile get fired in the direction you are pointing your camera at. You only get <strong>1</strong> block to fire per turn!
+ * <strong>Move</strong>: Click on the Move button on the right hand side. In this mode, you can move individual blocks from your own fortress. Use this when you want to reorganize your fortress.
+ * <strong>End turn</strong>: After you have fired your block, you need to pass the turn to the other player. Do so by tapping the <strong>End turn</strong> button at the top of the screen. 
 
-To further push the boundaries of the physical behavior between the blocks, we attached spring joints to them in different ways. For example in the demo, one of the walls has springs attached its initial world space position which makes the wall surprisingly stronger. We also wanted to have the walls act like some sort of a trampoline, which bounces the projectiles back at the player but we weren't able to implement such a functionality for the time being. The 7 walls between the fortresses are supposed to demonstrate the different behaviors of the materials and springs. When firing projectiles, the game will fire a projectile towards each wall so you can compare the behavior side by side. 
+### Win condition
+You win in Jenga Fortress by making the enemy players core block move away from it's placed position. The core blocks have a spherical boundary where they are initially placed. When a player's core block leaves this boundary (by getting hit from other player or moved) the player loses. 
 
-### Asset Context ###
-In terms of gameplay, each player has a "core block" which is hidden from the other player. 
-There are currently three methods of losing: The core block hitting the floor, the block falling outside of a spherical boundary, or both combined. 
+You can change the winning condition to "hit floor" in the Unity Editor by doing the following:
 
-There is a cube behind the enemy fortress which changes colors based on the game state. These are the following game states:
+1. Find GameManager gameobject: Managers > GameManager
 
-* White: Main Menu, Starting
-* Yellow: Player one's turn 
-* Blue: Player two's turn
-* Red: Game over
-
----
+2. Choose win condition in Inspector
 
 ## Required packages:
+
 - AR Foundation
+
 - ARCore XR Plugin
+
 - XR Plugin Management
-- Input System
+
 - Universal RP
-
-maybe:
-
-- Windows XR plugin
-- ARKit XR Plugin

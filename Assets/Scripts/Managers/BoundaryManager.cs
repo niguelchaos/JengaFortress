@@ -13,15 +13,6 @@ public class BoundaryManager : MonoBehaviour
     private GameObject sessionOrigin;
     [SerializeField] private GameObject groundPlaneGO;
 
-    public bool isWithinBoundary(CurrentPlayer player) {
-        switch (player) {
-            case CurrentPlayer.PLAYER_1:
-                return playerBoundary_P1.isWithinBoundary;
-            case CurrentPlayer.PLAYER_2:
-                return playerBoundary_P2.isWithinBoundary;
-        }
-        return true;
-    }
 
     private void Awake()
     {
@@ -48,11 +39,20 @@ public class BoundaryManager : MonoBehaviour
             playerBoundary_P1.player = CurrentPlayer.PLAYER_1;
             playerBoundary_P2.player = CurrentPlayer.PLAYER_2;
 
-            playerBoundary_P1.SetBoundaryTransform(groundPlaneGO);
-            playerBoundary_P2.SetBoundaryTransform(groundPlaneGO);
+            playerBoundary_P1.SetBoundaryTransform(groundPlaneGO, 1.0f);
+            playerBoundary_P2.SetBoundaryTransform(groundPlaneGO, 1.0f);
             
             GameManager.Instance.SetGameState(GameState.PLACE_FORTRESS);
         }
+    }
+    public bool isWithinBoundary(CurrentPlayer player) {
+        switch (player) {
+            case CurrentPlayer.PLAYER_1:
+                return playerBoundary_P1.isWithinBoundary;
+            case CurrentPlayer.PLAYER_2:
+                return playerBoundary_P2.isWithinBoundary;
+        }
+        return false;
     }
 
 }

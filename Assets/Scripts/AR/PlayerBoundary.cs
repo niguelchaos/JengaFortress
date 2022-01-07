@@ -38,10 +38,11 @@ public class PlayerBoundary : MonoBehaviour
     {
         //GameObject groundPlaneGO = setup.groundPlane;
 
-        Debug.Log("groundPlaneGO.transform.localScale: " + groundPlaneGO.transform.localScale);
-        Debug.Log("groundPlaneGO.transform.localPosition: " + groundPlaneGO.transform.localPosition);
-        Debug.Log("groundPlaneGO.transform.position: " + groundPlaneGO.transform.localPosition);
+        // Debug.Log("groundPlaneGO.transform.localScale: " + groundPlaneGO.transform.localScale);
+        // Debug.Log("groundPlaneGO.transform.localPosition: " + groundPlaneGO.transform.localPosition);
+        // Debug.Log("groundPlaneGO.transform.position: " + groundPlaneGO.transform.localPosition);
 
+        // todo: improve a lot on how boundaries are set
         // boundaryCollider.size = new Vector3 (
         Vector3 scaledGroundPlaneScale = groundPlaneGO.transform.localScale * scaleFactor;
         Vector3 scaledGroundPlanePosition = groundPlaneGO.transform.position * scaleFactor;
@@ -80,8 +81,6 @@ public class PlayerBoundary : MonoBehaviour
                 -scaledGroundPlaneScale.z / (2 *  scaleFactor) + scaledBoundaryOffset
             );
         }
-
-
     }
 
     public void CheckMeshRenderer()

@@ -15,10 +15,10 @@ public class ARFireProjectile: MonoBehaviour {
     private ScaleContent scaleContent;
     private SessionOriginController sessionController;
 
-    public GameObject projectilePrefab;
+    private GameObject projectilePrefab;
     public GameObject[] projectilePrefabs;
     private int projectilePrefabIndex = 0;
-    private Text selectedBlockText;
+    public Text selectedBlockText;
 
     public Camera myCamera;
     public float cooldown, cooldownCount;
@@ -57,7 +57,7 @@ public class ARFireProjectile: MonoBehaviour {
         inputManager.OnFirstTouch += CheckFirstTouchAction;
         inputManager.OnTouchCount += CheckTouchCountAction;
 
-        selectedBlockText = GameObject.Find("SelectedBlockText").GetComponent<Text>();
+        //selectedBlockText = GameObject.Find("SelectedBlockText").GetComponent<Text>();
         selectProjectilePrefab(projectilePrefabIndex);
         
         // projectilePrefabs = new Dictionary<string, GameObject>()
@@ -73,6 +73,7 @@ public class ARFireProjectile: MonoBehaviour {
         if (GameManager.Instance.GetGameState() == GameState.PLAYING
             && GameManager.Instance.coreLoopMode == CoreLoopMode.FIRE_BLOCK)
         {
+            PlayUI.showMessage("");
             Vector2 screenPosition = Input.GetTouch(0).position;
 
             if (sessionController.IsPointOverUIObject(screenPosition))
@@ -134,7 +135,8 @@ public class ARFireProjectile: MonoBehaviour {
 
         if (!BoundaryManager.Instance.isWithinBoundary(GameManager.Instance.currentPlayer))
         {
-            Debug.Log("Out of bounds");
+            PlayUI.showMessage("Out of bounds");
+            // GameManager.Instance.SetPlayingState(PlayingState.END_TURN);
             return;
         }
 
