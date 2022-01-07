@@ -43,10 +43,17 @@ public class PlayUI : MonoBehaviour
         currentScreen = startScreen;
 
 
+
+        playCanvas.SetActive(false);
         debugCanvas.SetActive(false);
+        startScreen.SetActive(true);
+        
+        // playCanvas.SetActive(true);
+        // debugCanvas.SetActive(true);
+        // startScreen.SetActive(false);
+
         playCanvas.SetActive(false);
         oldCanvas.SetActive(false);
-        startScreen.SetActive(true);
         placeGroundScreen.SetActive(false);
         adjustFireScreen.SetActive(false);
         placePlayer1Screen.SetActive(false);
@@ -96,6 +103,7 @@ public class PlayUI : MonoBehaviour
     }
 
     public void activatePlacePlayer1() {
+        GameManager.Instance.SetGameState(GameState.PLACE_FORTRESS);
         switchScreen(adjustFireScreen, placePlayer1Screen);
     }
 

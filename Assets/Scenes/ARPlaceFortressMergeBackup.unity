@@ -2025,7 +2025,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2003901617}
         m_TargetAssemblyTypeName: ScaleContent, Assembly-CSharp
         m_MethodName: DownscaleSession
         m_Mode: 1
@@ -16021,7 +16021,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1588483058}
         m_TargetAssemblyTypeName: PlayUI, Assembly-CSharp
-        m_MethodName: activatePlaceGround
+        m_MethodName: switchToSetup
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16964,7 +16964,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2003901617}
         m_TargetAssemblyTypeName: ScaleContent, Assembly-CSharp
         m_MethodName: UpscaleSession
         m_Mode: 1
@@ -21127,7 +21127,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2128893580}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2003901622}
+        m_TargetAssemblyTypeName: Setup, Assembly-CSharp
+        m_MethodName: PlaceGroundPlaneOnReticle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2128893580
 MonoBehaviour:
   m_ObjectHideFlags: 0
