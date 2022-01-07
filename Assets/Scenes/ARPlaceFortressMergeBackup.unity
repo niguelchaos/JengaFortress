@@ -2789,9 +2789,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1588483058}
-        m_TargetAssemblyTypeName: PlayUI, Assembly-CSharp
-        m_MethodName: activatePlacePlayer1
+      - m_Target: {fileID: 2003901622}
+        m_TargetAssemblyTypeName: Setup, Assembly-CSharp
+        m_MethodName: SetInitFirePosition
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6826,7 +6826,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1588483058}
         m_TargetAssemblyTypeName: PlayUI, Assembly-CSharp
-        m_MethodName: activatePlayingScreen
+        m_MethodName: switchToMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16869,8 +16869,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ScaleContent, Assembly-CSharp
+      - m_Target: {fileID: 2003901623}
+        m_TargetAssemblyTypeName: DebugFunctions, Assembly-CSharp
         m_MethodName: SetFiringPos
         m_Mode: 1
         m_Arguments:

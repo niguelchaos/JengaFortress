@@ -93,6 +93,9 @@ public class PlayUI : MonoBehaviour
     public void switchToSetup(){
         GameManager.Instance.SetGameState(GameState.SETUP);
     }
+    public void switchToMainMenu() {
+        GameManager.Instance.SetGameState(GameState.MAIN_MENU);
+    }
 
     public void activatePlaceGround(){
         switchScreen(startScreen, placeGroundScreen);
@@ -104,7 +107,6 @@ public class PlayUI : MonoBehaviour
 
     public void activatePlacePlayer1() {
         GameManager.Instance.SetGameState(GameState.PLACE_FORTRESS);
-        switchScreen(adjustFireScreen, placePlayer1Screen);
     }
 
     public void activatePlacePlayer2() {
@@ -134,7 +136,7 @@ public class PlayUI : MonoBehaviour
                 activatePlaceGround();
                 break;
             case GameState.PLACE_FORTRESS:
-                activateAdjustFireScreen();
+                switchScreen(adjustFireScreen, placePlayer1Screen);
                 break;
             case GameState.PLAYING:
                 activatePlayingScreen();
