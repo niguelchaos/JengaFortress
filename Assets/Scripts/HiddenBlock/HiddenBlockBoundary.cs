@@ -21,15 +21,28 @@ public class HiddenBlockBoundary : MonoBehaviour
         player = gameObject.transform.parent.gameObject.GetComponent<Player>();
 
         GetPlayerHbGO();
-        StartCoroutine(WaitToAttach(2));
+        // StartCoroutine(WaitToAttach(2));
 
         GameManager.OnGameStateChanged += UpdateOnGameStateChanged;
         GameManager.OnCurrentPlayerChanged += UpdateOnCurrentPlayerChanged;
-
     }
 
+    private void OnEnable()
+    {
+        isAttached = false;
+        StartCoroutine(WaitToAttach(2));
+    }
+    private void OnDisable()
+    {
+        isAttached = false;
+    }
     private void UpdateOnGameStateChanged(GameState gameState)
     {
+        if (gameState == GameState.PLAYING)
+        {
+            isAttached = false;
+            StartCoroutine(WaitToAttach(2));
+        }
         CheckMeshRenderer();
     }
         private void UpdateOnCurrentPlayerChanged(CurrentPlayer currentPlayer)
@@ -66,7 +79,10 @@ public class HiddenBlockBoundary : MonoBehaviour
     {
         transform.position = playerHbGO.transform.position;
         // print("Attached: " + transform.position);
-        isAttached = true;
+        if (GameManager.Instance.GetGameState() == GameState.PLAYING)
+        {
+            isAttached = true;
+        }
     }
     
     IEnumerator WaitToAttach(int time)

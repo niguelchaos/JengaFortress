@@ -223,7 +223,7 @@ public class PlaceFortress: MonoBehaviour {
         // Debug.Log("spawning on Ground Plane");
 
         spawnedFortress.transform.parent = setup.content.transform;
-        logger.Log("spawnedfortress parent:  " + spawnedFortress.transform.parent.name);
+        // logger.Log("spawnedfortress parent:  " + spawnedFortress.transform.parent.name);
 
         // arSessionOrigin.MakeContentAppearAt(content.transform, groundPlane.transform.position);
         arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, nearestRayHit.point);
@@ -238,7 +238,7 @@ public class PlaceFortress: MonoBehaviour {
             + nearestHitPose.pose.up * 0.05f, nearestHitPose.pose.rotation);
 
         spawnedFortress.transform.parent = setup.content.transform;
-        logger.Log("spawnedfortress parent:  " + spawnedFortress.transform.parent.name);
+        // logger.Log("spawnedfortress parent:  " + spawnedFortress.transform.parent.name);
         
         SetObjectIsKinematic(spawnedFortress, true);
         arSessionOrigin.MakeContentAppearAt(spawnedFortress.transform, nearestHitPose.pose.position);
