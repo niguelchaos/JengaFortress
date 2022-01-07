@@ -11,6 +11,8 @@ public class PlayUI : MonoBehaviour
     public TMP_Text currentPlayerText;
     public Button endTurnButton;
     public Image endTurnButtonImage;
+    public GameObject debugCanvas;
+    public GameObject playCanvas; 
     public GameObject oldCanvas;
     public GameObject startScreen;
     public GameObject placeGroundScreen;
@@ -19,6 +21,7 @@ public class PlayUI : MonoBehaviour
     public GameObject placePlayer2Screen;
     public GameObject playingScreen;
     public GameObject currentScreen;
+    public GameObject gameOverScreen;
     //private Player player;
 
     void Start()
@@ -39,13 +42,24 @@ public class PlayUI : MonoBehaviour
         GameManager.OnGameStateChanged += UpdateOnGameStateChanged;
         currentScreen = startScreen;
 
-        oldCanvas.SetActive(false);
+
+
+        playCanvas.SetActive(false);
+        debugCanvas.SetActive(false);
         startScreen.SetActive(true);
+        
+        // playCanvas.SetActive(true);
+        // debugCanvas.SetActive(true);
+        // startScreen.SetActive(false);
+
+        playCanvas.SetActive(false);
+        oldCanvas.SetActive(false);
         placeGroundScreen.SetActive(false);
         adjustFireScreen.SetActive(false);
         placePlayer1Screen.SetActive(false);
         placePlayer2Screen.SetActive(false);
         playingScreen.SetActive(false);
+        gameOverScreen.SetActive(false);
     }
 
     private void UpdateText()
@@ -79,6 +93,9 @@ public class PlayUI : MonoBehaviour
     public void switchToSetup(){
         GameManager.Instance.SetGameState(GameState.SETUP);
     }
+    public void switchToMainMenu() {
+        GameManager.Instance.SetGameState(GameState.MAIN_MENU);
+    }
 
     public void activatePlaceGround(){
         switchScreen(startScreen, placeGroundScreen);
@@ -89,7 +106,7 @@ public class PlayUI : MonoBehaviour
     }
 
     public void activatePlacePlayer1() {
-        switchScreen(adjustFireScreen, placePlayer1Screen);
+        GameManager.Instance.SetGameState(GameState.PLACE_FORTRESS);
     }
 
     public void activatePlacePlayer2() {
@@ -98,6 +115,14 @@ public class PlayUI : MonoBehaviour
 
     public void activatePlayingScreen() {
         switchScreen(placePlayer2Screen, playingScreen);
+    }
+
+    public void activateGameOverScreen() {
+        switchScreen(playingScreen, gameOverScreen);
+    }
+
+    public void switchToNoScreen(){ 
+        currentScreen.SetActive(false);
     }
 
     public void UpdateOnGameStateChanged(GameState state) { 
@@ -115,12 +140,14 @@ public class PlayUI : MonoBehaviour
                 activatePlaceGround();
                 break;
             case GameState.PLACE_FORTRESS:
-                activateAdjustFireScreen();
+                //CallswitchScreen(adjustFireScreen, placePlayer1Screen);
+                switchToNoScreen();
                 break;
             case GameState.PLAYING:
                 activatePlayingScreen();
                 break;
             case GameState.GAME_OVER:
+                activateGameOverScreen();
                 break;     
         }
     }
@@ -128,6 +155,7 @@ public class PlayUI : MonoBehaviour
     private void switchScreen(GameObject a, GameObject b) {
         a.SetActive(false);
         b.SetActive(true);
+        currentScreen = b;
     }
 
     private IEnumerator startBlinkButton()
