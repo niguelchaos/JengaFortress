@@ -8,6 +8,7 @@ public enum GameState
 {
     MAIN_MENU,
     SETUP,
+    SET_BOUNDARIES,
     PLACE_FORTRESS,
     PLACE_CORE_BLOCK,
     PLAYING,

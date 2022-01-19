@@ -26,7 +26,8 @@ public class Setup: MonoBehaviour
 
     public TMP_Text currentModeText;
 
-    public GameObject groundPlane {get; set;}
+    public GameObject groundPlane { get; set; }
+
     public GameObject spawnGroundReticle;
     public GameObject groundPlanePrefab;
 
@@ -160,6 +161,7 @@ public class Setup: MonoBehaviour
         }
     }
 
+
     ///////////////////////////////// Firing pos ///////////////////////////////
     // used by slider
     public void SetFiringPos()
@@ -233,7 +235,7 @@ public class Setup: MonoBehaviour
             }
             else {
                 firingPos.transform.position = myCamera.gameObject.transform.position + (myCamera.transform.forward * 1000f);
-                GameManager.Instance.SetGameState(GameState.PLACE_FORTRESS);
+                GameManager.Instance.SetGameState(GameState.SET_BOUNDARIES);
                 BackToMainCanvas();
             }
         }
@@ -246,4 +248,5 @@ public class Setup: MonoBehaviour
         groundplaneCanvas.SetActive(false);
         firingposCanvas.SetActive(false);
     }
+
 }

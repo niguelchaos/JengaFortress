@@ -12,8 +12,10 @@ public static class LayerManager
     public static int UILayer = 5;
     public static int GroundLayer = 6;
     public static int BlockLayer = 7;
+    public static int PlayerLayer = 8;
 
     public static int GroundLayerMask = 1 << GroundLayer;
     public static int BlockLayerMask = 1 << BlockLayer;
+    public static int PlayerLayerMask = 1 << PlayerLayer;
 
 }

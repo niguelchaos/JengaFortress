@@ -15,7 +15,11 @@ public class ARFireProjectile: MonoBehaviour {
     private ScaleContent scaleContent;
     private SessionOriginController sessionController;
 
-    public GameObject projectilePrefab;
+    private GameObject projectilePrefab;
+    public GameObject[] projectilePrefabs;
+    private int projectilePrefabIndex = 0;
+    public Text selectedBlockText;
+
     public Camera myCamera;
     public float cooldown, cooldownCount;
     private ARAnchorManager anc;
@@ -52,8 +56,16 @@ public class ARFireProjectile: MonoBehaviour {
         inputManager = InputManager.Instance;   
         inputManager.OnFirstTouch += CheckFirstTouchAction;
         inputManager.OnTouchCount += CheckTouchCountAction;
-        // GameManager.OnGameStateChanged += UpdateOnGameStateChanged;
 
+        //selectedBlockText = GameObject.Find("SelectedBlockText").GetComponent<Text>();
+        selectProjectilePrefab(projectilePrefabIndex);
+        
+        // projectilePrefabs = new Dictionary<string, GameObject>()
+        // {
+        //     {"regularBlock", Resources.Load<GameObject>("Block")},
+        //     {"explosiveBlock", Resources.Load<GameObject>("ExplosiveBlock")},
+        //     {"iceBlock", Resources.Load<GameObject>("iceblock")}
+        // };
     }
 
     private void CheckFirstTouchAction(Touch touch)
@@ -61,6 +73,7 @@ public class ARFireProjectile: MonoBehaviour {
         if (GameManager.Instance.GetGameState() == GameState.PLAYING
             && GameManager.Instance.coreLoopMode == CoreLoopMode.FIRE_BLOCK)
         {
+            PlayUI.showMessage("");
             Vector2 screenPosition = Input.GetTouch(0).position;
 
             if (sessionController.IsPointOverUIObject(screenPosition))
@@ -120,6 +133,13 @@ public class ARFireProjectile: MonoBehaviour {
         if (GameManager.Instance.GetPlayingState() is PlayingState.END_TURN)
             return;
 
+        if (!BoundaryManager.Instance.isWithinBoundary(GameManager.Instance.currentPlayer))
+        {
+            PlayUI.showMessage("Out of bounds");
+            // GameManager.Instance.SetPlayingState(PlayingState.END_TURN);
+            return;
+        }
+
         Vector3 screenCenter;
 
         screenCenter = myCamera.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
@@ -138,6 +158,17 @@ public class ARFireProjectile: MonoBehaviour {
         // logger.Log("Force applied: " + this.appliedForce);
 
         GameManager.Instance.SetPlayingState(PlayingState.END_TURN);
+    }
+
+    private void selectProjectilePrefab(int index) {
+        projectilePrefabIndex = index;
+        projectilePrefab = (GameObject) projectilePrefabs[projectilePrefabIndex];
+        selectedBlockText.text = projectilePrefab.name;
+        //Debug.Log("projectilePrefab: " + projectilePrefab.name);
+    }
+
+    public void selectNextProjectilePrefab() {
+        selectProjectilePrefab((projectilePrefabIndex + 1) % 3);
     }
 
     public void push () {
@@ -159,5 +190,13 @@ public class ARFireProjectile: MonoBehaviour {
         }
     }
 
+    // public void LoadAsset(string address, Action<GameObject> callback = null)
+    // {
+    //     Action<AsyncOperationHandle<GameObject>> addressableLoaded = (asyncOperation) =>
+    //     {
+    //         callback?.Invoke(asyncOperation.Result);
+    //     };
+    //     Addressables.LoadAssetAsync<GameObject>(address).Completed += addressableLoaded;
+    // }
 
 }

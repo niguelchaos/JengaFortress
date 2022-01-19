@@ -22,13 +22,14 @@ public class PlayUI : MonoBehaviour
     public GameObject playingScreen;
     public GameObject currentScreen;
     public GameObject gameOverScreen;
-    //private Player player;
+    public static TMP_Text messageText;
 
     void Start()
     {
         endTurnButton = GameObject.Find("EndTurnButton").GetComponent<Button>();
         endTurnButtonImage = GameObject.Find("EndTurnButton").GetComponent<Image>();
         currentPlayerText = GameObject.Find("CurrentPlayerText").GetComponent<TMP_Text>();
+        messageText = GameObject.Find("messageText").GetComponent<TMP_Text>();
 
         //oldCanvas = GameObject.Find("oldCanvas");
         // //startScreen = GameObject.Find("startScreen");
@@ -62,6 +63,17 @@ public class PlayUI : MonoBehaviour
         gameOverScreen.SetActive(false);
     }
 
+    public static void showMessage(string message)
+    {
+        messageText.text = message;
+    }
+
+    // private static IEnumerator _showMessage()
+    // {
+    //     yield return new WaitForSeconds(5);
+    //     messageText.text = "";
+    // }
+
     private void UpdateText()
     {
         currentPlayerText.text = "Player " + (int) GameManager.Instance.currentPlayer;
@@ -71,6 +83,7 @@ public class PlayUI : MonoBehaviour
     {
         GameManager.Instance.ChangePlayer();
         UpdateText();
+        messageText.text = "";
     }
 
     private void UpdateOnPlayingStateChanged(PlayingState playingState)
